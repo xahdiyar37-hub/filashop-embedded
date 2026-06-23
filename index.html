@@ -228,6 +228,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
 .btn-icon{padding:7px 9px}
 .btn-danger:hover{background:rgba(239,68,68,.12);border-color:var(--danger);color:var(--danger)}
 .btn-sm{padding:5px 10px;font-size:11px}
+.lang-toggle{font-weight:600;min-width:38px;text-align:center;border-color:var(--border-strong)}
 
 .select-styled{background:var(--surface-2);border:1px solid var(--border);color:var(--text);padding:7px 28px 7px 12px;border-radius:6px;font-size:12px;cursor:pointer;outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238b8f96' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
 .select-styled option{background:var(--surface-2)}
@@ -308,13 +309,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
     <div class="topbar-brand">
       <div class="dot"></div>
       <span>FilaForge</span>
-      <span class="topbar-sub">颗粒制线配方工作站</span>
+      <span class="topbar-sub" data-i18n="subtitle">颗粒制线配方工作站</span>
     </div>
     <div class="topbar-actions">
-      <div class="dirty-badge" id="dirtyBadge">● 未保存</div>
-      <button class="btn btn-sm" onclick="toggleRecipePanel()" id="recipePanelBtn">📋 配方库</button>
-      <button class="btn btn-sm" onclick="openImportModal()">📥 导入</button>
-      <button class="btn btn-sm btn-primary" onclick="openSaveModal()">💾 保存</button>
+      <div class="dirty-badge" id="dirtyBadge" data-i18n="unsaved">● 未保存</div>
+      <button class="btn btn-sm lang-toggle" onclick="toggleLang()" id="langToggle" title="Switch Language">中文</button>
+      <button class="btn btn-sm" onclick="toggleRecipePanel()" id="recipePanelBtn" data-i18n="recipeLibrary">📋 配方库</button>
+      <button class="btn btn-sm" onclick="openImportModal()" data-i18n="import">📥 导入</button>
+      <button class="btn btn-sm btn-primary" onclick="openSaveModal()" data-i18n="save">💾 保存</button>
     </div>
   </div>
 
@@ -322,15 +324,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
     <!-- Left Sidebar: Materials + Blend -->
     <div class="sidebar-left">
       <div class="section">
-        <div class="section-title">基础颗粒 <span class="section-count" id="matCount"></span></div>
+        <div class="section-title" data-i18n-html="basePellets">基础颗粒 <span class="section-count" id="matCount"></span></div>
         <div class="material-grid" id="materialGrid"></div>
       </div>
       <div class="section">
-        <div class="section-title">混合颗粒 <span class="section-count">可选</span></div>
+        <div class="section-title" data-i18n-html="blendPellets">混合颗粒 <span class="section-count" data-i18n="optional">可选</span></div>
         <div class="material-grid" id="blendGrid"></div>
       </div>
       <div class="section" id="blendSection" style="display:none;">
-        <div class="section-title">混合比例</div>
+        <div class="section-title" data-i18n="blendRatio">混合比例</div>
         <div class="blend-row">
           <span class="blend-label" id="blendLabelA">PLA</span>
           <div class="blend-bar">
@@ -352,20 +354,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
       <!-- 3D Preview (always visible) -->
       <div class="preview-section">
         <div class="preview-overlay" id="previewOverlay"></div>
-        <div class="pellet-preview" id="pelletPreview"><div class="spool-loading">加载3D模型中…</div></div>
-        <div class="spool-hint">拖拽旋转 · 滚轮缩放 · 快捷键 S保存 E导出 R重置</div>
+        <div class="pellet-preview" id="pelletPreview"><div class="spool-loading" data-i18n="loading3d">加载3D模型中…</div></div>
+        <div class="spool-hint" data-i18n="spoolHint">拖拽旋转 · 滚轮缩放 · 快捷键 S保存 E导出 R重置</div>
       </div>
 
       <!-- Parameters -->
       <div class="param-section">
         <div class="param-header">
-          <h2>挤出参数</h2>
+          <h2 data-i18n="extrusionParams">挤出参数</h2>
           <span class="material-badge" id="currentMatBadge">PLA</span>
           <span class="formula-desc-inline" id="formulaDesc">纯 PLA 颗粒</span>
         </div>
 
         <div class="formula-bar">
-          <div class="formula-bar-title">配方组成</div>
+          <div class="formula-bar-title" data-i18n="formulaComposition">配方组成</div>
           <div class="formula-composition" id="formulaComposition"></div>
           <div class="formula-legend" id="formulaLegend"></div>
         </div>
@@ -375,11 +377,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
             <div class="param-card-top">
               <div class="param-card-icon-label">
                 <div class="param-card-icon">🔥</div>
-                <div class="param-card-label">料桶温度</div>
+                <div class="param-card-label" data-i18n="barrelTemp">料桶温度</div>
               </div>
               <div style="display:flex;align-items:center;gap:6px;">
                 <span class="param-card-warn">⚠️</span>
-                <button class="param-reset" onclick="resetParam('barrelTemp')" title="重置到推荐值">↺</button>
+                <button class="param-reset" onclick="resetParam('barrelTemp')" data-i18n-title="resetToRec">重置到推荐值</button>
               </div>
             </div>
             <div class="param-value-row">
@@ -396,11 +398,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
             <div class="param-card-top">
               <div class="param-card-icon-label">
                 <div class="param-card-icon">⚙️</div>
-                <div class="param-card-label">螺杆速度</div>
+                <div class="param-card-label" data-i18n="screwSpeed">螺杆速度</div>
               </div>
               <div style="display:flex;align-items:center;gap:6px;">
                 <span class="param-card-warn">⚠️</span>
-                <button class="param-reset" onclick="resetParam('screwSpeed')" title="重置到推荐值">↺</button>
+                <button class="param-reset" onclick="resetParam('screwSpeed')" data-i18n-title="resetToRec">重置到推荐值</button>
               </div>
             </div>
             <div class="param-value-row">
@@ -417,11 +419,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
             <div class="param-card-top">
               <div class="param-card-icon-label">
                 <div class="param-card-icon">📦</div>
-                <div class="param-card-label">牵引速度</div>
+                <div class="param-card-label" data-i18n="tractionSpeed">牵引速度</div>
               </div>
               <div style="display:flex;align-items:center;gap:6px;">
                 <span class="param-card-warn">⚠️</span>
-                <button class="param-reset" onclick="resetParam('tractionSpeed')" title="重置到推荐值">↺</button>
+                <button class="param-reset" onclick="resetParam('tractionSpeed')" data-i18n-title="resetToRec">重置到推荐值</button>
               </div>
             </div>
             <div class="param-value-row">
@@ -441,21 +443,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
     <div class="sidebar-right">
       <!-- Coloring -->
       <div class="section">
-        <div class="section-title">染色方式</div>
+        <div class="section-title" data-i18n="coloringMethod">染色方式</div>
         <div class="color-method-row">
-          <div class="color-method-btn active" onclick="setColorMethod('none')">无</div>
-          <div class="color-method-btn" onclick="setColorMethod('powder')">色粉</div>
+          <div class="color-method-btn active" onclick="setColorMethod('none')" data-i18n="none">无</div>
+          <div class="color-method-btn" onclick="setColorMethod('powder')" data-i18n="powder">色粉</div>
         </div>
 
         <div id="colorPickerArea" style="display:none;">
-          <div class="section-title" style="margin-top:4px;">混色模式</div>
+          <div class="section-title" style="margin-top:4px;" data-i18n="mixMode">混色模式</div>
           <div class="mix-mode-row">
-            <div class="mix-mode-btn active" id="mixBtnSingle" onclick="setMixMode(false)">单色</div>
-            <div class="mix-mode-btn" id="mixBtnMulti" onclick="setMixMode(true)">混色 (2-3色)</div>
+            <div class="mix-mode-btn active" id="mixBtnSingle" onclick="setMixMode(false)" data-i18n="single">单色</div>
+            <div class="mix-mode-btn" id="mixBtnMulti" onclick="setMixMode(true)" data-i18n="mixColors">混色 (2-3色)</div>
           </div>
 
           <div id="singleColorArea">
-            <div class="section-title" style="margin-bottom:8px;">颜色</div>
+            <div class="section-title" style="margin-bottom:8px;" data-i18n="color">颜色</div>
             <div class="color-grid" id="colorGrid"></div>
             <div class="color-custom-row">
               <input type="color" id="customColor" value="#00d4aa">
@@ -464,11 +466,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
           </div>
 
           <div id="mixColorArea" style="display:none;">
-            <div class="section-title" style="margin-bottom:8px;">选择颜色与比例</div>
+            <div class="section-title" style="margin-bottom:8px;" data-i18n="selectColorsRatios">选择颜色与比例</div>
             <div id="mixSlots"></div>
-            <div class="mix-add-btn" id="mixAddBtn" onclick="addMixSlot()">+ 添加颜色</div>
+            <div class="mix-add-btn" id="mixAddBtn" onclick="addMixSlot()" data-i18n="addColor">+ 添加颜色</div>
             <div class="mix-preview">
-              <div class="mix-preview-label">预测混合色</div>
+              <div class="mix-preview-label" data-i18n="predictedMix">预测混合色</div>
               <div class="mix-preview-row">
                 <div class="mix-preview-swatch" id="mixPreviewSwatch"></div>
                 <div class="mix-preview-info">
@@ -480,23 +482,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
             </div>
           </div>
 
-          <div class="section-title" style="margin-top:12px;">用量</div>
+          <div class="section-title" style="margin-top:12px;" data-i18n="dosage">用量</div>
           <div class="dosage-row">
-            <span class="dosage-label" id="dosageLabel">色粉</span>
+            <span class="dosage-label" id="dosageLabel" data-i18n="powder">色粉</span>
             <input type="range" class="dosage-slider" id="dosageSlider" min="0.1" max="5" step="0.1" value="1.0" oninput="onDosageChange(this.value)">
             <span class="dosage-val" id="dosageVal">1.0%</span>
           </div>
         </div>
 
-        <div class="section-title" style="margin-top:12px;">最近使用</div>
+        <div class="section-title" style="margin-top:12px;" data-i18n="recent">最近使用</div>
         <div class="recent-row" id="recentColors">
-          <span class="recent-empty">暂无</span>
+          <span class="recent-empty" data-i18n="none2">暂无</span>
         </div>
       </div>
 
       <!-- Additives -->
       <div class="section">
-        <div class="section-title">功能性添加剂 <span class="section-count" id="additiveCount"></span></div>
+        <div class="section-title" data-i18n-html="functionalAdditives">功能性添加剂 <span class="section-count" id="additiveCount"></span></div>
         <div class="additive-list" id="additiveList"></div>
       </div>
     </div>
@@ -507,8 +509,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
     <div class="action-bar-info" id="summaryText"><b>PLA</b> · #00D4AA · 180°C · 30 RPM · 35 mm/s</div>
     <div class="action-bar-buttons">
       <button class="btn btn-sm" onclick="openExport('json')">JSON</button>
-      <button class="btn btn-sm" onclick="openExport('text')">摘要</button>
-      <button class="btn btn-sm btn-primary" onclick="copySummary()">复制配方</button>
+      <button class="btn btn-sm" onclick="openExport('text')" data-i18n="summary">摘要</button>
+      <button class="btn btn-sm btn-primary" onclick="copySummary()" data-i18n="copyRecipe">复制配方</button>
     </div>
   </div>
 </div>
@@ -516,14 +518,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
 <!-- Recipe Panel (slide-up) -->
 <div class="recipe-panel" id="recipePanel">
   <div class="recipe-panel-header">
-    <h3>配方库 <span style="font-size:11px;color:var(--text-3);font-weight:400;" id="recipeCount">0 个配方</span></h3>
+    <h3><span data-i18n="recipeLibraryTitle">配方库</span> <span style="font-size:11px;color:var(--text-3);font-weight:400;" id="recipeCount">0 个配方</span></h3>
     <div class="recipe-panel-actions">
       <select class="select-styled" id="recipeSelect" style="width:200px;">
-        <option value="">— 选择配方 —</option>
+        <option value="" data-i18n="selectRecipe">— 选择配方 —</option>
       </select>
-      <button class="btn btn-sm" onclick="loadRecipe()">加载</button>
-      <button class="btn btn-sm btn-icon btn-danger" onclick="deleteRecipe()" title="删除">✕</button>
-      <button class="btn btn-sm" onclick="toggleRecipePanel()">收起</button>
+      <button class="btn btn-sm" onclick="loadRecipe()" data-i18n="load">加载</button>
+      <button class="btn btn-sm btn-icon btn-danger" onclick="deleteRecipe()" data-i18n-title="delete" title="删除">✕</button>
+      <button class="btn btn-sm" onclick="toggleRecipePanel()" data-i18n="collapse">收起</button>
     </div>
   </div>
   <div class="recipe-panel-body">
@@ -534,12 +536,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
 <!-- Save Modal -->
 <div class="modal-overlay" id="saveModal">
   <div class="modal">
-    <h3>保存配方</h3>
-    <p>为当前配方命名，保存到配方库</p>
-    <input type="text" class="modal-input" id="recipeName" placeholder="如：PLA+碳纤维 黑色 高强度" onkeydown="if(event.key==='Enter')saveRecipe()">
+    <h3 data-i18n="saveRecipe">保存配方</h3>
+    <p data-i18n="saveRecipeDesc">为当前配方命名，保存到配方库</p>
+    <input type="text" class="modal-input" id="recipeName" placeholder="如：PLA+碳纤维 黑色 高强度" data-i18n-placeholder="recipeNamePlaceholder" onkeydown="if(event.key==='Enter')saveRecipe()">
     <div class="modal-actions">
-      <button class="btn" onclick="closeSaveModal()">取消</button>
-      <button class="btn btn-primary" onclick="saveRecipe()">保存</button>
+      <button class="btn" onclick="closeSaveModal()" data-i18n="cancel">取消</button>
+      <button class="btn btn-primary" onclick="saveRecipe()" data-i18n="save">保存</button>
     </div>
   </div>
 </div>
@@ -547,20 +549,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
 <!-- Import Modal -->
 <div class="modal-overlay" id="importModal">
   <div class="modal" style="width:480px;">
-    <h3>导入配方</h3>
-    <p>上传 JSON 格式的配方文件，像 Photoshop 预设一样管理你的配方</p>
+    <h3 data-i18n="importRecipe">导入配方</h3>
+    <p data-i18n="importRecipeDesc">上传 JSON 格式的配方文件，像 Photoshop 预设一样管理你的配方</p>
     <div class="import-area" id="importArea" onclick="document.getElementById('fileInput').click()">
       <div class="import-icon">📥</div>
-      <p>点击选择文件或拖拽 JSON 到此处</p>
+      <p data-i18n="importDragHint">点击选择文件或拖拽 JSON 到此处</p>
     </div>
     <input type="file" id="fileInput" accept=".json" style="display:none;" onchange="handleFileImport(event)">
     <div id="importPreview" style="display:none;margin-bottom:14px;">
-      <div style="font-size:12px;color:var(--text-2);margin-bottom:6px;">预览：</div>
+      <div style="font-size:12px;color:var(--text-2);margin-bottom:6px;" data-i18n="preview">预览：</div>
       <div class="export-box" id="importPreviewBox" style="max-height:100px;"></div>
     </div>
     <div class="modal-actions">
-      <button class="btn" onclick="closeImportModal()">取消</button>
-      <button class="btn btn-primary" id="importConfirmBtn" onclick="confirmImport()" disabled>导入</button>
+      <button class="btn" onclick="closeImportModal()" data-i18n="cancel">取消</button>
+      <button class="btn btn-primary" id="importConfirmBtn" onclick="confirmImport()" disabled data-i18n="importBtn">导入</button>
     </div>
   </div>
 </div>
@@ -568,13 +570,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
 <!-- Export Modal -->
 <div class="modal-overlay" id="exportModal">
   <div class="modal" style="width:520px;">
-    <h3 id="exportTitle">导出</h3>
-    <p id="exportSub">复制内容或下载文件</p>
+    <h3 id="exportTitle" data-i18n="export">导出</h3>
+    <p id="exportSub" data-i18n="exportDesc">复制内容或下载文件</p>
     <div class="export-box" id="exportBox"></div>
     <div class="modal-actions">
-      <button class="btn" onclick="closeExport()">关闭</button>
-      <button class="btn" onclick="downloadExport()">下载文件</button>
-      <button class="btn btn-primary" onclick="copyExport()">复制内容</button>
+      <button class="btn" onclick="closeExport()" data-i18n="close">关闭</button>
+      <button class="btn" onclick="downloadExport()" data-i18n="download">下载文件</button>
+      <button class="btn btn-primary" onclick="copyExport()" data-i18n="copyContent">复制内容</button>
     </div>
   </div>
 </div>
@@ -582,19 +584,276 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
 <div class="toast" id="toast"><span class="toast-icon">✓</span><span id="toastText"></span></div>
 
 <script>
+// ===== i18n System =====
+const LANG = {
+  zh: {
+    subtitle:'颗粒制线配方工作站',
+    unsaved:'● 未保存',
+    recipeLibrary:'📋 配方库',
+    import:'📥 导入',
+    save:'💾 保存',
+    basePellets:'基础颗粒 <span class="section-count" id="matCount"></span>',
+    blendPellets:'混合颗粒 <span class="section-count">可选</span>',
+    optional:'可选',
+    blendRatio:'混合比例',
+    loading3d:'加载3D模型中…',
+    spoolHint:'拖拽旋转 · 滚轮缩放 · 快捷键 S保存 E导出 R重置',
+    extrusionParams:'挤出参数',
+    formulaComposition:'配方组成',
+    barrelTemp:'料桶温度',
+    screwSpeed:'螺杆速度',
+    tractionSpeed:'牵引速度',
+    resetToRec:'重置到推荐值',
+    coloringMethod:'染色方式',
+    none:'无',
+    powder:'色粉',
+    mixMode:'混色模式',
+    single:'单色',
+    mixColors:'混色 (2-3色)',
+    color:'颜色',
+    selectColorsRatios:'选择颜色与比例',
+    addColor:'+ 添加颜色',
+    predictedMix:'预测混合色',
+    dosage:'用量',
+    recent:'最近使用',
+    none2:'暂无',
+    functionalAdditives:'功能性添加剂 <span class="section-count" id="additiveCount"></span>',
+    summary:'摘要',
+    copyRecipe:'复制配方',
+    recipeLibraryTitle:'配方库',
+    recipeCount:(n)=>n+' 个配方',
+    selectRecipe:'— 选择配方 —',
+    load:'加载',
+    delete:'删除',
+    collapse:'收起',
+    saveRecipe:'保存配方',
+    saveRecipeDesc:'为当前配方命名，保存到配方库',
+    recipeNamePlaceholder:'如：PLA+碳纤维 黑色 高强度',
+    cancel:'取消',
+    importRecipe:'导入配方',
+    importRecipeDesc:'上传 JSON 格式的配方文件，像 Photoshop 预设一样管理你的配方',
+    importDragHint:'点击选择文件或拖拽 JSON 到此处',
+    preview:'预览：',
+    importBtn:'导入',
+    export:'导出',
+    exportDesc:'复制内容或下载文件',
+    close:'关闭',
+    download:'下载文件',
+    copyContent:'复制内容',
+    // Dynamic
+    comingSoon:'即将上线',
+    transparent:'透明',
+    noBlend:'无混合',
+    recommended:(min,max,unit)=>`推荐: ${min} – ${max} ${unit}`,
+    outOfRange:(min,max,unit)=>`推荐: ${min} – ${max} ${unit} · 超出范围`,
+    resetDone:(val)=>`已重置到推荐值: ${val}`,
+    additivesLabel:'添加剂',
+    builtinRecipes:'出厂配方',
+    myRecipes:'我的配方',
+    pleaseSelectRecipe:'请先选择配方',
+    recipeNotFound:'配方不存在',
+    recipeLoaded:(name)=>`已加载: ${name}`,
+    pleaseEnterName:'请输入配方名称',
+    recipeSaved:(name)=>`配方 "${name}" 已保存`,
+    builtinNoDelete:'出厂配方不可删除',
+    recipeDeleted:(name)=>`配方 "${name}" 已删除`,
+    exportJSON:'导出 JSON',
+    exportSummary:'导出摘要',
+    exportJSONDesc:'结构化数据，可用于设备导入或配方分享',
+    exportSummaryDesc:'文本格式配方卡',
+    copied:'已复制到剪贴板',
+    copyFailed:'复制失败',
+    recipeCopied:'配方已复制',
+    fileDownloaded:'文件已下载',
+    invalidFormat:'文件格式无效',
+    noImportData:'无导入数据',
+    recipeImported:'配方已导入',
+    invalidColor:'颜色格式无效',
+    naturalColor:'自然色',
+    mixLabel:'混色',
+    recipeCard:'配方卡',
+    material:'材料',
+    colorLabel:'颜色',
+    dateLabel:'日期',
+    extrusionParamsLabel:'挤出参数',
+    barrelTempLabel:'料桶温度',
+    screwSpeedLabel:'螺杆速度',
+    tractionSpeedLabel:'牵引速度',
+    additivesSection:'添加剂',
+    builtin:'出厂',
+    additiveCountStr:(n)=>`+${n}添加剂`,
+  },
+  en: {
+    subtitle:'Pellet-to-Filament Recipe Studio',
+    unsaved:'● Unsaved',
+    recipeLibrary:'📋 Recipes',
+    import:'📥 Import',
+    save:'💾 Save',
+    basePellets:'Base Pellets <span class="section-count" id="matCount"></span>',
+    blendPellets:'Blend Pellet <span class="section-count">Optional</span>',
+    optional:'Optional',
+    blendRatio:'Blend Ratio',
+    loading3d:'Loading 3D model…',
+    spoolHint:'Drag to rotate · Scroll to zoom · Shortcuts: S Save E Export R Reset',
+    extrusionParams:'Extrusion Parameters',
+    formulaComposition:'Formula Composition',
+    barrelTemp:'Barrel Temp',
+    screwSpeed:'Screw Speed',
+    tractionSpeed:'Traction Speed',
+    resetToRec:'Reset to recommended',
+    coloringMethod:'Coloring Method',
+    none:'None',
+    powder:'Powder',
+    mixMode:'Mix Mode',
+    single:'Single',
+    mixColors:'Mix (2-3 colors)',
+    color:'Color',
+    selectColorsRatios:'Select Colors & Ratios',
+    addColor:'+ Add Color',
+    predictedMix:'Predicted Mix',
+    dosage:'Dosage',
+    recent:'Recent',
+    none2:'None',
+    functionalAdditives:'Functional Additives <span class="section-count" id="additiveCount"></span>',
+    summary:'Summary',
+    copyRecipe:'Copy Recipe',
+    recipeLibraryTitle:'Recipe Library',
+    recipeCount:(n)=>n+' recipes',
+    selectRecipe:'— Select Recipe —',
+    load:'Load',
+    delete:'Delete',
+    collapse:'Collapse',
+    saveRecipe:'Save Recipe',
+    saveRecipeDesc:'Name your recipe and save to library',
+    recipeNamePlaceholder:'e.g. PLA+Carbon Fiber Black High Strength',
+    cancel:'Cancel',
+    importRecipe:'Import Recipe',
+    importRecipeDesc:'Upload a JSON recipe file. Manage your recipes like Photoshop presets.',
+    importDragHint:'Click to select a file or drag JSON here',
+    preview:'Preview:',
+    importBtn:'Import',
+    export:'Export',
+    exportDesc:'Copy content or download file',
+    close:'Close',
+    download:'Download',
+    copyContent:'Copy',
+    // Dynamic
+    comingSoon:'Coming Soon',
+    transparent:'Clear',
+    noBlend:'No Blend',
+    recommended:(min,max,unit)=>`Recommended: ${min} – ${max} ${unit}`,
+    outOfRange:(min,max,unit)=>`Recommended: ${min} – ${max} ${unit} · Out of range`,
+    resetDone:(val)=>`Reset to recommended: ${val}`,
+    additivesLabel:'Additives',
+    builtinRecipes:'Built-in Recipes',
+    myRecipes:'My Recipes',
+    pleaseSelectRecipe:'Please select a recipe first',
+    recipeNotFound:'Recipe not found',
+    recipeLoaded:(name)=>`Loaded: ${name}`,
+    pleaseEnterName:'Please enter a recipe name',
+    recipeSaved:(name)=>`Recipe "${name}" saved`,
+    builtinNoDelete:'Built-in recipes cannot be deleted',
+    recipeDeleted:(name)=>`Recipe "${name}" deleted`,
+    exportJSON:'Export JSON',
+    exportSummary:'Export Summary',
+    exportJSONDesc:'Structured data for device import or recipe sharing',
+    exportSummaryDesc:'Text format recipe card',
+    copied:'Copied to clipboard',
+    copyFailed:'Copy failed',
+    recipeCopied:'Recipe copied',
+    fileDownloaded:'File downloaded',
+    invalidFormat:'Invalid file format',
+    noImportData:'No import data',
+    recipeImported:'Recipe imported',
+    invalidColor:'Invalid color format',
+    naturalColor:'Natural',
+    mixLabel:'Mix',
+    recipeCard:'Recipe Card',
+    material:'Material',
+    colorLabel:'Color',
+    dateLabel:'Date',
+    extrusionParamsLabel:'Extrusion Parameters',
+    barrelTempLabel:'Barrel Temp',
+    screwSpeedLabel:'Screw Speed',
+    tractionSpeedLabel:'Traction Speed',
+    additivesSection:'Additives',
+    builtin:'Built-in',
+    additiveCountStr:(n)=>`+${n} additive`,
+  }
+};
+let currentLang = localStorage.getItem('filaforge_lang') || 'zh';
+function t(key,...args){
+  const v=LANG[currentLang]?.[key];
+  if(typeof v==='function') return v(...args);
+  return v ?? LANG.zh[key] ?? key;
+}
+function toggleLang(){
+  currentLang = currentLang==='zh'?'en':'zh';
+  localStorage.setItem('filaforge_lang',currentLang);
+  applyLanguage();
+}
+function applyLanguage(){
+  document.documentElement.lang = currentLang==='zh'?'zh-CN':'en';
+  document.title = currentLang==='zh'?'FilaForge — 颗粒制线配方工作站':'FilaForge — Filament Recipe Studio';
+  // Update lang toggle button
+  const btn=document.getElementById('langToggle');
+  if(btn) btn.textContent = currentLang==='zh'?'EN':'中文';
+  // Update [data-i18n] elements
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key=el.getAttribute('data-i18n');
+    el.textContent=t(key);
+  });
+  // Update [data-i18n-html] elements (allow HTML)
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{
+    const key=el.getAttribute('data-i18n-html');
+    el.innerHTML=t(key);
+  });
+  // Update [data-i18n-placeholder]
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+    el.placeholder=t(el.getAttribute('data-i18n-placeholder'));
+  });
+  // Update [data-i18n-title]
+  document.querySelectorAll('[data-i18n-title]').forEach(el=>{
+    el.title=t(el.getAttribute('data-i18n-title'));
+  });
+  // Re-render all dynamic content
+  document.getElementById('matCount').textContent=Object.keys(MATERIALS).length+(currentLang==='zh'?' 种':' types');
+  renderMaterials(); renderBlendMaterials(); renderColors(); renderAdditives();
+  renderMixSlots(); renderRecentColors();
+  loadRecipeSelect(); renderRecipeGrid(); updateAllParams(); updateSummary();
+  updateFormulaBar(); updatePreviewOverlay();
+  if(typeof updatePelletPreview==='function') updatePelletPreview();
+}
+function matName(key){
+  const m=MATERIALS[key]; if(!m) return key;
+  return currentLang==='en'?(m.nameEn||m.name):m.name;
+}
+function adName(key){
+  const ad=ADDITIVES[key]; if(!ad) return key;
+  return currentLang==='en'?(ad.nameEn||ad.name):ad.name;
+}
+function adDesc(key){
+  const ad=ADDITIVES[key]; if(!ad) return '';
+  return currentLang==='en'?(ad.descEn||ad.desc):ad.desc;
+}
+function recipeName(name){
+  if(currentLang==='en'&&BUILTIN_RECIPE_NAMES[name]) return BUILTIN_RECIPE_NAMES[name];
+  return name;
+}
+
 // ===== Material Data =====
 const MATERIALS = {
-  PLA:   {name:'PLA',  barrel:210,screw:12,traction:35,range:{barrel:[200,220],screw:[10,15],traction:[25,45]}},
-  'PLA-T':{name:'PLA 透明',barrel:185,screw:28,traction:33,range:{barrel:[175,205],screw:[20,38],traction:[25,42]},transparent:true},
-  PETG:  {name:'PETG', barrel:220,screw:10,traction:30,range:{barrel:[210,235],screw:[10,15],traction:[20,40]}},
-  ABS:   {name:'ABS',  barrel:240,screw:28,traction:32,range:{barrel:[230,250],screw:[20,38],traction:[22,42]},frozen:true},
-  TPU:   {name:'TPU',  barrel:190,screw:15,traction:20,range:{barrel:[180,200],screw:[10,22],traction:[15,28]},frozen:true},
-  Nylon: {name:'Nylon',barrel:240,screw:20,traction:25,range:{barrel:[230,260],screw:[15,30],traction:[18,32]},frozen:true},
-  ASA:   {name:'ASA',  barrel:230,screw:25,traction:28,range:{barrel:[220,245],screw:[18,35],traction:[20,38]},frozen:true},
-  PC:    {name:'PC',   barrel:260,screw:18,traction:22,range:{barrel:[250,280],screw:[12,28],traction:[16,30]},frozen:true},
-  HIPS:  {name:'HIPS', barrel:200,screw:28,traction:32,range:{barrel:[190,215],screw:[20,38],traction:[22,42]},frozen:true},
-  PP:    {name:'PP',   barrel:200,screw:25,traction:30,range:{barrel:[190,215],screw:[18,35],traction:[20,40]},frozen:true},
-  POM:   {name:'POM',  barrel:190,screw:20,traction:25,range:{barrel:[180,205],screw:[15,30],traction:[18,32]},frozen:true},
+  PLA:   {name:'PLA',nameEn:'PLA',  barrel:210,screw:12,traction:35,range:{barrel:[200,220],screw:[10,15],traction:[25,45]}},
+  'PLA-T':{name:'PLA 透明',nameEn:'PLA Clear',barrel:185,screw:28,traction:33,range:{barrel:[175,205],screw:[20,38],traction:[25,42]},transparent:true},
+  PETG:  {name:'PETG',nameEn:'PETG', barrel:220,screw:10,traction:30,range:{barrel:[210,235],screw:[10,15],traction:[20,40]}},
+  ABS:   {name:'ABS',nameEn:'ABS',  barrel:240,screw:28,traction:32,range:{barrel:[230,250],screw:[20,38],traction:[22,42]},frozen:true},
+  TPU:   {name:'TPU',nameEn:'TPU',  barrel:190,screw:15,traction:20,range:{barrel:[180,200],screw:[10,22],traction:[15,28]},frozen:true},
+  Nylon: {name:'Nylon',nameEn:'Nylon',barrel:240,screw:20,traction:25,range:{barrel:[230,260],screw:[15,30],traction:[18,32]},frozen:true},
+  ASA:   {name:'ASA',nameEn:'ASA',  barrel:230,screw:25,traction:28,range:{barrel:[220,245],screw:[18,35],traction:[20,38]},frozen:true},
+  PC:    {name:'PC',nameEn:'PC',   barrel:260,screw:18,traction:22,range:{barrel:[250,280],screw:[12,28],traction:[16,30]},frozen:true},
+  HIPS:  {name:'HIPS',nameEn:'HIPS', barrel:200,screw:28,traction:32,range:{barrel:[190,215],screw:[20,38],traction:[22,42]},frozen:true},
+  PP:    {name:'PP',nameEn:'PP',   barrel:200,screw:25,traction:30,range:{barrel:[190,215],screw:[18,35],traction:[20,40]},frozen:true},
+  POM:   {name:'POM',nameEn:'POM',  barrel:190,screw:20,traction:25,range:{barrel:[180,205],screw:[15,30],traction:[18,32]},frozen:true},
 };
 
 // ===== Colors =====
@@ -610,21 +869,21 @@ const COLORS = [
 // ===== Additives =====
 const ADDITIVES_FROZEN = true; // 冻结添加剂功能，即将上线
 const ADDITIVES = {
-  carbonFiber: {name:'碳纤维',icon:'🔗',desc:'增强强度和刚性',maxPct:30,defaultPct:10,
+  carbonFiber: {name:'碳纤维',nameEn:'Carbon Fiber',icon:'🔗',desc:'增强强度和刚性',descEn:'Enhances strength and rigidity',maxPct:30,defaultPct:10,
     paramEffect:{barrel:5,screw:-3,traction:-2}},
-  coffeeGrounds:{name:'咖啡渣',icon:'☕',desc:'自然纹理质感',maxPct:20,defaultPct:8,
+  coffeeGrounds:{name:'咖啡渣',nameEn:'Coffee Grounds',icon:'☕',desc:'自然纹理质感',descEn:'Natural texture finish',maxPct:20,defaultPct:8,
     paramEffect:{barrel:-5,screw:-2,traction:-3}},
-  fluorescent:{name:'荧光粉',icon:'✨',desc:'紫外线下发光',maxPct:10,defaultPct:3,
+  fluorescent:{name:'荧光粉',nameEn:'Fluorescent',icon:'✨',desc:'紫外线下发光',descEn:'Glows under UV light',maxPct:10,defaultPct:3,
     paramEffect:{barrel:-2,screw:0,traction:0}},
-  metalPowder:{name:'金属粉',icon:'🔩',desc:'金属质感外观',maxPct:40,defaultPct:15,
+  metalPowder:{name:'金属粉',nameEn:'Metal Powder',icon:'🔩',desc:'金属质感外观',descEn:'Metallic appearance',maxPct:40,defaultPct:15,
     paramEffect:{barrel:8,screw:-4,traction:-3}},
-  woodFill:{name:'木粉',icon:'🪵',desc:'木质外观可打磨',maxPct:25,defaultPct:10,
+  woodFill:{name:'木粉',nameEn:'Wood Fill',icon:'🪵',desc:'木质外观可打磨',descEn:'Wood-like finish, sandable',maxPct:25,defaultPct:10,
     paramEffect:{barrel:-8,screw:-3,traction:-2}},
-  glowPowder:{name:'夜光粉',icon:'🌟',desc:'暗处自发光',maxPct:15,defaultPct:5,
+  glowPowder:{name:'夜光粉',nameEn:'Glow Powder',icon:'🌟',desc:'暗处自发光',descEn:'Glows in the dark',maxPct:15,defaultPct:5,
     paramEffect:{barrel:-3,screw:-1,traction:0}},
-  carbonBlack:{name:'碳黑',icon:'⚫',desc:'增强 UV 耐候性',maxPct:5,defaultPct:2,
+  carbonBlack:{name:'碳黑',nameEn:'Carbon Black',icon:'⚫',desc:'增强 UV 耐候性',descEn:'Enhanced UV resistance',maxPct:5,defaultPct:2,
     paramEffect:{barrel:2,screw:0,traction:0}},
-  glassFiber:{name:'玻璃纤维',icon:'🔷',desc:'高强度绝缘',maxPct:30,defaultPct:12,
+  glassFiber:{name:'玻璃纤维',nameEn:'Glass Fiber',icon:'🔷',desc:'高强度绝缘',descEn:'High strength, insulating',maxPct:30,defaultPct:12,
     paramEffect:{barrel:10,screw:-5,traction:-3}},
 };
 
@@ -638,6 +897,21 @@ const BUILTIN_RECIPES = {
   'PETG 透明 标准':{material:'PETG',blend:null,blendPct:0,colorMethod:'powder',color:'#00B4D8',dosage:0.5,additives:{},barrel:220,screw:10,traction:30},
   'PLA+PETG 混合 银色':{material:'PLA',blend:'PETG',blendPct:70,colorMethod:'powder',color:'#A0A0A0',dosage:1.0,additives:{metalPowder:8},barrel:213,screw:11,traction:33},
 };
+
+// Built-in recipe name translations (zh → en)
+const BUILTIN_RECIPE_NAMES = {
+  'PLA 白色 标准':'PLA White Standard',
+  'PLA 透明 自然色':'PLA Clear Natural',
+  'PLA 透明 烟灰色':'PLA Clear Smoky Gray',
+  'PLA+碳纤维 黑色 高强度':'PLA+Carbon Fiber Black High Strength',
+  'PLA+咖啡渣 棕色 质感':'PLA+Coffee Grounds Brown Textured',
+  'PETG 透明 标准':'PETG Clear Standard',
+  'PLA+PETG 混合 银色':'PLA+PETG Blend Silver',
+};
+// Reverse mapping (en → zh) for import compatibility
+const BUILTIN_RECIPE_NAMES_REV = Object.fromEntries(
+  Object.entries(BUILTIN_RECIPE_NAMES).map(([k,v])=>[v,k])
+);
 
 // ===== State =====
 let state = {
@@ -665,13 +939,24 @@ function clearDirty(){
 
 // ===== Init =====
 function init(){
+  // Set initial language
+  document.documentElement.lang = currentLang==='zh'?'zh-CN':'en';
+  document.title = currentLang==='zh'?'FilaForge — 颗粒制线配方工作站':'FilaForge — Filament Recipe Studio';
+  const langBtn=document.getElementById('langToggle');
+  if(langBtn) langBtn.textContent = currentLang==='zh'?'EN':'中文';
+
   renderMaterials(); renderBlendMaterials(); renderColors(); renderAdditives();
   renderMixSlots(); renderRecentColors();
   loadRecipeSelect(); renderRecipeGrid(); updateAllParams(); updateSummary();
   bindColorInputs(); updateParamByFormula(); updateFormulaBar();
   updatePreviewOverlay();
-  document.getElementById('matCount').textContent=Object.keys(MATERIALS).length+' 种';
-  if(!ADDITIVES_FROZEN) document.getElementById('additiveCount').textContent=Object.keys(ADDITIVES).length+' 种';
+  // Apply i18n to static elements
+  document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=t(el.getAttribute('data-i18n'));});
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{el.innerHTML=t(el.getAttribute('data-i18n-html'));});
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{el.placeholder=t(el.getAttribute('data-i18n-placeholder'));});
+  document.querySelectorAll('[data-i18n-title]').forEach(el=>{el.title=t(el.getAttribute('data-i18n-title'));});
+  document.getElementById('matCount').textContent=Object.keys(MATERIALS).length+(currentLang==='zh'?' 种':' types');
+  if(!ADDITIVES_FROZEN) document.getElementById('additiveCount').textContent=Object.keys(ADDITIVES).length+(currentLang==='zh'?' 种':' types');
 }
 
 function bindColorInputs(){
@@ -680,7 +965,7 @@ function bindColorInputs(){
     let v=e.target.value.trim();
     if(!v.startsWith('#')) v='#'+v;
     if(/^#[0-9A-Fa-f]{6}$/.test(v)) setColor(v);
-    else{e.target.value=state.color.toUpperCase();showToast('颜色格式无效','error');}
+    else{e.target.value=state.color.toUpperCase();showToast(t('invalidColor'),'error');}
   });
 }
 
@@ -699,7 +984,7 @@ function renderMaterials(){
     const card=document.createElement('div');
     const frozen=m.frozen;
     card.className='material-card'+(key===state.material?' active':'')+(frozen?' frozen':'');
-    card.innerHTML=`<div class="mat-name">${m.name}</div><div class="mat-temp">${frozen?'即将上线':m.barrel+'°C'+(m.transparent?' · 透明':'')}</div>${frozen?'<div class="frozen-lock">🔒</div>':''}`;
+    card.innerHTML=`<div class="mat-name">${matName(key)}</div><div class="mat-temp">${frozen?t('comingSoon'):m.barrel+'°C'+(m.transparent?' · '+t('transparent'):'')}</div>${frozen?'<div class="frozen-lock">🔒</div>':''}`;
     if(!frozen) card.onclick=()=>selectMaterial(key);
     grid.appendChild(card);
   });
@@ -710,7 +995,7 @@ function renderBlendMaterials(){
   grid.innerHTML='';
   const noneCard=document.createElement('div');
   noneCard.className='material-card'+(!state.blend?' active':'');
-  noneCard.innerHTML=`<div class="mat-name" style="color:var(--text-3)">无混合</div>`;
+  noneCard.innerHTML=`<div class="mat-name" style="color:var(--text-3)">${t('noBlend')}</div>`;
   noneCard.onclick=()=>{state.blend=null;renderBlendMaterials();document.getElementById('blendSection').style.display='none';updateParamByFormula();updateFormulaBar();updateSummary();updatePreviewOverlay();markDirty();};
   grid.appendChild(noneCard);
   Object.keys(MATERIALS).forEach(key=>{
@@ -719,7 +1004,7 @@ function renderBlendMaterials(){
     const frozen=m.frozen;
     const card=document.createElement('div');
     card.className='material-card'+(key===state.blend?' active':'')+(frozen?' frozen':'');
-    card.innerHTML=`<div class="mat-name">${m.name}</div><div class="mat-temp">${frozen?'即将上线':m.barrel+'°C'+(m.transparent?' · 透明':'')}</div>${frozen?'<div class="frozen-lock">🔒</div>':''}`;
+    card.innerHTML=`<div class="mat-name">${matName(key)}</div><div class="mat-temp">${frozen?t('comingSoon'):m.barrel+'°C'+(m.transparent?' · '+t('transparent'):'')}</div>${frozen?'<div class="frozen-lock">🔒</div>':''}`;
     if(!frozen) card.onclick=()=>selectBlend(key);
     grid.appendChild(card);
   });
@@ -732,7 +1017,7 @@ function selectMaterial(key){
   renderMaterials(); renderBlendMaterials();
   document.getElementById('blendSection').style.display=state.blend?'block':'none';
   updateAllParams(); updateFormulaBar(); updateSummary(); updatePreviewOverlay();
-  document.getElementById('currentMatBadge').textContent=MATERIALS[key].name;
+  document.getElementById('currentMatBadge').textContent=matName(key);
   markDirty();
 }
 
@@ -740,9 +1025,9 @@ function selectBlend(key){
   state.blend=key;
   renderBlendMaterials();
   document.getElementById('blendSection').style.display='block';
-  document.getElementById('blendLabelA').textContent=MATERIALS[state.material].name;
-  document.getElementById('blendNameA').textContent=MATERIALS[state.material].name+' '+state.blendPct+'%';
-  document.getElementById('blendNameB').textContent=MATERIALS[key].name+' '+(100-state.blendPct)+'%';
+  document.getElementById('blendLabelA').textContent=matName(state.material);
+  document.getElementById('blendNameA').textContent=matName(state.material)+' '+state.blendPct+'%';
+  document.getElementById('blendNameB').textContent=matName(key)+' '+(100-state.blendPct)+'%';
   updateBlendUI();
   updateParamByFormula(); updateFormulaBar(); updateSummary(); updatePreviewOverlay();
   markDirty();
@@ -759,8 +1044,8 @@ function updateBlendUI(){
   document.getElementById('blendFillA').style.width=a+'%';
   document.getElementById('blendFillB').style.width=b+'%';
   document.getElementById('blendPctA').textContent=a+'%';
-  document.getElementById('blendNameA').textContent=MATERIALS[state.material].name+' '+a+'%';
-  document.getElementById('blendNameB').textContent=state.blend?MATERIALS[state.blend].name+' '+b+'%':'';
+  document.getElementById('blendNameA').textContent=matName(state.material)+' '+a+'%';
+  document.getElementById('blendNameB').textContent=state.blend?matName(state.blend)+' '+b+'%':'';
   document.getElementById('blendSlider').value=a;
 }
 
@@ -800,7 +1085,7 @@ function setColorMethod(method){
     b.classList.toggle('active',methods[i]===method);
   });
   document.getElementById('colorPickerArea').style.display=method==='none'?'none':'block';
-  document.getElementById('dosageLabel').textContent='色粉';
+  document.getElementById('dosageLabel').textContent=t('powder');
   if(method!=='none'&&state.isMixMode)updateMixedColor();
   updateFormulaBar(); updateSummary(); updatePreviewOverlay();
   markDirty();
@@ -879,7 +1164,7 @@ function onMixHexChange(i,val){
   }else{
     const hexInput=document.querySelectorAll('.mix-slot-hex')[i];
     if(hexInput)hexInput.value=state.colorMix[i].color.toUpperCase();
-    showToast('颜色格式无效','error');
+    showToast(t('invalidColor'),'error');
   }
 }
 
@@ -984,7 +1269,7 @@ function addRecentColor(c){
 
 function renderRecentColors(){
   const row=document.getElementById('recentColors');
-  if(!recentColors.length){row.innerHTML='<span class="recent-empty">暂无</span>';return;}
+  if(!recentColors.length){row.innerHTML='<span class="recent-empty">'+t('none2')+'</span>';return;}
   row.innerHTML='';
   recentColors.forEach(c=>{
     const dot=document.createElement('div');
@@ -1008,8 +1293,8 @@ function renderAdditives(){
           <div class="additive-info">
             <span class="additive-icon">${ad.icon}</span>
             <div>
-              <div class="additive-name">${ad.name}</div>
-              <div class="additive-desc">${ad.desc}</div>
+              <div class="additive-name">${adName(key)}</div>
+              <div class="additive-desc">${adDesc(key)}</div>
             </div>
           </div>
           <span style="font-size:14px;flex-shrink:0">🔒</span>
@@ -1018,13 +1303,13 @@ function renderAdditives(){
     });
     const banner=document.createElement('div');
     banner.className='additive-frozen-banner';
-    banner.textContent='添加剂功能即将上线';
+    banner.textContent=currentLang==='zh'?'添加剂功能即将上线':'Additives coming soon';
     list.appendChild(banner);
     document.getElementById('additiveCount').textContent='';
     return;
   }
   list.classList.remove('frozen');
-  document.getElementById('additiveCount').textContent=Object.keys(ADDITIVES).length+' 种';
+  document.getElementById('additiveCount').textContent=Object.keys(ADDITIVES).length+(currentLang==='zh'?' 种':' types');
   Object.entries(ADDITIVES).forEach(([key,ad])=>{
     const active=state.additives[key]!==undefined;
     const pct=active?state.additives[key]:ad.defaultPct;
@@ -1035,8 +1320,8 @@ function renderAdditives(){
         <div class="additive-info">
           <span class="additive-icon">${ad.icon}</span>
           <div>
-            <div class="additive-name">${ad.name}</div>
-            <div class="additive-desc">${ad.desc} · 最高${ad.maxPct}%</div>
+            <div class="additive-name">${adName(key)}</div>
+            <div class="additive-desc">${adDesc(key)} · ${currentLang==='zh'?'最高':'max'}${ad.maxPct}%</div>
           </div>
         </div>
         <div class="additive-toggle${active?' on':''}" onclick="toggleAdditive('${key}')"></div>
@@ -1074,9 +1359,9 @@ function onAdditivePct(key,val){
 // ===== Spool 3D Preview (Three.js) =====
 function updatePelletPreview(){
   const c=state.colorMethod==='none'?getMaterialColor():state.color;
-  const matName=MATERIALS[state.material].name+(state.blend?'+'+MATERIALS[state.blend].name:'');
+  const matNameStr=matName(state.material)+(state.blend?'+'+matName(state.blend):'');
   if(window.Spool3D&&window.Spool3D.ready){
-    window.Spool3D.update(c,state.additives,matName,isTransparent(),getTransparency());
+    window.Spool3D.update(c,state.additives,matNameStr,isTransparent(),getTransparency());
   }
 }
 
@@ -1114,14 +1399,14 @@ function updatePreviewOverlay(){
   const el=document.getElementById('previewOverlay');
   if(!el)return;
   let chips=[];
-  const matName=MATERIALS[state.material].name+(state.blend?'/'+MATERIALS[state.blend].name:'');
-  chips.push(`<div class="preview-chip"><div class="chip-dot" style="background:var(--accent)"></div>${matName}</div>`);
+  const matNameStr=matName(state.material)+(state.blend?'/'+matName(state.blend):'');
+  chips.push(`<div class="preview-chip"><div class="chip-dot" style="background:var(--accent)"></div>${matNameStr}</div>`);
   if(state.colorMethod!=='none'){
     const colorHex=state.isMixMode?state.color:state.color;
-    chips.push(`<div class="preview-chip"><div class="chip-dot" style="background:${colorHex}"></div>色粉 ${state.dosage.toFixed(1)}%</div>`);
+    chips.push(`<div class="preview-chip"><div class="chip-dot" style="background:${colorHex}"></div>${t('powder')} ${state.dosage.toFixed(1)}%</div>`);
   }
   Object.entries(state.additives).forEach(([key,pct])=>{
-    chips.push(`<div class="preview-chip"><div class="chip-dot" style="background:var(--purple)"></div>${ADDITIVES[key].icon} ${ADDITIVES[key].name} ${pct}%</div>`);
+    chips.push(`<div class="preview-chip"><div class="chip-dot" style="background:var(--purple)"></div>${ADDITIVES[key].icon} ${adName(key)} ${pct}%</div>`);
   });
   el.innerHTML=chips.join('');
 }
@@ -1136,21 +1421,21 @@ function updateFormulaBar(){
 
   if(state.blend){
     const a=state.blendPct, b=100-a;
-    segs.push({pct:a,color:'#00d4aa',label:MATERIALS[state.material].name});
-    segs.push({pct:b,color:'#3b82f6',label:MATERIALS[state.blend].name});
-    legends.push({color:'#00d4aa',text:`${MATERIALS[state.material].name} ${a}%`});
-    legends.push({color:'#3b82f6',text:`${MATERIALS[state.blend].name} ${b}%`});
+    segs.push({pct:a,color:'#00d4aa',label:matName(state.material)});
+    segs.push({pct:b,color:'#3b82f6',label:matName(state.blend)});
+    legends.push({color:'#00d4aa',text:`${matName(state.material)} ${a}%`});
+    legends.push({color:'#3b82f6',text:`${matName(state.blend)} ${b}%`});
   }else{
-    segs.push({pct:100,color:'#00d4aa',label:MATERIALS[state.material].name});
-    legends.push({color:'#00d4aa',text:`${MATERIALS[state.material].name} 100%`});
+    segs.push({pct:100,color:'#00d4aa',label:matName(state.material)});
+    legends.push({color:'#00d4aa',text:`${matName(state.material)} 100%`});
   }
 
   if(state.colorMethod!=='none'){
-    const methodName='色粉';
+    const methodName=t('powder');
     segs.push({pct:0,color:'#f59e0b',label:methodName,special:true});
     if(state.isMixMode){
       const mixStr=state.colorMix.map(s=>s.color.toUpperCase()+' '+s.ratio+'%').join('+');
-      legends.push({color:state.color,text:`${methodName} ${state.dosage.toFixed(1)}% (混色→${state.color.toUpperCase()} [${mixStr}])`});
+      legends.push({color:state.color,text:`${methodName} ${state.dosage.toFixed(1)}% (${t('mixLabel')}→${state.color.toUpperCase()} [${mixStr}])`});
     }else{
       legends.push({color:'#f59e0b',text:`${methodName} ${state.dosage.toFixed(1)}% (${state.color.toUpperCase()})`});
     }
@@ -1158,8 +1443,8 @@ function updateFormulaBar(){
 
   Object.entries(state.additives).forEach(([key,pct])=>{
     const ad=ADDITIVES[key];
-    segs.push({pct:0,color:'#a855f7',label:ad.name,special:true});
-    legends.push({color:'#a855f7',text:`${ad.icon} ${ad.name} ${pct}%`});
+    segs.push({pct:0,color:'#a855f7',label:adName(key),special:true});
+    legends.push({color:'#a855f7',text:`${ad.icon} ${adName(key)} ${pct}%`});
   });
 
   comp.innerHTML='';
@@ -1191,20 +1476,20 @@ function updateFormulaBar(){
 function getFormulaDescription(){
   let parts=[];
   if(state.blend){
-    parts.push(`${MATERIALS[state.material].name}/${MATERIALS[state.blend].name} ${state.blendPct}/${100-state.blendPct}`);
+    parts.push(`${matName(state.material)}/${matName(state.blend)} ${state.blendPct}/${100-state.blendPct}`);
   }else{
-    parts.push(MATERIALS[state.material].name);
+    parts.push(matName(state.material));
   }
   if(state.colorMethod!=='none'){
     if(state.isMixMode){
       const mixStr=state.colorMix.map(s=>s.color.toUpperCase()+' '+s.ratio+'%').join(' + ');
-      parts.push(`色粉 混色→${state.color.toUpperCase()} [${mixStr}] ${state.dosage.toFixed(1)}%`);
+      parts.push(`${t('powder')} ${t('mixLabel')}→${state.color.toUpperCase()} [${mixStr}] ${state.dosage.toFixed(1)}%`);
     }else{
-      parts.push(`色粉 ${state.color.toUpperCase()} ${state.dosage.toFixed(1)}%`);
+      parts.push(`${t('powder')} ${state.color.toUpperCase()} ${state.dosage.toFixed(1)}%`);
     }
   }
   Object.entries(state.additives).forEach(([key,pct])=>{
-    parts.push(`${ADDITIVES[key].name} ${pct}%`);
+    parts.push(`${adName(key)} ${pct}%`);
   });
   return parts.join(' · ');
 }
@@ -1228,11 +1513,11 @@ function updateParamUI(key){
   if(r){
     const [min,max]=r;
     const labels={barrelTemp:'°C',screwSpeed:'RPM',tractionSpeed:'mm/s'};
-    hint.textContent=`推荐: ${min} – ${max} ${labels[key]}`;
-    if(recEl)recEl.textContent=`推荐 ${min}-${max}`;
+    hint.textContent=t('recommended',min,max,labels[key]);
+    if(recEl)recEl.textContent=`${min}-${max}`;
     if(state[key]<min||state[key]>max){
       card.classList.add('warn'); hint.classList.add('warn');
-      hint.textContent=`推荐: ${min} – ${max} ${labels[key]} · 超出范围`;
+      hint.textContent=t('outOfRange',min,max,labels[key]);
     }else{
       card.classList.remove('warn'); hint.classList.remove('warn');
     }
@@ -1241,7 +1526,7 @@ function updateParamUI(key){
 
 function updateAllParams(){
   ['barrelTemp','screwSpeed','tractionSpeed'].forEach(updateParamUI);
-  document.getElementById('currentMatBadge').textContent=MATERIALS[state.material].name;
+  document.getElementById('currentMatBadge').textContent=matName(state.material);
 }
 
 // Reset param to recommended (formula-calculated) value
@@ -1267,27 +1552,27 @@ function resetParam(key){
   });
   state[key]=val;
   updateParamUI(key); updateSummary();
-  showToast(`已重置到推荐值: ${val}`,'success');
+  showToast(t('resetDone',val),'success');
   markDirty();
 }
 
 function updateSummary(){
   const m=MATERIALS[state.material];
-  let s=`<b>${m.name}`;
-  if(state.blend) s+=`+${MATERIALS[state.blend].name}`;
+  let s=`<b>${matName(state.material)}`;
+  if(state.blend) s+=`+${matName(state.blend)}`;
   s+=`</b>`;
-  if(isTransparent()) s+=` · 透明`;
+  if(isTransparent()) s+=` · ${t('transparent')}`;
   if(state.colorMethod!=='none'){
     s+=` · `;
     if(state.isMixMode){
-      s+=`混色→${state.color.toUpperCase()}`;
+      s+=`${t('mixLabel')}→${state.color.toUpperCase()}`;
     }else{
       s+=state.color.toUpperCase();
     }
   }
   s+=` · ${state.barrelTemp}°C · ${state.screwSpeed} RPM · ${state.tractionSpeed} mm/s`;
   const addKeys=Object.keys(state.additives);
-  if(addKeys.length) s+=` · 添加剂: ${addKeys.map(k=>ADDITIVES[k].name).join(',')}`;
+  if(addKeys.length) s+=` · ${t('additivesLabel')}: ${addKeys.map(k=>adName(k)).join(',')}`;
   document.getElementById('summaryText').innerHTML=s;
 }
 
@@ -1297,12 +1582,12 @@ function saveUserRecipes(o){try{localStorage.setItem('filaforge_recipes',JSON.st
 
 function loadRecipeSelect(){
   const sel=document.getElementById('recipeSelect');
-  sel.innerHTML='<option value="">— 选择配方 —</option>';
-  const g1=document.createElement('optgroup');g1.label='出厂配方';
-  Object.keys(BUILTIN_RECIPES).forEach(n=>{const o=document.createElement('option');o.value='b:'+n;o.textContent=n;g1.appendChild(o);});
+  sel.innerHTML='<option value="">'+t('selectRecipe')+'</option>';
+  const g1=document.createElement('optgroup');g1.label=t('builtinRecipes');
+  Object.keys(BUILTIN_RECIPES).forEach(n=>{const o=document.createElement('option');o.value='b:'+n;o.textContent=recipeName(n);g1.appendChild(o);});
   sel.appendChild(g1);
   const user=getUserRecipes();const uk=Object.keys(user);
-  if(uk.length){const g2=document.createElement('optgroup');g2.label='我的配方';
+  if(uk.length){const g2=document.createElement('optgroup');g2.label=t('myRecipes');
     uk.forEach(n=>{const o=document.createElement('option');o.value='u:'+n;o.textContent=n;g2.appendChild(o);});sel.appendChild(g2);}
 }
 
@@ -1310,22 +1595,23 @@ function renderRecipeGrid(){
   const grid=document.getElementById('recipeGrid');grid.innerHTML='';let count=0;
   Object.entries(BUILTIN_RECIPES).forEach(([name,r])=>{grid.appendChild(makeRecipeCard(name,r,true));count++;});
   Object.entries(getUserRecipes()).forEach(([name,r])=>{grid.appendChild(makeRecipeCard(name,r,false));count++;});
-  document.getElementById('recipeCount').textContent=count+' 个配方';
+  document.getElementById('recipeCount').textContent=t('recipeCount',count);
 }
 
 function makeRecipeCard(name,r,builtin){
   const card=document.createElement('div');
   card.className='recipe-card';
   let tags=[];
-  if(r.colorMethod&&r.colorMethod!=='none') tags.push(`<span class="recipe-tag color">色粉</span>`);
-  if(r.additives&&Object.keys(r.additives).length) tags.push(`<span class="recipe-tag additive">+${Object.keys(r.additives).length}添加剂</span>`);
+  if(r.colorMethod&&r.colorMethod!=='none') tags.push(`<span class="recipe-tag color">${t('powder')}</span>`);
+  if(r.additives&&Object.keys(r.additives).length) tags.push(`<span class="recipe-tag additive">${t('additiveCountStr',Object.keys(r.additives).length)}</span>`);
   let matText=r.material;
   if(r.blend) matText+=`+${r.blend}`;
+  const displayName=builtin?recipeName(name):name;
   card.innerHTML=`
-    ${builtin?'<span class="recipe-card-builtin">出厂</span>':''}
+    ${builtin?'<span class="recipe-card-builtin">'+t('builtin')+'</span>':''}
     <div class="recipe-card-top">
       <div class="recipe-card-color" style="background:${r.colorMethod==='none'?'var(--surface-3)':r.color}"></div>
-      <div class="recipe-card-name">${name}</div>
+      <div class="recipe-card-name">${displayName}</div>
     </div>
     <div class="recipe-card-tags">${tags.join('')}</div>
     <div class="recipe-card-params">
@@ -1334,7 +1620,7 @@ function makeRecipeCard(name,r,builtin){
       <span class="recipe-card-param">${r.screw} RPM</span>
       <span class="recipe-card-param">${r.traction} mm/s</span>
     </div>`;
-  card.onclick=()=>{applyRecipe(r);showToast(`已加载: ${name}`,'success');clearDirty();};
+  card.onclick=()=>{applyRecipe(r);showToast(t('recipeLoaded',displayName),'success');clearDirty();};
   return card;
 }
 
@@ -1360,11 +1646,13 @@ function applyRecipe(r){
 
 function loadRecipe(){
   const val=document.getElementById('recipeSelect').value;
-  if(!val){showToast('请先选择配方','error');return;}
+  if(!val){showToast(t('pleaseSelectRecipe'),'error');return;}
   const [type,name]=val.split(':');
   const r=type==='b'?BUILTIN_RECIPES[name]:getUserRecipes()[name];
-  if(!r){showToast('配方不存在','error');return;}
-  applyRecipe(r);showToast(`已加载: ${name}`,'success');clearDirty();
+  if(!r){showToast(t('recipeNotFound'),'error');return;}
+  applyRecipe(r);
+  const displayName=type==='b'?recipeName(name):name;
+  showToast(t('recipeLoaded',displayName),'success');clearDirty();
 }
 
 function openSaveModal(){document.getElementById('recipeName').value='';document.getElementById('saveModal').classList.add('show');setTimeout(()=>document.getElementById('recipeName').focus(),100);}
@@ -1372,35 +1660,35 @@ function closeSaveModal(){document.getElementById('saveModal').classList.remove(
 
 function saveRecipe(){
   const name=document.getElementById('recipeName').value.trim();
-  if(!name){showToast('请输入配方名称','error');return;}
+  if(!name){showToast(t('pleaseEnterName'),'error');return;}
   const recipes=getUserRecipes();
   recipes[name]={...state};
   saveUserRecipes(recipes);loadRecipeSelect();renderRecipeGrid();closeSaveModal();
-  showToast(`配方 "${name}" 已保存`,'success');
+  showToast(t('recipeSaved',name),'success');
   clearDirty();
 }
 
 function deleteRecipe(){
   const val=document.getElementById('recipeSelect').value;
-  if(!val){showToast('请先选择配方','error');return;}
+  if(!val){showToast(t('pleaseSelectRecipe'),'error');return;}
   const [type,name]=val.split(':');
-  if(type==='b'){showToast('出厂配方不可删除','error');return;}
+  if(type==='b'){showToast(t('builtinNoDelete'),'error');return;}
   const recipes=getUserRecipes();delete recipes[name];saveUserRecipes(recipes);
-  loadRecipeSelect();renderRecipeGrid();showToast(`配方 "${name}" 已删除`,'success');
+  loadRecipeSelect();renderRecipeGrid();showToast(t('recipeDeleted',name),'success');
 }
 
 // ===== Import / Export =====
 function buildJSON(){
   return JSON.stringify({
-    material:MATERIALS[state.material].name,
-    blend:state.blend?MATERIALS[state.blend].name:null,
+    material:matName(state.material),
+    blend:state.blend?matName(state.blend):null,
     blendPct:state.blend?state.blendPct:null,
     colorMethod:state.colorMethod,
     color:state.color.toUpperCase(),
     isMixMode:state.isMixMode,
     colorMix:state.isMixMode?state.colorMix.map(s=>({color:s.color.toUpperCase(),ratio:s.ratio})):undefined,
     dosage:state.dosage,
-    additives:Object.fromEntries(Object.entries(state.additives).map(([k,v])=>[ADDITIVES[k].name,v])),
+    additives:Object.fromEntries(Object.entries(state.additives).map(([k,v])=>[adName(k),v])),
     parameters:{barrel_temperature:state.barrelTemp,screw_speed:state.screwSpeed,traction_speed:state.tractionSpeed},
     units:{barrel_temperature:'°C',screw_speed:'RPM',traction_speed:'mm/s'},
     timestamp:new Date().toISOString(),
@@ -1409,27 +1697,27 @@ function buildJSON(){
 
 function buildText(){
   const m=MATERIALS[state.material];
-  let txt=`╔═══════════════════════════╗\n║    FilaForge 配方卡       ║\n╚═══════════════════════════╝\n\n`;
-  txt+=`  材料:     ${m.name}`;
-  if(state.blend) txt+=` + ${MATERIALS[state.blend].name} (${state.blendPct}/${100-state.blendPct})`;
-  txt+=`\n  颜色:     `;
+  let txt=`╔═══════════════════════════╗\n║    FilaForge ${t('recipeCard')}      ║\n╚═══════════════════════════╝\n\n`;
+  txt+=`  ${t('material')}:     ${matName(state.material)}`;
+  if(state.blend) txt+=` + ${matName(state.blend)} (${state.blendPct}/${100-state.blendPct})`;
+  txt+=`\n  ${t('colorLabel')}:     `;
   if(state.colorMethod==='none'){
-    txt+=`自然色`;
+    txt+=t('naturalColor');
   }else if(state.isMixMode){
     const mixStr=state.colorMix.map(s=>`${s.color.toUpperCase()}(${s.ratio}%)`).join(' + ');
-    txt+=`混色 → ${state.color.toUpperCase()} [${mixStr}] (色粉 ${state.dosage.toFixed(1)}%)`;
+    txt+=`${t('mixLabel')} → ${state.color.toUpperCase()} [${mixStr}] (${t('powder')} ${state.dosage.toFixed(1)}%)`;
   }else{
-    txt+=`${state.color.toUpperCase()} (色粉 ${state.dosage.toFixed(1)}%)`;
+    txt+=`${state.color.toUpperCase()} (${t('powder')} ${state.dosage.toFixed(1)}%)`;
   }
   txt+=`\n`;
-  txt+=`  日期:     ${new Date().toLocaleString('zh-CN')}\n`;
+  txt+=`  ${t('dateLabel')}:     ${new Date().toLocaleString(currentLang==='zh'?'zh-CN':'en-US')}\n`;
   const addKeys=Object.keys(state.additives);
   if(addKeys.length){
-    txt+=`\n  ──── 添加剂 ────\n`;
-    addKeys.forEach(k=>{txt+=`  ${ADDITIVES[k].icon} ${ADDITIVES[k].name}: ${state.additives[k]}%\n`;});
+    txt+=`\n  ──── ${t('additivesSection')} ────\n`;
+    addKeys.forEach(k=>{txt+=`  ${ADDITIVES[k].icon} ${adName(k)}: ${state.additives[k]}%\n`;});
   }
-  txt+=`\n  ──── 挤出参数 ────\n`;
-  txt+=`  料桶温度:  ${state.barrelTemp} °C\n  螺杆速度:  ${state.screwSpeed} RPM\n  牵引速度:  ${state.tractionSpeed} mm/s\n`;
+  txt+=`\n  ──── ${t('extrusionParamsLabel')} ────\n`;
+  txt+=`  ${t('barrelTempLabel')}:  ${state.barrelTemp} °C\n  ${t('screwSpeedLabel')}:  ${state.screwSpeed} RPM\n  ${t('tractionSpeedLabel')}:  ${state.tractionSpeed} mm/s\n`;
   txt+=`═══════════════════════════`;
   return txt;
 }
@@ -1438,21 +1726,21 @@ function openExport(type){
   const title=document.getElementById('exportTitle');
   const sub=document.getElementById('exportSub');
   const box=document.getElementById('exportBox');
-  if(type==='json'){title.textContent='导出 JSON';sub.textContent='结构化数据，可用于设备导入或配方分享';exportContent=buildJSON();}
-  else{title.textContent='导出摘要';sub.textContent='文本格式配方卡';exportContent=buildText();}
+  if(type==='json'){title.textContent=t('exportJSON');sub.textContent=t('exportJSONDesc');exportContent=buildJSON();}
+  else{title.textContent=t('exportSummary');sub.textContent=t('exportSummaryDesc');exportContent=buildText();}
   box.textContent=exportContent;
   document.getElementById('exportModal').classList.add('show');
 }
 function closeExport(){document.getElementById('exportModal').classList.remove('show');}
-function copyExport(){navigator.clipboard.writeText(exportContent).then(()=>showToast('已复制到剪贴板','success')).catch(()=>showToast('复制失败','error'));}
-function copySummary(){navigator.clipboard.writeText(buildText()).then(()=>showToast('配方已复制','success')).catch(()=>showToast('复制失败','error'));}
+function copyExport(){navigator.clipboard.writeText(exportContent).then(()=>showToast(t('copied'),'success')).catch(()=>showToast(t('copyFailed'),'error'));}
+function copySummary(){navigator.clipboard.writeText(buildText()).then(()=>showToast(t('recipeCopied'),'success')).catch(()=>showToast(t('copyFailed'),'error'));}
 function downloadExport(){
   const blob=new Blob([exportContent],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
   a.href=url;a.download='filaforge-recipe-'+Date.now()+'.json';a.click();
   URL.revokeObjectURL(url);
-  showToast('文件已下载','success');
+  showToast(t('fileDownloaded'),'success');
 }
 
 // Import
@@ -1478,7 +1766,7 @@ function handleFileImport(event){
       document.getElementById('importPreview').style.display='block';
       document.getElementById('importConfirmBtn').disabled=false;
     }catch(err){
-      showToast('文件格式无效','error');
+      showToast(t('invalidFormat'),'error');
       importData=null;
       document.getElementById('importPreview').style.display='none';
       document.getElementById('importConfirmBtn').disabled=true;
@@ -1488,13 +1776,14 @@ function handleFileImport(event){
 }
 
 function confirmImport(){
-  if(!importData){showToast('无导入数据','error');return;}
-  const matKey=Object.keys(MATERIALS).find(k=>MATERIALS[k].name===importData.material)||'PLA';
-  const blendKey=importData.blend?Object.keys(MATERIALS).find(k=>MATERIALS[k].name===importData.blend):null;
+  if(!importData){showToast(t('noImportData'),'error');return;}
+  // Try to find material by name (check both zh and en names)
+  const matKey=Object.keys(MATERIALS).find(k=>MATERIALS[k].name===importData.material||MATERIALS[k].nameEn===importData.material)||'PLA';
+  const blendKey=importData.blend?Object.keys(MATERIALS).find(k=>MATERIALS[k].name===importData.blend||MATERIALS[k].nameEn===importData.blend):null;
   const additives={};
   if(importData.additives){
     Object.entries(importData.additives).forEach(([name,pct])=>{
-      const key=Object.keys(ADDITIVES).find(k=>ADDITIVES[k].name===name);
+      const key=Object.keys(ADDITIVES).find(k=>ADDITIVES[k].name===name||ADDITIVES[k].nameEn===name);
       if(key) additives[key]=pct;
     });
   }
@@ -1506,11 +1795,11 @@ function confirmImport(){
     additives,barrel:importData.parameters?.barrel_temperature||180,
     screw:importData.parameters?.screw_speed||30,traction:importData.parameters?.traction_speed||35,
   };
-  const name='导入配方 '+new Date().toLocaleTimeString('zh-CN').slice(0,5);
+  const name=(currentLang==='zh'?'导入配方':'Imported Recipe')+' '+new Date().toLocaleTimeString(currentLang==='zh'?'zh-CN':'en-US').slice(0,5);
   const recipes=getUserRecipes();recipes[name]=recipe;saveUserRecipes(recipes);
   loadRecipeSelect();renderRecipeGrid();closeImportModal();
   applyRecipe(recipe);
-  showToast(`配方已导入`,'success');
+  showToast(t('recipeImported'),'success');
   clearDirty();
 }
 
