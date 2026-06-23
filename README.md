@@ -77,6 +77,14 @@ No build step required — it's a single `index.html` file.
 
 ---
 
+## Join the Community
+
+**Facebook Group**: [Desktop Recycling Pioneers](https://www.facebook.com/share/g/17jKuq8PvA/)
+
+Connect with other filament makers, share your results, ask questions, and collaborate on new recipes. Whether you're a beginner with your first extrusion machine or an experienced producer, you're welcome to join!
+
+---
+
 ## Join the Recipe Community
 
 **Bought a filament extrusion line? We want you!**
@@ -87,6 +95,7 @@ Filashop is built for makers and small-scale filament producers. If you own a pe
 1. **Use Filashop** to record your production parameters — material blend, color ratios, barrel temperature, screw speed, traction speed
 2. **Export your recipe** as JSON using the in-app export button
 3. **Share it back** — submit a Pull Request with your recipe JSON, or open an Issue with the recipe details
+4. **Join our Facebook group** [Desktop Recycling Pioneers](https://www.facebook.com/share/g/17jKuq8PvA/) to discuss recipes and connect with other makers
 
 ### What We're Looking For
 - Proven recipes you've actually extruded successfully
