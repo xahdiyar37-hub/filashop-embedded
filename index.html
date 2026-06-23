@@ -445,7 +445,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
         <div class="color-method-row">
           <div class="color-method-btn active" onclick="setColorMethod('none')">无</div>
           <div class="color-method-btn" onclick="setColorMethod('powder')">色粉</div>
-          <div class="color-method-btn" onclick="setColorMethod('oil')">扩散油</div>
         </div>
 
         <div id="colorPickerArea" style="display:none;">
@@ -633,10 +632,10 @@ const ADDITIVES = {
 const BUILTIN_RECIPES = {
   'PLA 白色 标准':{material:'PLA',blend:null,blendPct:0,colorMethod:'powder',color:'#FFFFFF',dosage:1.0,additives:{},barrel:210,screw:12,traction:35},
   'PLA 透明 自然色':{material:'PLA-T',blend:null,blendPct:0,colorMethod:'none',color:'#E8F4F8',dosage:0,additives:{},barrel:185,screw:28,traction:33},
-  'PLA 透明 烟灰色':{material:'PLA-T',blend:null,blendPct:0,colorMethod:'oil',color:'#A0A0A0',dosage:0.3,additives:{},barrel:185,screw:28,traction:33},
+  'PLA 透明 烟灰色':{material:'PLA-T',blend:null,blendPct:0,colorMethod:'powder',color:'#A0A0A0',dosage:0.3,additives:{},barrel:185,screw:28,traction:33},
   'PLA+碳纤维 黑色 高强度':{material:'PLA',blend:null,blendPct:0,colorMethod:'powder',color:'#1A1A1A',dosage:1.5,additives:{carbonFiber:12},barrel:215,screw:10,traction:33},
   'PLA+咖啡渣 棕色 质感':{material:'PLA',blend:null,blendPct:0,colorMethod:'powder',color:'#8B4513',dosage:1.0,additives:{coffeeGrounds:10},barrel:205,screw:12,traction:32},
-  'PETG 透明 标准':{material:'PETG',blend:null,blendPct:0,colorMethod:'oil',color:'#00B4D8',dosage:0.5,additives:{},barrel:220,screw:10,traction:30},
+  'PETG 透明 标准':{material:'PETG',blend:null,blendPct:0,colorMethod:'powder',color:'#00B4D8',dosage:0.5,additives:{},barrel:220,screw:10,traction:30},
   'PLA+PETG 混合 银色':{material:'PLA',blend:'PETG',blendPct:70,colorMethod:'powder',color:'#A0A0A0',dosage:1.0,additives:{metalPowder:8},barrel:213,screw:11,traction:33},
 };
 
@@ -797,11 +796,11 @@ function updateParamByFormula(){
 function setColorMethod(method){
   state.colorMethod=method;
   document.querySelectorAll('.color-method-btn').forEach((b,i)=>{
-    const methods=['none','powder','oil'];
+    const methods=['none','powder'];
     b.classList.toggle('active',methods[i]===method);
   });
   document.getElementById('colorPickerArea').style.display=method==='none'?'none':'block';
-  document.getElementById('dosageLabel').textContent=method==='powder'?'色粉':'扩散油';
+  document.getElementById('dosageLabel').textContent='色粉';
   if(method!=='none'&&state.isMixMode)updateMixedColor();
   updateFormulaBar(); updateSummary(); updatePreviewOverlay();
   markDirty();
@@ -1119,7 +1118,7 @@ function updatePreviewOverlay(){
   chips.push(`<div class="preview-chip"><div class="chip-dot" style="background:var(--accent)"></div>${matName}</div>`);
   if(state.colorMethod!=='none'){
     const colorHex=state.isMixMode?state.color:state.color;
-    chips.push(`<div class="preview-chip"><div class="chip-dot" style="background:${colorHex}"></div>${state.colorMethod==='powder'?'色粉':'扩散油'} ${state.dosage.toFixed(1)}%</div>`);
+    chips.push(`<div class="preview-chip"><div class="chip-dot" style="background:${colorHex}"></div>色粉 ${state.dosage.toFixed(1)}%</div>`);
   }
   Object.entries(state.additives).forEach(([key,pct])=>{
     chips.push(`<div class="preview-chip"><div class="chip-dot" style="background:var(--purple)"></div>${ADDITIVES[key].icon} ${ADDITIVES[key].name} ${pct}%</div>`);
@@ -1147,7 +1146,7 @@ function updateFormulaBar(){
   }
 
   if(state.colorMethod!=='none'){
-    const methodName=state.colorMethod==='powder'?'色粉':'扩散油';
+    const methodName='色粉';
     segs.push({pct:0,color:'#f59e0b',label:methodName,special:true});
     if(state.isMixMode){
       const mixStr=state.colorMix.map(s=>s.color.toUpperCase()+' '+s.ratio+'%').join('+');
@@ -1199,9 +1198,9 @@ function getFormulaDescription(){
   if(state.colorMethod!=='none'){
     if(state.isMixMode){
       const mixStr=state.colorMix.map(s=>s.color.toUpperCase()+' '+s.ratio+'%').join(' + ');
-      parts.push(`${state.colorMethod==='powder'?'色粉':'扩散油'} 混色→${state.color.toUpperCase()} [${mixStr}] ${state.dosage.toFixed(1)}%`);
+      parts.push(`色粉 混色→${state.color.toUpperCase()} [${mixStr}] ${state.dosage.toFixed(1)}%`);
     }else{
-      parts.push(`${state.colorMethod==='powder'?'色粉':'扩散油'} ${state.color.toUpperCase()} ${state.dosage.toFixed(1)}%`);
+      parts.push(`色粉 ${state.color.toUpperCase()} ${state.dosage.toFixed(1)}%`);
     }
   }
   Object.entries(state.additives).forEach(([key,pct])=>{
@@ -1318,7 +1317,7 @@ function makeRecipeCard(name,r,builtin){
   const card=document.createElement('div');
   card.className='recipe-card';
   let tags=[];
-  if(r.colorMethod&&r.colorMethod!=='none') tags.push(`<span class="recipe-tag color">${r.colorMethod==='powder'?'色粉':'扩散油'}</span>`);
+  if(r.colorMethod&&r.colorMethod!=='none') tags.push(`<span class="recipe-tag color">色粉</span>`);
   if(r.additives&&Object.keys(r.additives).length) tags.push(`<span class="recipe-tag additive">+${Object.keys(r.additives).length}添加剂</span>`);
   let matText=r.material;
   if(r.blend) matText+=`+${r.blend}`;
@@ -1418,9 +1417,9 @@ function buildText(){
     txt+=`自然色`;
   }else if(state.isMixMode){
     const mixStr=state.colorMix.map(s=>`${s.color.toUpperCase()}(${s.ratio}%)`).join(' + ');
-    txt+=`混色 → ${state.color.toUpperCase()} [${mixStr}] (${state.colorMethod==='powder'?'色粉':'扩散油'} ${state.dosage.toFixed(1)}%)`;
+    txt+=`混色 → ${state.color.toUpperCase()} [${mixStr}] (色粉 ${state.dosage.toFixed(1)}%)`;
   }else{
-    txt+=`${state.color.toUpperCase()} (${state.colorMethod==='powder'?'色粉':'扩散油'} ${state.dosage.toFixed(1)}%)`;
+    txt+=`${state.color.toUpperCase()} (色粉 ${state.dosage.toFixed(1)}%)`;
   }
   txt+=`\n`;
   txt+=`  日期:     ${new Date().toLocaleString('zh-CN')}\n`;
