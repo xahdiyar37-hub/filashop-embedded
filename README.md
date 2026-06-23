@@ -75,6 +75,16 @@ python3 -m http.server 8000
 
 No build step required — it's a single `index.html` file.
 
+## Embedded / Offline Version
+
+Need to run Filashop on an embedded touchscreen (Raspberry Pi kiosk, industrial panel, Android tablet) **without internet**?
+
+Check out **[Filashop Embedded](https://github.com/xahdiyar37-hub/filashop-embedded)** — a fully offline, touch-optimized edition with:
+- Three.js bundled locally (no CDN)
+- 44px touch targets, no-zoom viewport, gesture-optimized controls
+- Auto low-end device detection (reduces texture/shadow quality on weak hardware)
+- Kiosk mode deployment guides for Raspberry Pi, Android, Windows, and industrial panels
+
 ---
 
 ## Join the Community
