@@ -20,228 +20,285 @@
 html,body{height:100%;overflow:hidden}
 body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
 
-/* Layout */
+/* ===== Layout ===== */
 .app{display:flex;flex-direction:column;height:100vh}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:56px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:52px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;gap:16px}
 .topbar-brand{display:flex;align-items:center;gap:10px}
-.topbar-brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent-glow)}
-.topbar-brand span{font-size:16px;font-weight:600;letter-spacing:.3px}
-.topbar-meta{display:flex;align-items:center;gap:16px}
-.topbar-status{font-size:12px;color:var(--text-2);display:flex;align-items:center;gap:6px}
-.topbar-status .pulse{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.topbar-brand .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent-glow)}
+.topbar-brand span{font-size:15px;font-weight:600;letter-spacing:.3px}
+.topbar-sub{font-size:11px;color:var(--text-3)}
+.topbar-actions{display:flex;align-items:center;gap:8px}
+.dirty-badge{font-size:11px;color:var(--orange);padding:3px 10px;border-radius:12px;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);display:none;align-items:center;gap:4px}
+.dirty-badge.show{display:flex}
 
 .body-area{display:flex;flex:1;overflow:hidden}
 
-/* Sidebar */
-.sidebar{width:360px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
-.sidebar-tabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0}
-.sidebar-tab{flex:1;padding:14px 0;text-align:center;font-size:13px;font-weight:500;color:var(--text-3);cursor:pointer;transition:var(--transition);border-bottom:2px solid transparent}
-.sidebar-tab:hover{color:var(--text-2)}
-.sidebar-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
-.sidebar-content{flex:1;overflow-y:auto}
+/* ===== Left Sidebar — Materials ===== */
+.sidebar-left{width:260px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto}
+.sidebar-right{width:290px;flex-shrink:0;background:var(--surface);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto}
 
-.tab-panel{display:none;padding:20px 24px}
-.tab-panel.active{display:block}
+.section{padding:16px 18px;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--text-3);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.section-title .section-count{font-size:10px;color:var(--text-3);font-weight:400;text-transform:none;letter-spacing:0}
 
-.sidebar-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-3);margin-bottom:14px}
-
-/* Material blend */
-.material-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:20px}
-.material-card{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 10px;cursor:pointer;transition:var(--transition);text-align:center;position:relative;overflow:hidden}
+/* Material cards */
+.material-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.material-card{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:10px 8px;cursor:pointer;transition:var(--transition);text-align:center;position:relative;overflow:hidden}
 .material-card:hover{background:var(--surface-3);border-color:var(--border-strong)}
 .material-card.active{background:var(--accent-glow);border-color:var(--accent)}
 .material-card.active::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent)}
-.material-card .mat-name{font-size:13px;font-weight:600}
-.material-card .mat-temp{font-size:10px;color:var(--text-3);margin-top:2px}
+.material-card .mat-name{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.material-card .mat-temp{font-size:9px;color:var(--text-3);margin-top:2px}
+.material-card .mat-badge{position:absolute;top:4px;right:4px;font-size:8px;color:var(--accent);font-weight:600}
+.material-card.frozen{opacity:0.4;cursor:not-allowed;position:relative}
+.material-card.frozen .mat-name{color:var(--text-3)}
+.material-card.frozen .mat-temp{color:var(--accent);font-weight:500}
+.material-card .frozen-lock{position:absolute;top:4px;right:4px;font-size:10px}
 
-/* Blend slider */
-.blend-section{margin-top:16px}
-.blend-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.blend-label{font-size:12px;color:var(--text-2);min-width:60px}
-.blend-bar{flex:1;height:8px;background:var(--surface-3);border-radius:4px;overflow:hidden;display:flex}
+/* Blend */
+.blend-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.blend-label{font-size:11px;color:var(--text-2);min-width:50px}
+.blend-bar{flex:1;height:6px;background:var(--surface-3);border-radius:3px;overflow:hidden;display:flex}
 .blend-fill-a{background:var(--accent);transition:width .3s}
 .blend-fill-b{background:var(--blue);transition:width .3s}
-.blend-pct{font-size:12px;font-weight:600;min-width:36px;text-align:right}
-.blend-slider{width:100%;-webkit-appearance:none;appearance:none;height:4px;background:var(--surface-3);border-radius:2px;outline:none;cursor:pointer;margin-top:4px}
-.blend-slider::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid var(--bg)}
-.blend-slider::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid var(--bg)}
+.blend-pct{font-size:11px;font-weight:600;min-width:32px;text-align:right}
+.blend-slider{width:100%;-webkit-appearance:none;appearance:none;height:3px;background:var(--surface-3);border-radius:2px;outline:none;cursor:pointer;margin-top:6px}
+.blend-slider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid var(--bg)}
+.blend-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid var(--bg)}
 
-/* Color section */
-.color-method-row{display:flex;gap:6px;margin-bottom:16px}
-.color-method-btn{flex:1;padding:10px 6px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-xs);color:var(--text-2);font-size:12px;font-weight:500;cursor:pointer;transition:var(--transition);text-align:center}
-.color-method-btn:hover{background:var(--surface-3)}
-.color-method-btn.active{background:var(--accent-glow);border-color:var(--accent);color:var(--accent)}
+/* ===== Center Area — 3D + Params ===== */
+.center-area{flex:1;display:flex;flex-direction:column;overflow:hidden}
 
-.color-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:5px;margin-bottom:14px}
-.color-dot{aspect-ratio:1;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:var(--transition)}
-.color-dot:hover{transform:scale(1.15)}
-.color-dot.active{border-color:#fff;box-shadow:0 0 0 2px var(--accent),0 0 12px rgba(0,0,0,.3)}
-
-.color-custom-row{display:flex;gap:8px;align-items:center;margin-bottom:14px}
-.color-custom-row input[type=color]{width:40px;height:36px;border:none;border-radius:var(--radius-xs);cursor:pointer;background:none}
-.color-custom-row input[type=color]::-webkit-color-swatch-wrapper{padding:0}
-.color-custom-row input[type=color]::-webkit-color-swatch{border:1px solid var(--border-strong);border-radius:var(--radius-xs)}
-.color-hex-input{flex:1;background:var(--surface-2);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:var(--radius-xs);font-family:'SF Mono','Fira Code',monospace;font-size:13px;outline:none}
-.color-hex-input:focus{border-color:var(--accent)}
-
-.dosage-row{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.dosage-label{font-size:12px;color:var(--text-2);min-width:50px}
-.dosage-slider{flex:1;-webkit-appearance:none;appearance:none;height:4px;background:var(--surface-3);border-radius:2px;outline:none;cursor:pointer}
-.dosage-slider::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--orange);cursor:pointer;border:2px solid var(--bg)}
-.dosage-slider::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--orange);cursor:pointer;border:2px solid var(--bg)}
-.dosage-val{font-size:13px;font-weight:600;min-width:42px;text-align:right}
-
-.recent-row{display:flex;gap:5px;flex-wrap:wrap}
-.recent-dot{width:24px;height:24px;border-radius:50%;cursor:pointer;border:1px solid var(--border);transition:var(--transition)}
-.recent-dot:hover{transform:scale(1.12)}
-.recent-empty{font-size:12px;color:var(--text-3)}
-
-/* Additives */
-.additive-list{display:flex;flex-direction:column;gap:10px}
-.additive-item{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;transition:var(--transition)}
-.additive-item.active{border-color:var(--border-strong);background:var(--surface-3)}
-.additive-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.additive-info{display:flex;align-items:center;gap:10px}
-.additive-icon{font-size:18px}
-.additive-name{font-size:13px;font-weight:600}
-.additive-desc{font-size:11px;color:var(--text-3)}
-.additive-toggle{width:40px;height:22px;background:var(--surface-3);border-radius:11px;cursor:pointer;position:relative;transition:var(--transition);flex-shrink:0}
-.additive-toggle.on{background:var(--accent)}
-.additive-toggle::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:var(--transition)}
-.additive-toggle.on::after{transform:translateX(18px)}
-.additive-control{display:none;margin-top:10px}
-.additive-item.active .additive-control{display:block}
-.additive-pct-row{display:flex;align-items:center;gap:10px}
-.additive-pct-slider{flex:1;-webkit-appearance:none;appearance:none;height:4px;background:var(--surface-3);border-radius:2px;outline:none;cursor:pointer}
-.additive-pct-slider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--purple);cursor:pointer;border:2px solid var(--bg)}
-.additive-pct-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--purple);cursor:pointer;border:2px solid var(--bg)}
-.additive-pct-val{font-size:12px;font-weight:600;min-width:36px;text-align:right}
-
-/* Spool 3D preview */
-.pellet-preview{display:flex;justify-content:center;align-items:center;padding:8px 0 4px;min-height:280px;position:relative}
-.pellet-preview canvas{border-radius:12px;cursor:grab}
+/* 3D Preview section */
+.preview-section{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;min-height:0;position:relative;background:radial-gradient(ellipse at 50% 40%,rgba(0,212,170,0.04),transparent 60%)}
+.pellet-preview{display:flex;justify-content:center;align-items:center;flex:1;min-height:0;width:100%;position:relative}
+.pellet-preview canvas{border-radius:12px;cursor:grab;max-width:100%;max-height:100%}
 .pellet-preview canvas:active{cursor:grabbing}
-.spool-hint{font-size:11px;color:var(--text-3);text-align:center;margin-top:2px;letter-spacing:.3px}
-.spool-loading{font-size:12px;color:var(--text-3);padding:60px 0}
+.spool-hint{font-size:10px;color:var(--text-3);text-align:center;letter-spacing:.3px;padding:6px 0 2px}
+.preview-overlay{position:absolute;top:12px;left:16px;display:flex;gap:6px;flex-wrap:wrap;pointer-events:none}
+.preview-chip{font-size:10px;padding:3px 8px;border-radius:10px;background:rgba(21,23,26,.85);border:1px solid var(--border);color:var(--text-2);backdrop-filter:blur(8px);display:flex;align-items:center;gap:4px;white-space:nowrap}
+.preview-chip .chip-dot{width:8px;height:8px;border-radius:50%}
+.preview-tip{position:absolute;bottom:8px;right:16px;font-size:9px;color:var(--text-3);background:rgba(21,23,26,.7);padding:3px 8px;border-radius:8px;backdrop-filter:blur(6px);display:flex;gap:6px;align-items:center;pointer-events:none}
 
-/* Main Area */
-.main-area{flex:1;display:flex;flex-direction:column;overflow:hidden}
+/* Param section */
+.param-section{flex-shrink:0;padding:16px 20px;border-top:1px solid var(--border);background:var(--surface)}
+.param-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.param-header h2{font-size:16px;font-weight:700}
+.material-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:16px;background:var(--accent-glow);color:var(--accent)}
+.formula-desc-inline{font-size:12px;color:var(--text-2);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
-.recipe-bar{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid var(--border);flex-shrink:0}
-.recipe-bar-left{display:flex;align-items:center;gap:12px}
-.recipe-bar-title{font-size:15px;font-weight:600}
-.recipe-bar-sub{font-size:12px;color:var(--text-2)}
-.recipe-bar-actions{display:flex;gap:8px;align-items:center}
+/* Formula bar — compact */
+.formula-bar{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:14px}
+.formula-bar-title{font-size:10px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.formula-composition{display:flex;gap:2px;height:18px;border-radius:5px;overflow:hidden;margin-bottom:8px}
+.formula-seg{display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:rgba(255,255,255,.9);transition:var(--transition);overflow:hidden;white-space:nowrap}
+.formula-legend{display:flex;flex-wrap:wrap;gap:8px}
+.formula-legend-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text-2)}
+.formula-legend-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
 
-.select-styled{background:var(--surface-2);border:1px solid var(--border);color:var(--text);padding:9px 32px 9px 14px;border-radius:var(--radius-xs);font-size:13px;cursor:pointer;outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238b8f96' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
-.select-styled option{background:var(--surface-2)}
-
-.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:var(--radius-xs);font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--text);transition:var(--transition);white-space:nowrap}
-.btn:hover{background:var(--surface-3)}
-.btn-primary{background:var(--accent);border-color:var(--accent);color:#0c0d0f;font-weight:600}
-.btn-primary:hover{background:#00e6b8;box-shadow:0 0 20px var(--accent-glow)}
-.btn-icon{padding:9px 11px}
-.btn-danger:hover{background:rgba(239,68,68,.12);border-color:var(--danger);color:var(--danger)}
-
-/* Param Area */
-.param-area{flex:1;overflow-y:auto;padding:28px}
-.param-header{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
-.param-header h2{font-size:22px;font-weight:700}
-.material-badge{font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;background:var(--accent-glow);color:var(--accent)}
-.param-subheader{font-size:13px;color:var(--text-2);margin-bottom:24px}
-
-/* Formula composition bar */
-.formula-bar{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 20px;margin-bottom:24px}
-.formula-bar-title{font-size:12px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
-.formula-composition{display:flex;gap:2px;height:24px;border-radius:6px;overflow:hidden;margin-bottom:10px}
-.formula-seg{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(255,255,255,.9);transition:var(--transition);overflow:hidden;white-space:nowrap}
-.formula-legend{display:flex;flex-wrap:wrap;gap:12px}
-.formula-legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-2)}
-.formula-legend-dot{width:10px;height:10px;border-radius:3px}
-
-/* Big param cards */
-.param-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:32px}
-.param-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;position:relative;overflow:hidden;transition:var(--transition)}
-.param-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent);opacity:0;transition:var(--transition)}
+/* Param cards — compact */
+.param-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.param-card{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:14px;position:relative;overflow:hidden;transition:var(--transition)}
+.param-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent);opacity:0;transition:var(--transition)}
 .param-card:hover{border-color:var(--border-strong)}
 .param-card:hover::before{opacity:1}
 .param-card.warn::before{background:var(--warn);opacity:1}
-.param-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.param-card-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;background:var(--surface-3)}
-.param-card-label{font-size:13px;font-weight:500;color:var(--text-2)}
-.param-card-warn{font-size:16px;opacity:0;transition:var(--transition)}
+.param-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.param-card-icon-label{display:flex;align-items:center;gap:8px}
+.param-card-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;background:var(--surface-3)}
+.param-card-label{font-size:12px;font-weight:500;color:var(--text-2)}
+.param-card-warn{font-size:14px;opacity:0;transition:var(--transition)}
 .param-card.warn .param-card-warn{opacity:1}
-.param-value-row{display:flex;align-items:baseline;gap:6px;margin-bottom:20px}
-.param-value{font-size:52px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-1px}
-.param-unit{font-size:18px;color:var(--text-3);font-weight:500}
-.param-slider{width:100%;-webkit-appearance:none;appearance:none;height:4px;background:var(--surface-3);border-radius:2px;outline:none;cursor:pointer}
-.param-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid var(--bg);box-shadow:0 0 0 1px var(--accent),0 2px 8px rgba(0,0,0,.3);transition:var(--transition)}
-.param-slider::-webkit-slider-thumb:hover{transform:scale(1.2)}
-.param-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid var(--bg)}
-.param-slider-marks{display:flex;justify-content:space-between;margin-top:8px}
-.param-slider-marks span{font-size:10px;color:var(--text-3)}
-.param-hint{margin-top:14px;font-size:12px;color:var(--text-3);display:flex;align-items:center;gap:6px}
+.param-reset{width:22px;height:22px;border:none;background:var(--surface-3);border-radius:6px;color:var(--text-3);cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;transition:var(--transition);opacity:0}
+.param-card:hover .param-reset{opacity:1}
+.param-reset:hover{background:var(--accent);color:var(--bg)}
+.param-value-row{display:flex;align-items:baseline;gap:4px;margin-bottom:10px}
+.param-value{font-size:32px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
+.param-unit{font-size:13px;color:var(--text-3);font-weight:500}
+.param-rec{font-size:10px;color:var(--text-3);margin-left:auto}
+.param-slider{width:100%;-webkit-appearance:none;appearance:none;height:3px;background:var(--surface-3);border-radius:2px;outline:none;cursor:pointer}
+.param-slider::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid var(--bg);box-shadow:0 0 0 1px var(--accent),0 2px 6px rgba(0,0,0,.3);transition:var(--transition)}
+.param-slider::-webkit-slider-thumb:hover{transform:scale(1.15)}
+.param-slider::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid var(--bg)}
+.param-slider-marks{display:flex;justify-content:space-between;margin-top:4px}
+.param-slider-marks span{font-size:9px;color:var(--text-3)}
+.param-hint{margin-top:6px;font-size:10px;color:var(--text-3);display:flex;align-items:center;gap:4px}
 .param-hint.warn{color:var(--warn)}
 
-/* Recipe Library */
-.recipe-section{margin-top:8px}
-.recipe-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.recipe-section-header h3{font-size:16px;font-weight:600}
-.recipe-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
-.recipe-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;cursor:pointer;transition:var(--transition);position:relative}
+/* ===== Right Sidebar — Color + Additives ===== */
+/* Color method */
+.color-method-row{display:flex;gap:5px;margin-bottom:12px}
+.color-method-btn{flex:1;padding:8px 4px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--text-2);font-size:11px;font-weight:500;cursor:pointer;transition:var(--transition);text-align:center}
+.color-method-btn:hover{background:var(--surface-3)}
+.color-method-btn.active{background:var(--accent-glow);border-color:var(--accent);color:var(--accent)}
+
+/* Color grid */
+.color-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin-bottom:10px}
+.color-dot{aspect-ratio:1;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:var(--transition)}
+.color-dot:hover{transform:scale(1.15)}
+.color-dot.active{border-color:#fff;box-shadow:0 0 0 2px var(--accent),0 0 10px rgba(0,0,0,.3)}
+.color-custom-row{display:flex;gap:6px;align-items:center;margin-bottom:10px}
+.color-custom-row input[type=color]{width:32px;height:30px;border:none;border-radius:6px;cursor:pointer;background:none}
+.color-custom-row input[type=color]::-webkit-color-swatch-wrapper{padding:0}
+.color-custom-row input[type=color]::-webkit-color-swatch{border:1px solid var(--border-strong);border-radius:6px}
+.color-hex-input{flex:1;background:var(--surface-2);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-family:'SF Mono','Fira Code',monospace;font-size:12px;outline:none}
+.color-hex-input:focus{border-color:var(--accent)}
+
+/* Dosage */
+.dosage-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.dosage-label{font-size:11px;color:var(--text-2);min-width:40px}
+.dosage-slider{flex:1;-webkit-appearance:none;appearance:none;height:3px;background:var(--surface-3);border-radius:2px;outline:none;cursor:pointer}
+.dosage-slider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--orange);cursor:pointer;border:2px solid var(--bg)}
+.dosage-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--orange);cursor:pointer;border:2px solid var(--bg)}
+.dosage-val{font-size:12px;font-weight:600;min-width:38px;text-align:right}
+
+/* Recent colors */
+.recent-row{display:flex;gap:4px;flex-wrap:wrap}
+.recent-dot{width:20px;height:20px;border-radius:50%;cursor:pointer;border:1px solid var(--border);transition:var(--transition)}
+.recent-dot:hover{transform:scale(1.12)}
+.recent-empty{font-size:11px;color:var(--text-3)}
+
+/* Mix Mode */
+.mix-mode-row{display:flex;gap:5px;margin-bottom:12px}
+.mix-mode-btn{flex:1;padding:7px 4px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--text-2);font-size:11px;font-weight:500;cursor:pointer;transition:var(--transition);text-align:center}
+.mix-mode-btn:hover{background:var(--surface-3)}
+.mix-mode-btn.active{background:var(--accent-glow);border-color:var(--accent);color:var(--accent)}
+.mix-slot{background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:8px;margin-bottom:6px}
+.mix-slot-top{display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.mix-slot-color{width:28px;height:28px;border:none;border-radius:6px;cursor:pointer;background:none;flex-shrink:0}
+.mix-slot-color::-webkit-color-swatch-wrapper{padding:0}
+.mix-slot-color::-webkit-color-swatch{border:1px solid var(--border-strong);border-radius:6px}
+.mix-slot-hex{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:5px 7px;font-size:11px;font-family:monospace;outline:none;width:100%}
+.mix-slot-hex:focus{border-color:var(--accent)}
+.mix-slot-remove{width:22px;height:22px;border:none;background:var(--surface-3);border-radius:6px;color:var(--text-2);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:var(--transition)}
+.mix-slot-remove:hover{background:var(--danger);color:#fff}
+.mix-slot-ratio{display:flex;align-items:center;gap:6px}
+.mix-slot-ratio-slider{flex:1;-webkit-appearance:none;appearance:none;height:3px;background:var(--surface-3);border-radius:2px;outline:none;cursor:pointer}
+.mix-slot-ratio-slider::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid var(--bg)}
+.mix-slot-ratio-slider::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid var(--bg)}
+.mix-slot-ratio-val{font-size:11px;font-weight:600;min-width:32px;text-align:right;color:var(--text)}
+.mix-add-btn{width:100%;padding:8px;background:transparent;border:1px dashed var(--border-strong);border-radius:6px;color:var(--text-2);font-size:11px;cursor:pointer;transition:var(--transition);margin-bottom:10px}
+.mix-add-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-glow)}
+.mix-preview{background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:10px;margin-bottom:6px}
+.mix-preview-label{font-size:10px;color:var(--text-2);margin-bottom:6px;letter-spacing:.3px}
+.mix-preview-row{display:flex;align-items:center;gap:8px}
+.mix-preview-swatch{width:36px;height:36px;border-radius:6px;border:1px solid var(--border-strong);box-shadow:0 2px 6px rgba(0,0,0,.3);flex-shrink:0}
+.mix-preview-info{flex:1;min-width:0}
+.mix-preview-hex{font-size:13px;font-weight:600;font-family:monospace;letter-spacing:.5px}
+.mix-preview-rgb{font-size:10px;color:var(--text-3);margin-top:1px}
+.mix-colors-display{display:flex;gap:3px;margin-top:6px}
+.mix-color-chip{height:5px;border-radius:3px}
+
+/* Additives */
+.additive-list{display:flex;flex-direction:column;gap:8px}
+.additive-list.frozen .additive-item{opacity:0.4;cursor:not-allowed;pointer-events:none}
+.additive-list.frozen .additive-item .additive-toggle{opacity:0.3}
+.additive-frozen-banner{text-align:center;padding:12px 8px;font-size:11px;color:var(--text-3);border:1px dashed var(--border);border-radius:8px}
+.additive-item{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:10px;transition:var(--transition)}
+.additive-item.active{border-color:var(--border-strong);background:var(--surface-3)}
+.additive-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.additive-info{display:flex;align-items:center;gap:8px;min-width:0}
+.additive-icon{font-size:16px;flex-shrink:0}
+.additive-name{font-size:12px;font-weight:600}
+.additive-desc{font-size:10px;color:var(--text-3)}
+.additive-toggle{width:34px;height:20px;background:var(--surface-3);border-radius:10px;cursor:pointer;position:relative;transition:var(--transition);flex-shrink:0}
+.additive-toggle.on{background:var(--accent)}
+.additive-toggle::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:var(--transition)}
+.additive-toggle.on::after{transform:translateX(14px)}
+.additive-control{display:none;margin-top:8px}
+.additive-item.active .additive-control{display:block}
+.additive-pct-row{display:flex;align-items:center;gap:8px}
+.additive-pct-slider{flex:1;-webkit-appearance:none;appearance:none;height:3px;background:var(--surface-3);border-radius:2px;outline:none;cursor:pointer}
+.additive-pct-slider::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:var(--purple);cursor:pointer;border:2px solid var(--bg)}
+.additive-pct-slider::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:var(--purple);cursor:pointer;border:2px solid var(--bg)}
+.additive-pct-val{font-size:11px;font-weight:600;min-width:32px;text-align:right}
+
+/* ===== Action Bar ===== */
+.action-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 24px;background:var(--surface);border-top:1px solid var(--border);flex-shrink:0;gap:16px}
+.action-bar-info{font-size:12px;color:var(--text-3);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.action-bar-info b{color:var(--text-2)}
+.action-bar-buttons{display:flex;gap:8px;flex-shrink:0}
+
+/* ===== Buttons ===== */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--text);transition:var(--transition);white-space:nowrap}
+.btn:hover{background:var(--surface-3)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#0c0d0f;font-weight:600}
+.btn-primary:hover{background:#00e6b8;box-shadow:0 0 16px var(--accent-glow)}
+.btn-icon{padding:7px 9px}
+.btn-danger:hover{background:rgba(239,68,68,.12);border-color:var(--danger);color:var(--danger)}
+.btn-sm{padding:5px 10px;font-size:11px}
+
+.select-styled{background:var(--surface-2);border:1px solid var(--border);color:var(--text);padding:7px 28px 7px 12px;border-radius:6px;font-size:12px;cursor:pointer;outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238b8f96' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+.select-styled option{background:var(--surface-2)}
+
+/* ===== Recipe Panel (slide-up) ===== */
+.recipe-panel{position:fixed;bottom:0;left:260px;right:290px;height:0;background:var(--surface);border-top:1px solid var(--border-strong);z-index:400;overflow:hidden;transition:height .35s cubic-bezier(.4,0,.2,1);box-shadow:0 -8px 32px rgba(0,0,0,.4)}
+.recipe-panel.open{height:320px}
+.recipe-panel-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border)}
+.recipe-panel-header h3{font-size:14px;font-weight:600}
+.recipe-panel-actions{display:flex;gap:8px;align-items:center}
+.recipe-panel-body{padding:16px 20px;overflow-y:auto;height:calc(100% - 52px)}
+.recipe-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.recipe-card{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:12px;cursor:pointer;transition:var(--transition);position:relative}
 .recipe-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow)}
-.recipe-card-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.recipe-card-color{width:32px;height:32px;border-radius:8px;flex-shrink:0;border:1px solid var(--border-strong)}
-.recipe-card-name{font-size:14px;font-weight:600;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.recipe-card-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
-.recipe-tag{font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--surface-3);color:var(--text-2)}
+.recipe-card-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.recipe-card-color{width:28px;height:28px;border-radius:6px;flex-shrink:0;border:1px solid var(--border-strong)}
+.recipe-card-name{font-size:13px;font-weight:600;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.recipe-card-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
+.recipe-tag{font-size:9px;font-weight:600;padding:2px 6px;border-radius:3px;background:var(--surface-3);color:var(--text-2)}
 .recipe-tag.additive{background:rgba(168,85,247,.12);color:var(--purple)}
 .recipe-tag.color{background:rgba(245,158,11,.12);color:var(--orange)}
-.recipe-card-params{display:flex;gap:12px;flex-wrap:wrap}
-.recipe-card-param{font-size:11px;color:var(--text-3)}
+.recipe-card-params{display:flex;gap:10px;flex-wrap:wrap}
+.recipe-card-param{font-size:10px;color:var(--text-3)}
 .recipe-card-param b{color:var(--text-2);font-weight:600}
-.recipe-card-builtin{position:absolute;top:8px;right:8px;font-size:9px;color:var(--text-3)}
+.recipe-card-builtin{position:absolute;top:6px;right:6px;font-size:8px;color:var(--text-3)}
 
-/* Action bar */
-.action-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;background:var(--surface);border-top:1px solid var(--border);flex-shrink:0}
-.action-bar-info{font-size:12px;color:var(--text-3)}
-.action-bar-info b{color:var(--text-2)}
-.action-bar-buttons{display:flex;gap:10px}
-
-/* Modal */
+/* ===== Modal ===== */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:500}
 .modal-overlay.show{display:flex}
-.modal{background:var(--surface);border:1px solid var(--border-strong);border-radius:var(--radius);padding:28px;width:420px;max-width:90%;box-shadow:var(--shadow-lg)}
-.modal h3{font-size:18px;font-weight:600;margin-bottom:6px}
-.modal p{font-size:13px;color:var(--text-2);margin-bottom:18px}
-.modal-input{width:100%;background:var(--surface-2);border:1px solid var(--border);color:var(--text);padding:12px 14px;border-radius:var(--radius-xs);font-size:14px;outline:none;margin-bottom:18px}
+.modal{background:var(--surface);border:1px solid var(--border-strong);border-radius:var(--radius);padding:24px;width:420px;max-width:90%;box-shadow:var(--shadow-lg)}
+.modal h3{font-size:17px;font-weight:600;margin-bottom:6px}
+.modal p{font-size:13px;color:var(--text-2);margin-bottom:16px}
+.modal-input{width:100%;background:var(--surface-2);border:1px solid var(--border);color:var(--text);padding:11px 13px;border-radius:6px;font-size:14px;outline:none;margin-bottom:16px}
 .modal-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
 .modal-actions{display:flex;justify-content:flex-end;gap:8px}
-.export-box{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-xs);padding:16px;font-family:'SF Mono','Fira Code',monospace;font-size:12px;color:var(--text-2);white-space:pre-wrap;word-break:break-all;max-height:320px;overflow-y:auto;margin-bottom:18px}
-
-/* Import area */
-.import-area{border:2px dashed var(--border-strong);border-radius:var(--radius-sm);padding:24px;text-align:center;cursor:pointer;transition:var(--transition);margin-bottom:16px}
+.export-box{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:14px;font-family:'SF Mono','Fira Code',monospace;font-size:12px;color:var(--text-2);white-space:pre-wrap;word-break:break-all;max-height:300px;overflow-y:auto;margin-bottom:16px}
+.import-area{border:2px dashed var(--border-strong);border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:var(--transition);margin-bottom:14px}
 .import-area:hover{border-color:var(--accent);background:var(--accent-glow)}
 .import-area.dragover{border-color:var(--accent);background:var(--accent-glow)}
 .import-area p{margin:0;color:var(--text-2)}
-.import-area .import-icon{font-size:32px;margin-bottom:8px}
+.import-area .import-icon{font-size:28px;margin-bottom:6px}
 
 /* Toast */
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(40px);background:var(--surface-2);border:1px solid var(--border-strong);padding:12px 22px;border-radius:24px;font-size:13px;font-weight:500;z-index:999;opacity:0;transition:.3s ease;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:8px}
+.toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%) translateY(30px);background:var(--surface-2);border:1px solid var(--border-strong);padding:10px 20px;border-radius:20px;font-size:13px;font-weight:500;z-index:999;opacity:0;transition:.3s ease;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:8px}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast.success{border-color:var(--accent)}
 .toast.success .toast-icon{color:var(--accent)}
 .toast.error{border-color:var(--danger)}
 .toast.error .toast-icon{color:var(--danger)}
 
-::-webkit-scrollbar{width:5px;height:5px}
+/* Scrollbar */
+::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:3px}
 ::-webkit-scrollbar-thumb:hover{background:var(--text-3)}
 
-@media(max-width:1100px){.sidebar{width:300px}.param-cards{grid-template-columns:1fr}.param-value{font-size:42px}}
-@media(max-width:768px){.body-area{flex-direction:column}.sidebar{width:100%;max-height:300px;border-right:none;border-bottom:1px solid var(--border)}}
+/* Spool loading */
+.spool-loading{font-size:12px;color:var(--text-3);padding:40px 0}
+
+/* Responsive */
+@media(max-width:1200px){
+  .sidebar-left{width:220px}
+  .sidebar-right{width:260px}
+  .param-value{font-size:26px}
+}
+@media(max-width:900px){
+  .body-area{flex-direction:column}
+  .sidebar-left,.sidebar-right{width:100%;max-height:200px;border-right:none;border-left:none;border-bottom:1px solid var(--border)}
+  .sidebar-right{border-bottom:none;border-top:1px solid var(--border)}
+  .recipe-panel{left:0;right:0}
+}
 </style>
 </head>
 <body>
@@ -251,147 +308,84 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
     <div class="topbar-brand">
       <div class="dot"></div>
       <span>FilaForge</span>
-      <span style="font-size:12px;color:var(--text-3);margin-left:8px;">颗粒制线配方工作站</span>
+      <span class="topbar-sub">颗粒制线配方工作站</span>
     </div>
-    <div class="topbar-status">
-      <div class="pulse"></div>
-      <span id="statusText">就绪</span>
+    <div class="topbar-actions">
+      <div class="dirty-badge" id="dirtyBadge">● 未保存</div>
+      <button class="btn btn-sm" onclick="toggleRecipePanel()" id="recipePanelBtn">📋 配方库</button>
+      <button class="btn btn-sm" onclick="openImportModal()">📥 导入</button>
+      <button class="btn btn-sm btn-primary" onclick="openSaveModal()">💾 保存</button>
     </div>
   </div>
 
   <div class="body-area">
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <div class="sidebar-tabs">
-        <div class="sidebar-tab active" onclick="switchTab('granule')">颗粒</div>
-        <div class="sidebar-tab" onclick="switchTab('color')">染色</div>
-        <div class="sidebar-tab" onclick="switchTab('additive')">添加剂</div>
-        <div class="sidebar-tab" onclick="switchTab('preview')">预览</div>
+    <!-- Left Sidebar: Materials + Blend -->
+    <div class="sidebar-left">
+      <div class="section">
+        <div class="section-title">基础颗粒 <span class="section-count" id="matCount"></span></div>
+        <div class="material-grid" id="materialGrid"></div>
       </div>
-      <div class="sidebar-content">
-
-        <!-- Tab: Granule -->
-        <div class="tab-panel active" id="tab-granule">
-          <div class="sidebar-label">基础颗粒</div>
-          <div class="material-grid" id="materialGrid"></div>
-
-          <div class="sidebar-label" style="margin-top:20px;">混合颗粒 (可选)</div>
-          <div class="material-grid" id="blendGrid"></div>
-
-          <div class="blend-section" id="blendSection" style="display:none;">
-            <div class="sidebar-label">混合比例</div>
-            <div class="blend-row">
-              <span class="blend-label" id="blendLabelA">PLA</span>
-              <div class="blend-bar">
-                <div class="blend-fill-a" id="blendFillA" style="width:70%"></div>
-                <div class="blend-fill-b" id="blendFillB" style="width:30%"></div>
-              </div>
-              <span class="blend-pct" id="blendPctA">70%</span>
-            </div>
-            <input type="range" class="blend-slider" id="blendSlider" min="0" max="100" step="5" value="70" oninput="onBlendChange(this.value)">
-            <div style="display:flex;justify-content:space-between;margin-top:4px;">
-              <span style="font-size:10px;color:var(--text-3)" id="blendNameA">PLA 70%</span>
-              <span style="font-size:10px;color:var(--text-3)" id="blendNameB">PETG 30%</span>
-            </div>
+      <div class="section">
+        <div class="section-title">混合颗粒 <span class="section-count">可选</span></div>
+        <div class="material-grid" id="blendGrid"></div>
+      </div>
+      <div class="section" id="blendSection" style="display:none;">
+        <div class="section-title">混合比例</div>
+        <div class="blend-row">
+          <span class="blend-label" id="blendLabelA">PLA</span>
+          <div class="blend-bar">
+            <div class="blend-fill-a" id="blendFillA" style="width:70%"></div>
+            <div class="blend-fill-b" id="blendFillB" style="width:30%"></div>
           </div>
+          <span class="blend-pct" id="blendPctA">70%</span>
         </div>
-
-        <!-- Tab: Color -->
-        <div class="tab-panel" id="tab-color">
-          <div class="sidebar-label">染色方式</div>
-          <div class="color-method-row">
-            <div class="color-method-btn active" onclick="setColorMethod('none')">无</div>
-            <div class="color-method-btn" onclick="setColorMethod('powder')">色粉</div>
-            <div class="color-method-btn" onclick="setColorMethod('oil')">扩散油</div>
-          </div>
-
-          <div id="colorPickerArea" style="display:none;">
-            <div class="sidebar-label">颜色</div>
-            <div class="color-grid" id="colorGrid"></div>
-            <div class="color-custom-row">
-              <input type="color" id="customColor" value="#00d4aa">
-              <input type="text" class="color-hex-input" id="hexInput" value="#00D4AA" maxlength="7">
-            </div>
-            <div class="sidebar-label" style="margin-top:16px;">用量</div>
-            <div class="dosage-row">
-              <span class="dosage-label" id="dosageLabel">色粉</span>
-              <input type="range" class="dosage-slider" id="dosageSlider" min="0.1" max="5" step="0.1" value="1.0" oninput="onDosageChange(this.value)">
-              <span class="dosage-val" id="dosageVal">1.0%</span>
-            </div>
-          </div>
-
-          <div class="sidebar-label" style="margin-top:16px;">最近使用</div>
-          <div class="recent-row" id="recentColors">
-            <span class="recent-empty">暂无</span>
-          </div>
+        <input type="range" class="blend-slider" id="blendSlider" min="0" max="100" step="5" value="70" oninput="onBlendChange(this.value)">
+        <div style="display:flex;justify-content:space-between;margin-top:4px;">
+          <span style="font-size:9px;color:var(--text-3)" id="blendNameA">PLA 70%</span>
+          <span style="font-size:9px;color:var(--text-3)" id="blendNameB">PETG 30%</span>
         </div>
-
-        <!-- Tab: Additives -->
-        <div class="tab-panel" id="tab-additive">
-          <div class="sidebar-label">功能性添加剂</div>
-          <div class="additive-list" id="additiveList"></div>
-        </div>
-
-        <!-- Tab: Preview -->
-        <div class="tab-panel" id="tab-preview">
-          <div class="sidebar-label">配方预览</div>
-          <div class="pellet-preview" id="pelletPreview"><div class="spool-loading">加载3D模型中…</div></div>
-          <div class="spool-hint">拖拽旋转 · 滚轮缩放</div>
-          <div id="previewFormula" style="margin-top:16px;"></div>
-        </div>
-
       </div>
     </div>
 
-    <!-- Main Area -->
-    <div class="main-area">
-      <!-- Recipe Bar -->
-      <div class="recipe-bar">
-        <div class="recipe-bar-left">
-          <div>
-            <div class="recipe-bar-title">配方库</div>
-            <div class="recipe-bar-sub" id="recipeSubText">选择、保存或导入配方</div>
-          </div>
-        </div>
-        <div class="recipe-bar-actions">
-          <select class="select-styled" id="recipeSelect" style="width:200px;">
-            <option value="">— 选择配方 —</option>
-          </select>
-          <button class="btn" onclick="loadRecipe()">加载</button>
-          <button class="btn" onclick="openImportModal()">📥 导入</button>
-          <button class="btn btn-primary" onclick="openSaveModal()">保存配方</button>
-          <button class="btn btn-icon btn-danger" onclick="deleteRecipe()" title="删除">✕</button>
-        </div>
+    <!-- Center: 3D Preview + Parameters -->
+    <div class="center-area">
+      <!-- 3D Preview (always visible) -->
+      <div class="preview-section">
+        <div class="preview-overlay" id="previewOverlay"></div>
+        <div class="pellet-preview" id="pelletPreview"><div class="spool-loading">加载3D模型中…</div></div>
+        <div class="spool-hint">拖拽旋转 · 滚轮缩放 · 快捷键 S保存 E导出 R重置</div>
       </div>
 
-      <!-- Param Area -->
-      <div class="param-area">
+      <!-- Parameters -->
+      <div class="param-section">
         <div class="param-header">
           <h2>挤出参数</h2>
           <span class="material-badge" id="currentMatBadge">PLA</span>
+          <span class="formula-desc-inline" id="formulaDesc">纯 PLA 颗粒</span>
         </div>
-        <div class="param-subheader" id="formulaDesc">纯 PLA 颗粒</div>
 
-        <!-- Formula Composition Bar -->
         <div class="formula-bar">
           <div class="formula-bar-title">配方组成</div>
           <div class="formula-composition" id="formulaComposition"></div>
           <div class="formula-legend" id="formulaLegend"></div>
         </div>
 
-        <!-- Param Cards -->
         <div class="param-cards">
           <div class="param-card" id="card-barrelTemp">
             <div class="param-card-top">
-              <div style="display:flex;align-items:center;gap:12px;">
+              <div class="param-card-icon-label">
                 <div class="param-card-icon">🔥</div>
                 <div class="param-card-label">料桶温度</div>
               </div>
-              <span class="param-card-warn">⚠️</span>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <span class="param-card-warn">⚠️</span>
+                <button class="param-reset" onclick="resetParam('barrelTemp')" title="重置到推荐值">↺</button>
+              </div>
             </div>
             <div class="param-value-row">
               <span class="param-value" id="val-barrelTemp">180</span>
               <span class="param-unit">°C</span>
+              <span class="param-rec" id="rec-barrelTemp"></span>
             </div>
             <input type="range" class="param-slider" id="slider-barrelTemp" min="120" max="320" step="1" value="180" oninput="onParam('barrelTemp',this.value)">
             <div class="param-slider-marks"><span>120</span><span>220</span><span>320</span></div>
@@ -400,15 +394,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
 
           <div class="param-card" id="card-screwSpeed">
             <div class="param-card-top">
-              <div style="display:flex;align-items:center;gap:12px;">
+              <div class="param-card-icon-label">
                 <div class="param-card-icon">⚙️</div>
                 <div class="param-card-label">螺杆速度</div>
               </div>
-              <span class="param-card-warn">⚠️</span>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <span class="param-card-warn">⚠️</span>
+                <button class="param-reset" onclick="resetParam('screwSpeed')" title="重置到推荐值">↺</button>
+              </div>
             </div>
             <div class="param-value-row">
               <span class="param-value" id="val-screwSpeed">30</span>
               <span class="param-unit">RPM</span>
+              <span class="param-rec" id="rec-screwSpeed"></span>
             </div>
             <input type="range" class="param-slider" id="slider-screwSpeed" min="5" max="80" step="1" value="30" oninput="onParam('screwSpeed',this.value)">
             <div class="param-slider-marks"><span>5</span><span>42</span><span>80</span></div>
@@ -417,42 +415,120 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
 
           <div class="param-card" id="card-tractionSpeed">
             <div class="param-card-top">
-              <div style="display:flex;align-items:center;gap:12px;">
+              <div class="param-card-icon-label">
                 <div class="param-card-icon">📦</div>
                 <div class="param-card-label">牵引速度</div>
               </div>
-              <span class="param-card-warn">⚠️</span>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <span class="param-card-warn">⚠️</span>
+                <button class="param-reset" onclick="resetParam('tractionSpeed')" title="重置到推荐值">↺</button>
+              </div>
             </div>
             <div class="param-value-row">
               <span class="param-value" id="val-tractionSpeed">35</span>
               <span class="param-unit">mm/s</span>
+              <span class="param-rec" id="rec-tractionSpeed"></span>
             </div>
             <input type="range" class="param-slider" id="slider-tractionSpeed" min="5" max="80" step="1" value="35" oninput="onParam('tractionSpeed',this.value)">
             <div class="param-slider-marks"><span>5</span><span>42</span><span>80</span></div>
             <div class="param-hint" id="hint-tractionSpeed">推荐: 25 – 45 mm/s</div>
           </div>
         </div>
-
-        <!-- Recipe Library -->
-        <div class="recipe-section">
-          <div class="recipe-section-header">
-            <h3>配方库</h3>
-            <span style="font-size:12px;color:var(--text-3);" id="recipeCount">0 个配方</span>
-          </div>
-          <div class="recipe-grid" id="recipeGrid"></div>
-        </div>
-      </div>
-
-      <!-- Action Bar -->
-      <div class="action-bar">
-        <div class="action-bar-info" id="summaryText"><b>PLA</b> · #00D4AA · 180°C · 30 RPM · 35 mm/s</div>
-        <div class="action-bar-buttons">
-          <button class="btn" onclick="openExport('json')">导出 JSON</button>
-          <button class="btn" onclick="openExport('text')">导出摘要</button>
-          <button class="btn btn-primary" onclick="copySummary()">复制配方</button>
-        </div>
       </div>
     </div>
+
+    <!-- Right Sidebar: Color + Additives -->
+    <div class="sidebar-right">
+      <!-- Coloring -->
+      <div class="section">
+        <div class="section-title">染色方式</div>
+        <div class="color-method-row">
+          <div class="color-method-btn active" onclick="setColorMethod('none')">无</div>
+          <div class="color-method-btn" onclick="setColorMethod('powder')">色粉</div>
+          <div class="color-method-btn" onclick="setColorMethod('oil')">扩散油</div>
+        </div>
+
+        <div id="colorPickerArea" style="display:none;">
+          <div class="section-title" style="margin-top:4px;">混色模式</div>
+          <div class="mix-mode-row">
+            <div class="mix-mode-btn active" id="mixBtnSingle" onclick="setMixMode(false)">单色</div>
+            <div class="mix-mode-btn" id="mixBtnMulti" onclick="setMixMode(true)">混色 (2-3色)</div>
+          </div>
+
+          <div id="singleColorArea">
+            <div class="section-title" style="margin-bottom:8px;">颜色</div>
+            <div class="color-grid" id="colorGrid"></div>
+            <div class="color-custom-row">
+              <input type="color" id="customColor" value="#00d4aa">
+              <input type="text" class="color-hex-input" id="hexInput" value="#00D4AA" maxlength="7">
+            </div>
+          </div>
+
+          <div id="mixColorArea" style="display:none;">
+            <div class="section-title" style="margin-bottom:8px;">选择颜色与比例</div>
+            <div id="mixSlots"></div>
+            <div class="mix-add-btn" id="mixAddBtn" onclick="addMixSlot()">+ 添加颜色</div>
+            <div class="mix-preview">
+              <div class="mix-preview-label">预测混合色</div>
+              <div class="mix-preview-row">
+                <div class="mix-preview-swatch" id="mixPreviewSwatch"></div>
+                <div class="mix-preview-info">
+                  <div class="mix-preview-hex" id="mixPreviewHex">#808080</div>
+                  <div class="mix-preview-rgb" id="mixPreviewRgb">RGB(128, 128, 128)</div>
+                </div>
+              </div>
+              <div class="mix-colors-display" id="mixColorsDisplay"></div>
+            </div>
+          </div>
+
+          <div class="section-title" style="margin-top:12px;">用量</div>
+          <div class="dosage-row">
+            <span class="dosage-label" id="dosageLabel">色粉</span>
+            <input type="range" class="dosage-slider" id="dosageSlider" min="0.1" max="5" step="0.1" value="1.0" oninput="onDosageChange(this.value)">
+            <span class="dosage-val" id="dosageVal">1.0%</span>
+          </div>
+        </div>
+
+        <div class="section-title" style="margin-top:12px;">最近使用</div>
+        <div class="recent-row" id="recentColors">
+          <span class="recent-empty">暂无</span>
+        </div>
+      </div>
+
+      <!-- Additives -->
+      <div class="section">
+        <div class="section-title">功能性添加剂 <span class="section-count" id="additiveCount"></span></div>
+        <div class="additive-list" id="additiveList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Bar -->
+  <div class="action-bar">
+    <div class="action-bar-info" id="summaryText"><b>PLA</b> · #00D4AA · 180°C · 30 RPM · 35 mm/s</div>
+    <div class="action-bar-buttons">
+      <button class="btn btn-sm" onclick="openExport('json')">JSON</button>
+      <button class="btn btn-sm" onclick="openExport('text')">摘要</button>
+      <button class="btn btn-sm btn-primary" onclick="copySummary()">复制配方</button>
+    </div>
+  </div>
+</div>
+
+<!-- Recipe Panel (slide-up) -->
+<div class="recipe-panel" id="recipePanel">
+  <div class="recipe-panel-header">
+    <h3>配方库 <span style="font-size:11px;color:var(--text-3);font-weight:400;" id="recipeCount">0 个配方</span></h3>
+    <div class="recipe-panel-actions">
+      <select class="select-styled" id="recipeSelect" style="width:200px;">
+        <option value="">— 选择配方 —</option>
+      </select>
+      <button class="btn btn-sm" onclick="loadRecipe()">加载</button>
+      <button class="btn btn-sm btn-icon btn-danger" onclick="deleteRecipe()" title="删除">✕</button>
+      <button class="btn btn-sm" onclick="toggleRecipePanel()">收起</button>
+    </div>
+  </div>
+  <div class="recipe-panel-body">
+    <div class="recipe-grid" id="recipeGrid"></div>
   </div>
 </div>
 
@@ -479,9 +555,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
       <p>点击选择文件或拖拽 JSON 到此处</p>
     </div>
     <input type="file" id="fileInput" accept=".json" style="display:none;" onchange="handleFileImport(event)">
-    <div id="importPreview" style="display:none;margin-bottom:16px;">
-      <div style="font-size:12px;color:var(--text-2);margin-bottom:8px;">预览：</div>
-      <div class="export-box" id="importPreviewBox" style="max-height:120px;"></div>
+    <div id="importPreview" style="display:none;margin-bottom:14px;">
+      <div style="font-size:12px;color:var(--text-2);margin-bottom:6px;">预览：</div>
+      <div class="export-box" id="importPreviewBox" style="max-height:100px;"></div>
     </div>
     <div class="modal-actions">
       <button class="btn" onclick="closeImportModal()">取消</button>
@@ -509,16 +585,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
 <script>
 // ===== Material Data =====
 const MATERIALS = {
-  PLA:   {name:'PLA',  barrel:180,screw:30,traction:35,range:{barrel:[170,200],screw:[20,40],traction:[25,45]}},
-  PETG:  {name:'PETG', barrel:220,screw:25,traction:30,range:{barrel:[210,235],screw:[18,35],traction:[20,40]}},
-  ABS:   {name:'ABS',  barrel:210,screw:28,traction:32,range:{barrel:[200,230],screw:[20,38],traction:[22,42]}},
-  TPU:   {name:'TPU',  barrel:190,screw:15,traction:20,range:{barrel:[180,200],screw:[10,22],traction:[15,28]}},
-  Nylon: {name:'Nylon',barrel:240,screw:20,traction:25,range:{barrel:[230,260],screw:[15,30],traction:[18,32]}},
-  ASA:   {name:'ASA',  barrel:230,screw:25,traction:28,range:{barrel:[220,245],screw:[18,35],traction:[20,38]}},
-  PC:    {name:'PC',   barrel:260,screw:18,traction:22,range:{barrel:[250,280],screw:[12,28],traction:[16,30]}},
-  HIPS:  {name:'HIPS', barrel:200,screw:28,traction:32,range:{barrel:[190,215],screw:[20,38],traction:[22,42]}},
-  PP:    {name:'PP',   barrel:200,screw:25,traction:30,range:{barrel:[190,215],screw:[18,35],traction:[20,40]}},
-  POM:   {name:'POM',  barrel:190,screw:20,traction:25,range:{barrel:[180,205],screw:[15,30],traction:[18,32]}},
+  PLA:   {name:'PLA',  barrel:210,screw:12,traction:35,range:{barrel:[200,220],screw:[10,15],traction:[25,45]}},
+  'PLA-T':{name:'PLA 透明',barrel:185,screw:28,traction:33,range:{barrel:[175,205],screw:[20,38],traction:[25,42]},transparent:true},
+  PETG:  {name:'PETG', barrel:220,screw:10,traction:30,range:{barrel:[210,235],screw:[10,15],traction:[20,40]}},
+  ABS:   {name:'ABS',  barrel:240,screw:28,traction:32,range:{barrel:[230,250],screw:[20,38],traction:[22,42]},frozen:true},
+  TPU:   {name:'TPU',  barrel:190,screw:15,traction:20,range:{barrel:[180,200],screw:[10,22],traction:[15,28]},frozen:true},
+  Nylon: {name:'Nylon',barrel:240,screw:20,traction:25,range:{barrel:[230,260],screw:[15,30],traction:[18,32]},frozen:true},
+  ASA:   {name:'ASA',  barrel:230,screw:25,traction:28,range:{barrel:[220,245],screw:[18,35],traction:[20,38]},frozen:true},
+  PC:    {name:'PC',   barrel:260,screw:18,traction:22,range:{barrel:[250,280],screw:[12,28],traction:[16,30]},frozen:true},
+  HIPS:  {name:'HIPS', barrel:200,screw:28,traction:32,range:{barrel:[190,215],screw:[20,38],traction:[22,42]},frozen:true},
+  PP:    {name:'PP',   barrel:200,screw:25,traction:30,range:{barrel:[190,215],screw:[18,35],traction:[20,40]},frozen:true},
+  POM:   {name:'POM',  barrel:190,screw:20,traction:25,range:{barrel:[180,205],screw:[15,30],traction:[18,32]},frozen:true},
 };
 
 // ===== Colors =====
@@ -532,6 +609,7 @@ const COLORS = [
 ];
 
 // ===== Additives =====
+const ADDITIVES_FROZEN = true; // 冻结添加剂功能，即将上线
 const ADDITIVES = {
   carbonFiber: {name:'碳纤维',icon:'🔗',desc:'增强强度和刚性',maxPct:30,defaultPct:10,
     paramEffect:{barrel:5,screw:-3,traction:-2}},
@@ -553,33 +631,48 @@ const ADDITIVES = {
 
 // ===== Built-in Recipes =====
 const BUILTIN_RECIPES = {
-  'PLA 白色 标准':{material:'PLA',blend:null,blendPct:0,colorMethod:'powder',color:'#FFFFFF',dosage:1.0,additives:{},barrel:180,screw:30,traction:35},
-  'PLA+碳纤维 黑色 高强度':{material:'PLA',blend:null,blendPct:0,colorMethod:'powder',color:'#1A1A1A',dosage:1.5,additives:{carbonFiber:12},barrel:185,screw:27,traction:33},
-  'PLA+咖啡渣 棕色 质感':{material:'PLA',blend:null,blendPct:0,colorMethod:'powder',color:'#8B4513',dosage:1.0,additives:{coffeeGrounds:10},barrel:175,screw:28,traction:32},
-  'PETG 透明 标准':{material:'PETG',blend:null,blendPct:0,colorMethod:'oil',color:'#00B4D8',dosage:0.5,additives:{},barrel:225,screw:25,traction:30},
-  'PLA+PETG 混合 银色':{material:'PLA',blend:'PETG',blendPct:70,colorMethod:'powder',color:'#A0A0A0',dosage:1.0,additives:{metalPowder:8},barrel:195,screw:28,traction:33},
-  'TPU+荧光粉 夜光绿':{material:'TPU',blend:null,blendPct:0,colorMethod:'powder',color:'#22C55E',dosage:2.0,additives:{glowPowder:5,fluorescent:3},barrel:190,screw:15,traction:20},
-  'Nylon+玻纤 黑色 工业':{material:'Nylon',blend:null,blendPct:0,colorMethod:'powder',color:'#1A1A1A',dosage:1.5,additives:{glassFiber:15},barrel:248,screw:18,traction:23},
-  'ABS+碳黑 红色 耐候':{material:'ABS',blend:null,blendPct:0,colorMethod:'powder',color:'#DC2626',dosage:1.2,additives:{carbonBlack:2},barrel:215,screw:28,traction:32},
+  'PLA 白色 标准':{material:'PLA',blend:null,blendPct:0,colorMethod:'powder',color:'#FFFFFF',dosage:1.0,additives:{},barrel:210,screw:12,traction:35},
+  'PLA 透明 自然色':{material:'PLA-T',blend:null,blendPct:0,colorMethod:'none',color:'#E8F4F8',dosage:0,additives:{},barrel:185,screw:28,traction:33},
+  'PLA 透明 烟灰色':{material:'PLA-T',blend:null,blendPct:0,colorMethod:'oil',color:'#A0A0A0',dosage:0.3,additives:{},barrel:185,screw:28,traction:33},
+  'PLA+碳纤维 黑色 高强度':{material:'PLA',blend:null,blendPct:0,colorMethod:'powder',color:'#1A1A1A',dosage:1.5,additives:{carbonFiber:12},barrel:215,screw:10,traction:33},
+  'PLA+咖啡渣 棕色 质感':{material:'PLA',blend:null,blendPct:0,colorMethod:'powder',color:'#8B4513',dosage:1.0,additives:{coffeeGrounds:10},barrel:205,screw:12,traction:32},
+  'PETG 透明 标准':{material:'PETG',blend:null,blendPct:0,colorMethod:'oil',color:'#00B4D8',dosage:0.5,additives:{},barrel:220,screw:10,traction:30},
+  'PLA+PETG 混合 银色':{material:'PLA',blend:'PETG',blendPct:70,colorMethod:'powder',color:'#A0A0A0',dosage:1.0,additives:{metalPowder:8},barrel:213,screw:11,traction:33},
 };
 
 // ===== State =====
 let state = {
   material:'PLA', blend:null, blendPct:70,
   colorMethod:'none', color:'#00D4AA', dosage:1.0,
+  isMixMode:false,
+  colorMix:[{color:'#FF0000',ratio:50},{color:'#FFFF00',ratio:50}],
   additives:{},
-  barrelTemp:180, screwSpeed:30, tractionSpeed:35,
+  barrelTemp:210, screwSpeed:12, tractionSpeed:35,
 };
 let recentColors = [];
 let exportContent = '';
 let importData = null;
+let isDirty = false;
+
+// ===== Dirty State =====
+function markDirty(){
+  isDirty=true;
+  document.getElementById('dirtyBadge').classList.add('show');
+}
+function clearDirty(){
+  isDirty=false;
+  document.getElementById('dirtyBadge').classList.remove('show');
+}
 
 // ===== Init =====
 function init(){
   renderMaterials(); renderBlendMaterials(); renderColors(); renderAdditives();
-  renderRecentColors(); updatePelletPreview(); updateFormulaBar();
+  renderMixSlots(); renderRecentColors();
   loadRecipeSelect(); renderRecipeGrid(); updateAllParams(); updateSummary();
-  bindColorInputs(); updateParamByFormula();
+  bindColorInputs(); updateParamByFormula(); updateFormulaBar();
+  updatePreviewOverlay();
+  document.getElementById('matCount').textContent=Object.keys(MATERIALS).length+' 种';
+  if(!ADDITIVES_FROZEN) document.getElementById('additiveCount').textContent=Object.keys(ADDITIVES).length+' 种';
 }
 
 function bindColorInputs(){
@@ -592,14 +685,10 @@ function bindColorInputs(){
   });
 }
 
-// ===== Tab Switch =====
-function switchTab(tab){
-  document.querySelectorAll('.sidebar-tab').forEach((t,i)=>{
-    t.classList.toggle('active',['granule','color','additive','preview'][i]===tab);
-  });
-  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('tab-'+tab).classList.add('active');
-  if(tab==='preview'){updatePelletPreview();updatePreviewFormula();}
+// ===== Recipe Panel Toggle =====
+function toggleRecipePanel(){
+  const p=document.getElementById('recipePanel');
+  p.classList.toggle('open');
 }
 
 // ===== Materials =====
@@ -609,9 +698,10 @@ function renderMaterials(){
   Object.keys(MATERIALS).forEach(key=>{
     const m=MATERIALS[key];
     const card=document.createElement('div');
-    card.className='material-card'+(key===state.material?' active':'');
-    card.innerHTML=`<div class="mat-name">${m.name}</div><div class="mat-temp">${m.barrel}°C</div>`;
-    card.onclick=()=>selectMaterial(key);
+    const frozen=m.frozen;
+    card.className='material-card'+(key===state.material?' active':'')+(frozen?' frozen':'');
+    card.innerHTML=`<div class="mat-name">${m.name}</div><div class="mat-temp">${frozen?'即将上线':m.barrel+'°C'+(m.transparent?' · 透明':'')}</div>${frozen?'<div class="frozen-lock">🔒</div>':''}`;
+    if(!frozen) card.onclick=()=>selectMaterial(key);
     grid.appendChild(card);
   });
 }
@@ -619,19 +709,19 @@ function renderMaterials(){
 function renderBlendMaterials(){
   const grid=document.getElementById('blendGrid');
   grid.innerHTML='';
-  // "None" option
   const noneCard=document.createElement('div');
   noneCard.className='material-card'+(!state.blend?' active':'');
   noneCard.innerHTML=`<div class="mat-name" style="color:var(--text-3)">无混合</div>`;
-  noneCard.onclick=()=>{state.blend=null;renderBlendMaterials();document.getElementById('blendSection').style.display='none';updateParamByFormula();updateFormulaBar();updateSummary();};
+  noneCard.onclick=()=>{state.blend=null;renderBlendMaterials();document.getElementById('blendSection').style.display='none';updateParamByFormula();updateFormulaBar();updateSummary();updatePreviewOverlay();markDirty();};
   grid.appendChild(noneCard);
   Object.keys(MATERIALS).forEach(key=>{
     if(key===state.material) return;
     const m=MATERIALS[key];
+    const frozen=m.frozen;
     const card=document.createElement('div');
-    card.className='material-card'+(key===state.blend?' active':'');
-    card.innerHTML=`<div class="mat-name">${m.name}</div><div class="mat-temp">${m.barrel}°C</div>`;
-    card.onclick=()=>selectBlend(key);
+    card.className='material-card'+(key===state.blend?' active':'')+(frozen?' frozen':'');
+    card.innerHTML=`<div class="mat-name">${m.name}</div><div class="mat-temp">${frozen?'即将上线':m.barrel+'°C'+(m.transparent?' · 透明':'')}</div>${frozen?'<div class="frozen-lock">🔒</div>':''}`;
+    if(!frozen) card.onclick=()=>selectBlend(key);
     grid.appendChild(card);
   });
 }
@@ -642,8 +732,9 @@ function selectMaterial(key){
   applyMaterialDefaults();
   renderMaterials(); renderBlendMaterials();
   document.getElementById('blendSection').style.display=state.blend?'block':'none';
-  updateAllParams(); updateFormulaBar(); updateSummary();
+  updateAllParams(); updateFormulaBar(); updateSummary(); updatePreviewOverlay();
   document.getElementById('currentMatBadge').textContent=MATERIALS[key].name;
+  markDirty();
 }
 
 function selectBlend(key){
@@ -654,12 +745,14 @@ function selectBlend(key){
   document.getElementById('blendNameA').textContent=MATERIALS[state.material].name+' '+state.blendPct+'%';
   document.getElementById('blendNameB').textContent=MATERIALS[key].name+' '+(100-state.blendPct)+'%';
   updateBlendUI();
-  updateParamByFormula(); updateFormulaBar(); updateSummary();
+  updateParamByFormula(); updateFormulaBar(); updateSummary(); updatePreviewOverlay();
+  markDirty();
 }
 
 function onBlendChange(val){
   state.blendPct=parseInt(val);
-  updateBlendUI(); updateParamByFormula(); updateFormulaBar(); updateSummary();
+  updateBlendUI(); updateParamByFormula(); updateFormulaBar(); updateSummary(); updatePreviewOverlay();
+  markDirty();
 }
 
 function updateBlendUI(){
@@ -677,12 +770,9 @@ function applyMaterialDefaults(){
   state.barrelTemp=m.barrel; state.screwSpeed=m.screw; state.tractionSpeed=m.traction;
 }
 
-// Calculate recommended params based on blend + additives
 function updateParamByFormula(){
   const m=MATERIALS[state.material];
   let barrel=m.barrel, screw=m.screw, traction=m.traction;
-
-  // Blend adjustment
   if(state.blend){
     const m2=MATERIALS[state.blend];
     const a=state.blendPct/100, b=1-a;
@@ -690,8 +780,6 @@ function updateParamByFormula(){
     screw=Math.round(m.screw*a+m2.screw*b);
     traction=Math.round(m.traction*a+m2.traction*b);
   }
-
-  // Additive adjustments
   Object.entries(state.additives).forEach(([key,pct])=>{
     const ad=ADDITIVES[key];
     if(ad&&ad.paramEffect){
@@ -701,7 +789,6 @@ function updateParamByFormula(){
       traction+=Math.round(ad.paramEffect.traction*factor);
     }
   });
-
   state.barrelTemp=barrel; state.screwSpeed=screw; state.tractionSpeed=traction;
   updateAllParams();
 }
@@ -715,7 +802,144 @@ function setColorMethod(method){
   });
   document.getElementById('colorPickerArea').style.display=method==='none'?'none':'block';
   document.getElementById('dosageLabel').textContent=method==='powder'?'色粉':'扩散油';
-  updateFormulaBar(); updateSummary();
+  if(method!=='none'&&state.isMixMode)updateMixedColor();
+  updateFormulaBar(); updateSummary(); updatePreviewOverlay();
+  markDirty();
+}
+
+// ===== Mix Mode =====
+function setMixMode(on){
+  state.isMixMode=on;
+  document.getElementById('mixBtnSingle').classList.toggle('active',!on);
+  document.getElementById('mixBtnMulti').classList.toggle('active',on);
+  document.getElementById('singleColorArea').style.display=on?'none':'block';
+  document.getElementById('mixColorArea').style.display=on?'block':'none';
+  if(on){
+    if(state.colorMix.length<2){
+      state.colorMix=[{color:state.color,ratio:50},{color:'#FFFF00',ratio:50}];
+    }
+    renderMixSlots(); updateMixedColor();
+  }else{
+    updatePelletPreview(); updateFormulaBar(); updateSummary(); updatePreviewOverlay();
+  }
+  markDirty();
+}
+
+function renderMixSlots(){
+  const c=document.getElementById('mixSlots');
+  c.innerHTML='';
+  state.colorMix.forEach((slot,i)=>{
+    const el=document.createElement('div');
+    el.className='mix-slot';
+    el.innerHTML=`
+      <div class="mix-slot-top">
+        <input type="color" class="mix-slot-color" value="${slot.color}" oninput="onMixColorChange(${i},this.value)">
+        <input type="text" class="mix-slot-hex" value="${slot.color.toUpperCase()}" onchange="onMixHexChange(${i},this.value)" maxlength="7">
+        ${state.colorMix.length>2?`<div class="mix-slot-remove" onclick="removeMixSlot(${i})">×</div>`:''}
+      </div>
+      <div class="mix-slot-ratio">
+        <input type="range" class="mix-slot-ratio-slider" min="0" max="100" step="1" value="${slot.ratio}" oninput="onMixRatioChange(${i},this.value)">
+        <span class="mix-slot-ratio-val" id="mixRatioVal-${i}">${slot.ratio}%</span>
+      </div>`;
+    c.appendChild(el);
+  });
+  document.getElementById('mixAddBtn').style.display=state.colorMix.length>=3?'none':'block';
+}
+
+function addMixSlot(){
+  if(state.colorMix.length>=3)return;
+  const remaining=100-state.colorMix.reduce((s,x)=>s+x.ratio,0);
+  state.colorMix.push({color:'#3B82F6',ratio:Math.max(10,Math.round(remaining))});
+  renderMixSlots(); updateMixedColor();
+  markDirty();
+}
+
+function removeMixSlot(i){
+  if(state.colorMix.length<=2)return;
+  state.colorMix.splice(i,1);
+  renderMixSlots(); updateMixedColor();
+  markDirty();
+}
+
+function onMixColorChange(i,val){
+  state.colorMix[i].color=val;
+  const hexInput=document.querySelectorAll('.mix-slot-hex')[i];
+  if(hexInput) hexInput.value=val.toUpperCase();
+  updateMixedColor();
+  markDirty();
+}
+
+function onMixHexChange(i,val){
+  let v=val.trim();
+  if(!v.startsWith('#'))v='#'+v;
+  if(/^#[0-9A-Fa-f]{6}$/.test(v)){
+    state.colorMix[i].color=v;
+    const colorInput=document.querySelectorAll('.mix-slot-color')[i];
+    if(colorInput)colorInput.value=v;
+    updateMixedColor();
+  }else{
+    const hexInput=document.querySelectorAll('.mix-slot-hex')[i];
+    if(hexInput)hexInput.value=state.colorMix[i].color.toUpperCase();
+    showToast('颜色格式无效','error');
+  }
+}
+
+function onMixRatioChange(i,val){
+  state.colorMix[i].ratio=parseInt(val);
+  document.getElementById('mixRatioVal-'+i).textContent=val+'%';
+  state.colorMix.forEach((s,j)=>{
+    if(j!==i){const el=document.getElementById('mixRatioVal-'+j);if(el)el.textContent=s.ratio+'%';}
+  });
+  updateMixedColor();
+  markDirty();
+}
+
+function computeMixedColor(){
+  if(!state.colorMix.length)return '#808080';
+  if(state.colorMix.length===1)return state.colorMix[0].color;
+  let totalW=0;
+  state.colorMix.forEach(s=>totalW+=s.ratio);
+  if(totalW===0)return '#808080';
+  let R=0,G=0,B=0;
+  state.colorMix.forEach(s=>{
+    const w=s.ratio/totalW;
+    const {r,g,b}=hexToRgbObj(s.color);
+    R+=Math.pow(r/255,w)*255;
+    G+=Math.pow(g/255,w)*255;
+    B+=Math.pow(b/255,w)*255;
+  });
+  R=Math.round(R);G=Math.round(G);B=Math.round(B);
+  return rgbToHex(R,G,B);
+}
+
+function hexToRgbObj(hex){
+  hex=hex.replace('#','');
+  if(hex.length===3)hex=hex.split('').map(c=>c+c).join('');
+  return{r:parseInt(hex.slice(0,2),16),g:parseInt(hex.slice(2,4),16),b:parseInt(hex.slice(4,6),16)};
+}
+
+function rgbToHex(r,g,b){
+  return '#'+[r,g,b].map(v=>Math.max(0,Math.min(255,v)).toString(16).padStart(2,'0')).join('').toUpperCase();
+}
+
+function updateMixedColor(){
+  const mixed=computeMixedColor();
+  state.color=mixed;
+  const {r,g,b}=hexToRgbObj(mixed);
+  document.getElementById('mixPreviewSwatch').style.background=mixed;
+  document.getElementById('mixPreviewHex').textContent=mixed;
+  document.getElementById('mixPreviewRgb').textContent=`RGB(${r}, ${g}, ${b})`;
+  const chips=document.getElementById('mixColorsDisplay');
+  chips.innerHTML='';
+  let total=state.colorMix.reduce((s,x)=>s+x.ratio,0)||1;
+  state.colorMix.forEach(s=>{
+    const chip=document.createElement('div');
+    chip.className='mix-color-chip';
+    chip.style.background=s.color;
+    chip.style.flex=s.ratio/total;
+    chips.appendChild(chip);
+  });
+  updatePelletPreview(); updateFormulaBar(); updateSummary(); updatePreviewOverlay();
 }
 
 function renderColors(){
@@ -735,13 +959,20 @@ function setColor(c){
   document.getElementById('customColor').value=c;
   document.getElementById('hexInput').value=c.toUpperCase();
   renderColors(); addRecentColor(c);
-  updatePelletPreview(); updateFormulaBar(); updateSummary();
+  if(state.isMixMode){
+    if(state.colorMix[0])state.colorMix[0].color=c;
+    renderMixSlots(); updateMixedColor();
+  }else{
+    updatePelletPreview(); updateFormulaBar(); updateSummary(); updatePreviewOverlay();
+  }
+  markDirty();
 }
 
 function onDosageChange(val){
   state.dosage=parseFloat(val);
   document.getElementById('dosageVal').textContent=state.dosage.toFixed(1)+'%';
   updateFormulaBar(); updateSummary();
+  markDirty();
 }
 
 function addRecentColor(c){
@@ -768,6 +999,33 @@ function renderRecentColors(){
 function renderAdditives(){
   const list=document.getElementById('additiveList');
   list.innerHTML='';
+  if(ADDITIVES_FROZEN){
+    list.classList.add('frozen');
+    Object.entries(ADDITIVES).forEach(([key,ad])=>{
+      const item=document.createElement('div');
+      item.className='additive-item';
+      item.innerHTML=`
+        <div class="additive-top">
+          <div class="additive-info">
+            <span class="additive-icon">${ad.icon}</span>
+            <div>
+              <div class="additive-name">${ad.name}</div>
+              <div class="additive-desc">${ad.desc}</div>
+            </div>
+          </div>
+          <span style="font-size:14px;flex-shrink:0">🔒</span>
+        </div>`;
+      list.appendChild(item);
+    });
+    const banner=document.createElement('div');
+    banner.className='additive-frozen-banner';
+    banner.textContent='添加剂功能即将上线';
+    list.appendChild(banner);
+    document.getElementById('additiveCount').textContent='';
+    return;
+  }
+  list.classList.remove('frozen');
+  document.getElementById('additiveCount').textContent=Object.keys(ADDITIVES).length+' 种';
   Object.entries(ADDITIVES).forEach(([key,ad])=>{
     const active=state.additives[key]!==undefined;
     const pct=active?state.additives[key]:ad.defaultPct;
@@ -790,25 +1048,28 @@ function renderAdditives(){
                  oninput="onAdditivePct('${key}',this.value)">
           <span class="additive-pct-val" id="additivePct-${key}">${pct}%</span>
         </div>
-      </div>
-    `;
+      </div>`;
     list.appendChild(item);
   });
 }
 
 function toggleAdditive(key){
+  if(ADDITIVES_FROZEN) return;
   if(state.additives[key]!==undefined){
     delete state.additives[key];
   }else{
     state.additives[key]=ADDITIVES[key].defaultPct;
   }
-  renderAdditives(); updateParamByFormula(); updateFormulaBar(); updateSummary();
+  renderAdditives(); updateParamByFormula(); updateFormulaBar(); updateSummary(); updatePreviewOverlay();
+  markDirty();
 }
 
 function onAdditivePct(key,val){
+  if(ADDITIVES_FROZEN) return;
   state.additives[key]=parseInt(val);
   document.getElementById('additivePct-'+key).textContent=val+'%';
-  updateParamByFormula(); updateFormulaBar(); updateSummary();
+  updateParamByFormula(); updateFormulaBar(); updateSummary(); updatePreviewOverlay();
+  markDirty();
 }
 
 // ===== Spool 3D Preview (Three.js) =====
@@ -816,14 +1077,31 @@ function updatePelletPreview(){
   const c=state.colorMethod==='none'?getMaterialColor():state.color;
   const matName=MATERIALS[state.material].name+(state.blend?'+'+MATERIALS[state.blend].name:'');
   if(window.Spool3D&&window.Spool3D.ready){
-    window.Spool3D.update(c,state.additives,matName);
+    window.Spool3D.update(c,state.additives,matName,isTransparent(),getTransparency());
   }
 }
 
 function getMaterialColor(){
-  // Natural pellet color per material
-  const natural={PLA:'#F5DEB3',PETG:'#E8E8E8',ABS:'#D9D9D9',TPU:'#F5DEB3',Nylon:'#E8E8E8',ASA:'#D9D9D9',PC:'#E8E8E8',HIPS:'#F5F5DC',PP:'#F0F0F0',POM:'#F5F5F5'};
+  const natural={PLA:'#F5DEB3','PLA-T':'#E8F4F8',PETG:'#E8E8E8',ABS:'#D9D9D9',TPU:'#F5DEB3',Nylon:'#E8E8E8',ASA:'#D9D9D9',PC:'#E8E8E8',HIPS:'#F5F5DC',PP:'#F0F0F0',POM:'#F5F5F5'};
   return natural[state.material]||'#E8E8E8';
+}
+
+function isTransparent(){
+  const a=MATERIALS[state.material]?.transparent;
+  const b=state.blend?MATERIALS[state.blend]?.transparent:false;
+  return a||b;
+}
+
+function getTransparency(){
+  const a=MATERIALS[state.material]?.transparent;
+  const b=state.blend?MATERIALS[state.blend]?.transparent:false;
+  if(a&&b) return 0.35;
+  if(a||b){
+    if(!state.blend) return 0.35;
+    const tPct=a?state.blendPct:(100-state.blendPct);
+    return 0.35+(1-tPct/100)*0.5;
+  }
+  return 1.0;
 }
 
 function shade(hex,factor){
@@ -832,9 +1110,21 @@ function shade(hex,factor){
   return `rgb(${Math.min(255,Math.floor(r+(255-r)*factor))},${Math.min(255,Math.floor(g+(255-g)*factor))},${Math.min(255,Math.floor(b+(255-b)*factor))})`;
 }
 
-function updatePreviewFormula(){
-  const el=document.getElementById('previewFormula');
-  el.innerHTML=getFormulaDescription();
+// ===== Preview Overlay (info chips on 3D preview) =====
+function updatePreviewOverlay(){
+  const el=document.getElementById('previewOverlay');
+  if(!el)return;
+  let chips=[];
+  const matName=MATERIALS[state.material].name+(state.blend?'/'+MATERIALS[state.blend].name:'');
+  chips.push(`<div class="preview-chip"><div class="chip-dot" style="background:var(--accent)"></div>${matName}</div>`);
+  if(state.colorMethod!=='none'){
+    const colorHex=state.isMixMode?state.color:state.color;
+    chips.push(`<div class="preview-chip"><div class="chip-dot" style="background:${colorHex}"></div>${state.colorMethod==='powder'?'色粉':'扩散油'} ${state.dosage.toFixed(1)}%</div>`);
+  }
+  Object.entries(state.additives).forEach(([key,pct])=>{
+    chips.push(`<div class="preview-chip"><div class="chip-dot" style="background:var(--purple)"></div>${ADDITIVES[key].icon} ${ADDITIVES[key].name} ${pct}%</div>`);
+  });
+  el.innerHTML=chips.join('');
 }
 
 // ===== Formula Bar =====
@@ -845,7 +1135,6 @@ function updateFormulaBar(){
   const legends=[];
   let total=100;
 
-  // Materials
   if(state.blend){
     const a=state.blendPct, b=100-a;
     segs.push({pct:a,color:'#00d4aa',label:MATERIALS[state.material].name});
@@ -857,14 +1146,17 @@ function updateFormulaBar(){
     legends.push({color:'#00d4aa',text:`${MATERIALS[state.material].name} 100%`});
   }
 
-  // Coloring
   if(state.colorMethod!=='none'){
     const methodName=state.colorMethod==='powder'?'色粉':'扩散油';
     segs.push({pct:0,color:'#f59e0b',label:methodName,special:true});
-    legends.push({color:'#f59e0b',text:`${methodName} ${state.dosage.toFixed(1)}% (${state.color.toUpperCase()})`});
+    if(state.isMixMode){
+      const mixStr=state.colorMix.map(s=>s.color.toUpperCase()+' '+s.ratio+'%').join('+');
+      legends.push({color:state.color,text:`${methodName} ${state.dosage.toFixed(1)}% (混色→${state.color.toUpperCase()} [${mixStr}])`});
+    }else{
+      legends.push({color:'#f59e0b',text:`${methodName} ${state.dosage.toFixed(1)}% (${state.color.toUpperCase()})`});
+    }
   }
 
-  // Additives
   Object.entries(state.additives).forEach(([key,pct])=>{
     const ad=ADDITIVES[key];
     segs.push({pct:0,color:'#a855f7',label:ad.name,special:true});
@@ -877,7 +1169,7 @@ function updateFormulaBar(){
     div.className='formula-seg';
     div.style.background=s.color;
     if(s.special){
-      div.style.minWidth='4px'; div.style.maxWidth='4px';
+      div.style.minWidth='3px'; div.style.maxWidth='3px';
       div.title=s.label;
     }else{
       div.style.flex=s.pct;
@@ -894,7 +1186,6 @@ function updateFormulaBar(){
     legend.appendChild(item);
   });
 
-  // Update description
   document.getElementById('formulaDesc').textContent=getFormulaDescription();
 }
 
@@ -906,7 +1197,12 @@ function getFormulaDescription(){
     parts.push(MATERIALS[state.material].name);
   }
   if(state.colorMethod!=='none'){
-    parts.push(`${state.colorMethod==='powder'?'色粉':'扩散油'} ${state.color.toUpperCase()} ${state.dosage.toFixed(1)}%`);
+    if(state.isMixMode){
+      const mixStr=state.colorMix.map(s=>s.color.toUpperCase()+' '+s.ratio+'%').join(' + ');
+      parts.push(`${state.colorMethod==='powder'?'色粉':'扩散油'} 混色→${state.color.toUpperCase()} [${mixStr}] ${state.dosage.toFixed(1)}%`);
+    }else{
+      parts.push(`${state.colorMethod==='powder'?'色粉':'扩散油'} ${state.color.toUpperCase()} ${state.dosage.toFixed(1)}%`);
+    }
   }
   Object.entries(state.additives).forEach(([key,pct])=>{
     parts.push(`${ADDITIVES[key].name} ${pct}%`);
@@ -918,21 +1214,23 @@ function getFormulaDescription(){
 function onParam(key,val){
   state[key]=parseFloat(val);
   updateParamUI(key); updateSummary();
+  markDirty();
 }
 
 function updateParamUI(key){
   document.getElementById('val-'+key).textContent=state[key];
   document.getElementById('slider-'+key).value=state[key];
   const m=MATERIALS[state.material];
-  const range=m.range[key.replace('Temp','').replace('Speed','')==='barrel'?'barrel':key.replace('Temp','').replace('Speed','')==='screw'?'screw':'traction'];
   const rangeMap={barrelTemp:'barrel',screwSpeed:'screw',tractionSpeed:'traction'};
   const r=m.range[rangeMap[key]];
   const card=document.getElementById('card-'+key);
   const hint=document.getElementById('hint-'+key);
+  const recEl=document.getElementById('rec-'+key);
   if(r){
     const [min,max]=r;
     const labels={barrelTemp:'°C',screwSpeed:'RPM',tractionSpeed:'mm/s'};
     hint.textContent=`推荐: ${min} – ${max} ${labels[key]}`;
+    if(recEl)recEl.textContent=`推荐 ${min}-${max}`;
     if(state[key]<min||state[key]>max){
       card.classList.add('warn'); hint.classList.add('warn');
       hint.textContent=`推荐: ${min} – ${max} ${labels[key]} · 超出范围`;
@@ -947,12 +1245,47 @@ function updateAllParams(){
   document.getElementById('currentMatBadge').textContent=MATERIALS[state.material].name;
 }
 
+// Reset param to recommended (formula-calculated) value
+function resetParam(key){
+  const m=MATERIALS[state.material];
+  const rangeMap={barrelTemp:'barrel',screwSpeed:'screw',tractionSpeed:'traction'};
+  let val=m[rangeMap[key]];
+  // Apply blend adjustment
+  if(state.blend){
+    const m2=MATERIALS[state.blend];
+    const a=state.blendPct/100;
+    const keyMap={barrelTemp:'barrel',screwSpeed:'screw',tractionSpeed:'traction'};
+    val=Math.round(m[keyMap[key]]*a+m2[keyMap[key]]*(1-a));
+  }
+  // Apply additive adjustments
+  Object.entries(state.additives).forEach(([k,pct])=>{
+    const ad=ADDITIVES[k];
+    if(ad&&ad.paramEffect){
+      const factor=pct/ad.maxPct;
+      const effectKey=rangeMap[key];
+      val+=Math.round(ad.paramEffect[effectKey]*factor);
+    }
+  });
+  state[key]=val;
+  updateParamUI(key); updateSummary();
+  showToast(`已重置到推荐值: ${val}`,'success');
+  markDirty();
+}
+
 function updateSummary(){
   const m=MATERIALS[state.material];
   let s=`<b>${m.name}`;
   if(state.blend) s+=`+${MATERIALS[state.blend].name}`;
   s+=`</b>`;
-  if(state.colorMethod!=='none') s+=` · ${state.color.toUpperCase()}`;
+  if(isTransparent()) s+=` · 透明`;
+  if(state.colorMethod!=='none'){
+    s+=` · `;
+    if(state.isMixMode){
+      s+=`混色→${state.color.toUpperCase()}`;
+    }else{
+      s+=state.color.toUpperCase();
+    }
+  }
   s+=` · ${state.barrelTemp}°C · ${state.screwSpeed} RPM · ${state.tractionSpeed} mm/s`;
   const addKeys=Object.keys(state.additives);
   if(addKeys.length) s+=` · 添加剂: ${addKeys.map(k=>ADDITIVES[k].name).join(',')}`;
@@ -1002,21 +1335,28 @@ function makeRecipeCard(name,r,builtin){
       <span class="recipe-card-param">${r.screw} RPM</span>
       <span class="recipe-card-param">${r.traction} mm/s</span>
     </div>`;
-  card.onclick=()=>{applyRecipe(r);showToast(`已加载: ${name}`,'success');};
+  card.onclick=()=>{applyRecipe(r);showToast(`已加载: ${name}`,'success');clearDirty();};
   return card;
 }
 
 function applyRecipe(r){
   state.material=r.material;state.blend=r.blend||null;state.blendPct=r.blendPct||70;
   state.colorMethod=r.colorMethod||'none';state.color=r.color||'#00D4AA';state.dosage=r.dosage||1.0;
+  state.isMixMode=r.isMixMode||false;
+  state.colorMix=r.colorMix?[...r.colorMix]:[{color:state.color,ratio:50},{color:'#FFFF00',ratio:50}];
   state.additives={...(r.additives||{})};
   state.barrelTemp=r.barrel;state.screwSpeed=r.screw;state.tractionSpeed=r.traction;
   renderMaterials();renderBlendMaterials();renderColors();renderAdditives();
   setColorMethod(state.colorMethod);
-  if(state.colorMethod!=='none') setColor(state.color);
+  if(state.isMixMode){
+    setMixMode(true);
+  }else{
+    setMixMode(false);
+    if(state.colorMethod!=='none')setColor(state.color);
+  }
   document.getElementById('blendSection').style.display=state.blend?'block':'none';
-  if(state.blend) updateBlendUI();
-  updateAllParams();updateFormulaBar();updateSummary();
+  if(state.blend)updateBlendUI();
+  updateAllParams();updateFormulaBar();updateSummary();updatePreviewOverlay();
 }
 
 function loadRecipe(){
@@ -1025,7 +1365,7 @@ function loadRecipe(){
   const [type,name]=val.split(':');
   const r=type==='b'?BUILTIN_RECIPES[name]:getUserRecipes()[name];
   if(!r){showToast('配方不存在','error');return;}
-  applyRecipe(r);showToast(`已加载: ${name}`,'success');
+  applyRecipe(r);showToast(`已加载: ${name}`,'success');clearDirty();
 }
 
 function openSaveModal(){document.getElementById('recipeName').value='';document.getElementById('saveModal').classList.add('show');setTimeout(()=>document.getElementById('recipeName').focus(),100);}
@@ -1038,6 +1378,7 @@ function saveRecipe(){
   recipes[name]={...state};
   saveUserRecipes(recipes);loadRecipeSelect();renderRecipeGrid();closeSaveModal();
   showToast(`配方 "${name}" 已保存`,'success');
+  clearDirty();
 }
 
 function deleteRecipe(){
@@ -1057,6 +1398,8 @@ function buildJSON(){
     blendPct:state.blend?state.blendPct:null,
     colorMethod:state.colorMethod,
     color:state.color.toUpperCase(),
+    isMixMode:state.isMixMode,
+    colorMix:state.isMixMode?state.colorMix.map(s=>({color:s.color.toUpperCase(),ratio:s.ratio})):undefined,
     dosage:state.dosage,
     additives:Object.fromEntries(Object.entries(state.additives).map(([k,v])=>[ADDITIVES[k].name,v])),
     parameters:{barrel_temperature:state.barrelTemp,screw_speed:state.screwSpeed,traction_speed:state.tractionSpeed},
@@ -1070,7 +1413,16 @@ function buildText(){
   let txt=`╔═══════════════════════════╗\n║    FilaForge 配方卡       ║\n╚═══════════════════════════╝\n\n`;
   txt+=`  材料:     ${m.name}`;
   if(state.blend) txt+=` + ${MATERIALS[state.blend].name} (${state.blendPct}/${100-state.blendPct})`;
-  txt+=`\n  颜色:     ${state.colorMethod==='none'?'自然色':state.color.toUpperCase()+' ('+(state.colorMethod==='powder'?'色粉':'扩散油')+' '+state.dosage.toFixed(1)+'%)'}\n`;
+  txt+=`\n  颜色:     `;
+  if(state.colorMethod==='none'){
+    txt+=`自然色`;
+  }else if(state.isMixMode){
+    const mixStr=state.colorMix.map(s=>`${s.color.toUpperCase()}(${s.ratio}%)`).join(' + ');
+    txt+=`混色 → ${state.color.toUpperCase()} [${mixStr}] (${state.colorMethod==='powder'?'色粉':'扩散油'} ${state.dosage.toFixed(1)}%)`;
+  }else{
+    txt+=`${state.color.toUpperCase()} (${state.colorMethod==='powder'?'色粉':'扩散油'} ${state.dosage.toFixed(1)}%)`;
+  }
+  txt+=`\n`;
   txt+=`  日期:     ${new Date().toLocaleString('zh-CN')}\n`;
   const addKeys=Object.keys(state.additives);
   if(addKeys.length){
@@ -1121,7 +1473,6 @@ function handleFileImport(event){
   reader.onload=e=>{
     try{
       const data=JSON.parse(e.target.result);
-      // Validate
       if(!data.material&&!data.parameters) throw new Error('Invalid format');
       importData=data;
       document.getElementById('importPreviewBox').textContent=JSON.stringify(data,null,2);
@@ -1139,7 +1490,6 @@ function handleFileImport(event){
 
 function confirmImport(){
   if(!importData){showToast('无导入数据','error');return;}
-  // Map back from names to keys
   const matKey=Object.keys(MATERIALS).find(k=>MATERIALS[k].name===importData.material)||'PLA';
   const blendKey=importData.blend?Object.keys(MATERIALS).find(k=>MATERIALS[k].name===importData.blend):null;
   const additives={};
@@ -1152,15 +1502,17 @@ function confirmImport(){
   const recipe={
     material:matKey,blend:blendKey,blendPct:importData.blendPct||70,
     colorMethod:importData.colorMethod||'none',color:importData.color||'#00D4AA',dosage:importData.dosage||1.0,
+    isMixMode:importData.isMixMode||false,
+    colorMix:importData.colorMix?[...importData.colorMix]:undefined,
     additives,barrel:importData.parameters?.barrel_temperature||180,
     screw:importData.parameters?.screw_speed||30,traction:importData.parameters?.traction_speed||35,
   };
-  // Save to user recipes
   const name='导入配方 '+new Date().toLocaleTimeString('zh-CN').slice(0,5);
   const recipes=getUserRecipes();recipes[name]=recipe;saveUserRecipes(recipes);
   loadRecipeSelect();renderRecipeGrid();closeImportModal();
   applyRecipe(recipe);
   showToast(`配方已导入`,'success');
+  clearDirty();
 }
 
 // Drag & drop
@@ -1186,6 +1538,29 @@ function showToast(msg,type){
   setTimeout(()=>t.className='toast',2500);
 }
 
+// ===== Keyboard Shortcuts =====
+document.addEventListener('keydown',e=>{
+  // Don't intercept when typing in input fields
+  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.tagName==='SELECT')return;
+  // Don't intercept when modal is open (except Escape)
+  const modalOpen=document.querySelector('.modal-overlay.show');
+  if(modalOpen){
+    if(e.key==='Escape'){
+      modalOpen.classList.remove('show');
+    }
+    return;
+  }
+  switch(e.key.toLowerCase()){
+    case's':e.preventDefault();openSaveModal();break;
+    case'e':e.preventDefault();openExport('json');break;
+    case'r':e.preventDefault();resetParam('barrelTemp');resetParam('screwSpeed');resetParam('tractionSpeed');break;
+    case'escape':
+      const rp=document.getElementById('recipePanel');
+      if(rp.classList.contains('open'))rp.classList.remove('open');
+      break;
+  }
+});
+
 init();
 </script>
 
@@ -1202,23 +1577,21 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
   if(!container)return;
 
   let scene,camera,renderer,controls,group;
-  let bodyMesh,capL,capR,strand,labelSprite;
+  let bodyMesh,capL,capR,labelSprite;
   let texCanvas,texCtx,bodyTex;
 
-  // ---- color helpers (canvas) ----
   function hx2rgb(h){h=h.replace('#','');if(h.length===3)h=h.split('').map(c=>c+c).join('');return{r:parseInt(h.slice(0,2),16),g:parseInt(h.slice(2,4),16),b:parseInt(h.slice(4,6),16)};}
   function cvshade(h,f){const{r,g,b}=hx2rgb(h);if(f<0){const t=1+f;return`rgb(${Math.floor(r*t)},${Math.floor(g*t)},${Math.floor(b*t)})`;}return`rgb(${Math.min(255,Math.floor(r+(255-r)*f))},${Math.min(255,Math.floor(g+(255-g)*f))},${Math.min(255,Math.floor(b+(255-b)*f))})`;}
 
-  // ---- deterministic random ----
   let _seed=12345;
   function rnd(){_seed=(_seed*16807)%2147483647;return _seed/2147483647;}
 
   function init(){
-    const w=container.clientWidth||280,h=280;
+    const w=container.clientWidth||280,h=container.clientHeight||280;
 
     scene=new THREE.Scene();
     camera=new THREE.PerspectiveCamera(35,w/h,0.1,100);
-    camera.position.set(7,3.5,8.5);
+    camera.position.set(7.5,3.8,9);
 
     renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
     renderer.setSize(w,h);
@@ -1226,13 +1599,14 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     renderer.shadowMap.enabled=true;
     renderer.shadowMap.type=THREE.PCFSoftShadowMap;
     renderer.toneMapping=THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure=1.15;
+    renderer.toneMappingExposure=1.2;
     container.innerHTML='';
     container.appendChild(renderer.domElement);
 
-    // ---- lights ----
     scene.add(new THREE.AmbientLight(0xffffff,0.35));
-    const key=new THREE.DirectionalLight(0xffffff,1.5);
+    const hemi=new THREE.HemisphereLight(0xeef2ff,0x0c0d0f,0.45);
+    scene.add(hemi);
+    const key=new THREE.DirectionalLight(0xffffff,1.3);
     key.position.set(6,10,8);
     key.castShadow=true;
     key.shadow.mapSize.set(2048,2048);
@@ -1241,12 +1615,15 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     key.shadow.camera.top=8;key.shadow.camera.bottom=-8;
     key.shadow.bias=-0.0005;
     scene.add(key);
-    const fill=new THREE.DirectionalLight(0x6699ff,0.25);
-    fill.position.set(-6,2,-4);scene.add(fill);
-    const rim=new THREE.PointLight(0x00d4aa,0.7,25);
+    const fill=new THREE.DirectionalLight(0x8899bb,0.35);
+    fill.position.set(-6,3,-4);scene.add(fill);
+    const fill2=new THREE.DirectionalLight(0xffeedd,0.25);
+    fill2.position.set(4,1,-6);scene.add(fill2);
+    const rim=new THREE.PointLight(0x00d4aa,0.5,25);
     rim.position.set(-4,-1,5);scene.add(rim);
+    const rim2=new THREE.PointLight(0x6366f1,0.3,20);
+    rim2.position.set(5,2,-3);scene.add(rim2);
 
-    // ---- controls ----
     controls=new OrbitControls(camera,renderer.domElement);
     controls.enableDamping=true;
     controls.dampingFactor=0.08;
@@ -1258,7 +1635,6 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
     createSpool();
 
-    // ---- ground shadow ----
     const pGeo=new THREE.PlaneGeometry(30,30);
     const pMat=new THREE.ShadowMaterial({opacity:0.35});
     const plane=new THREE.Mesh(pGeo,pMat);
@@ -1278,33 +1654,28 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     group=new THREE.Group();
     group.rotation.x=-0.08;
 
-    // ---- texture ----
     texCanvas=document.createElement('canvas');
-    texCanvas.width=1024;
-    texCanvas.height=512;
+    texCanvas.width=2048;
+    texCanvas.height=1024;
     texCtx=texCanvas.getContext('2d');
     bodyTex=new THREE.CanvasTexture(texCanvas);
     bodyTex.wrapS=THREE.RepeatWrapping;
     bodyTex.wrapT=THREE.RepeatWrapping;
-    bodyTex.anisotropy=8;
+    bodyTex.anisotropy=16;
 
-    // ---- materials ----
     const flangeMat=new THREE.MeshStandardMaterial({color:0x222529,metalness:0.65,roughness:0.4});
     const flangeGeo=new THREE.CylinderGeometry(3,3,0.2,72);
 
-    // left flange
     const fL=new THREE.Mesh(flangeGeo,flangeMat);
     fL.rotation.z=Math.PI/2;fL.position.x=-2.05;
     fL.castShadow=true;fL.receiveShadow=true;
     group.add(fL);
 
-    // right flange
     const fR=new THREE.Mesh(flangeGeo,flangeMat);
     fR.rotation.z=Math.PI/2;fR.position.x=2.05;
     fR.castShadow=true;fR.receiveShadow=true;
     group.add(fR);
 
-    // flange detail rings
     for(let i=0;i<4;i++){
       const r=2.9-i*0.45;
       const rg=new THREE.TorusGeometry(r,0.02,6,72);
@@ -1313,15 +1684,13 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
       const rR=new THREE.Mesh(rg,rm.clone());rR.position.x=1.95;rR.rotation.y=Math.PI/2;group.add(rR);
     }
 
-    // filament body
     const bg=new THREE.CylinderGeometry(2.45,2.45,4,72,1,true);
-    const bm=new THREE.MeshStandardMaterial({map:bodyTex,metalness:0.15,roughness:0.55,side:THREE.DoubleSide});
+    const bm=new THREE.MeshStandardMaterial({map:bodyTex,metalness:0.12,roughness:0.55,side:THREE.DoubleSide});
     bodyMesh=new THREE.Mesh(bg,bm);
     bodyMesh.rotation.z=Math.PI/2;
     bodyMesh.castShadow=true;bodyMesh.receiveShadow=true;
     group.add(bodyMesh);
 
-    // end caps
     const cg=new THREE.CircleGeometry(2.45,72);
     const cm=new THREE.MeshStandardMaterial({color:0xffffff,metalness:0.1,roughness:0.6,side:THREE.DoubleSide});
     capL=new THREE.Mesh(cg,cm);
@@ -1331,34 +1700,17 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     capR.rotation.y=Math.PI/2;capR.position.x=2;
     capR.receiveShadow=true;group.add(capR);
 
-    // hub
     const hg=new THREE.CylinderGeometry(0.62,0.62,4.4,36);
     const hm=new THREE.MeshStandardMaterial({color:0x1a1c1f,metalness:0.4,roughness:0.7});
     const hub=new THREE.Mesh(hg,hm);
     hub.rotation.z=Math.PI/2;hub.castShadow=true;
     group.add(hub);
 
-    // center hole
     const hg2=new THREE.CylinderGeometry(0.38,0.38,4.5,32);
     const hm2=new THREE.MeshBasicMaterial({color:0x000000});
     const hole=new THREE.Mesh(hg2,hm2);
     hole.rotation.z=Math.PI/2;group.add(hole);
 
-    // filament strand
-    const pts=[
-      new THREE.Vector3(2.3,0,0),
-      new THREE.Vector3(3.2,0.5,0.3),
-      new THREE.Vector3(4.0,-0.3,0.8),
-      new THREE.Vector3(4.5,-1.0,1.5),
-      new THREE.Vector3(4.8,-1.8,2.2),
-    ];
-    const curve=new THREE.CatmullRomCurve3(pts);
-    const sg=new THREE.TubeGeometry(curve,40,0.07,8,false);
-    const sm=new THREE.MeshStandardMaterial({color:0xffffff,metalness:0.1,roughness:0.5});
-    strand=new THREE.Mesh(sg,sm);
-    strand.castShadow=true;group.add(strand);
-
-    // label sprite
     const lc=document.createElement('canvas');
     lc.width=256;lc.height=64;
     const lx=lc.getContext('2d');
@@ -1372,35 +1724,128 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     scene.add(group);
   }
 
-  function updateTexture(color,additives){
+  function updateTexture(color,additives,transparent){
     const ctx=texCtx,W=texCanvas.width,H=texCanvas.height;
-    _seed=12345; // reset for deterministic pattern
+    _seed=12345;
+    const{r:cr,g:cg,b:cb}=hx2rgb(color);
 
-    // base fill
+    // Base fill
     ctx.fillStyle=color;
     ctx.fillRect(0,0,W,H);
 
-    // cylindrical shading gradient
-    const grad=ctx.createLinearGradient(0,0,0,H);
-    grad.addColorStop(0,cvshade(color,0.25));
-    grad.addColorStop(0.15,cvshade(color,0.08));
-    grad.addColorStop(0.5,'rgba(255,255,255,0.05)');
-    grad.addColorStop(0.85,cvshade(color,-0.2));
-    grad.addColorStop(1,cvshade(color,-0.4));
-    ctx.fillStyle=grad;
+    // Cylinder shading gradient (horizontal = around circumference)
+    // Top of cylinder catches more light, bottom is in shadow
+    const cylGrad=ctx.createLinearGradient(0,0,W,0);
+    if(transparent){
+      cylGrad.addColorStop(0,'rgba(255,255,255,0.30)');
+      cylGrad.addColorStop(0.20,'rgba(255,255,255,0.10)');
+      cylGrad.addColorStop(0.50,'rgba(200,230,240,0.02)');
+      cylGrad.addColorStop(0.80,'rgba(180,200,220,0.06)');
+      cylGrad.addColorStop(1,'rgba(140,170,195,0.16)');
+    }else{
+      cylGrad.addColorStop(0,cvshade(color,0.15));
+      cylGrad.addColorStop(0.25,cvshade(color,0.05));
+      cylGrad.addColorStop(0.50,'rgba(255,255,255,0.01)');
+      cylGrad.addColorStop(0.75,cvshade(color,-0.08));
+      cylGrad.addColorStop(1,cvshade(color,-0.20));
+    }
+    ctx.fillStyle=cylGrad;
     ctx.fillRect(0,0,W,H);
 
-    // winding lines
-    ctx.strokeStyle=cvshade(color,-0.5);
-    ctx.lineWidth=1.5;
-    ctx.globalAlpha=0.12;
-    for(let i=0;i<90;i++){
-      const y=(i/90)*H;
-      ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();
+    // === Filament winding strands ===
+    // Each strand = a rounded tube drawn as a vertical gradient strip
+    // with specular highlight on top, shadow at bottom, and a dark groove between wraps
+    const wrapCount=56;                  // number of wraps along the spool length
+    const wrapH=H/wrapCount;
+    const helixShift=W*0.018;            // horizontal offset per wrap (helical winding)
+    const strandWidth=wrapH*0.72;        // visible strand width (vs groove gap)
+
+    // Pre-compute shading colors
+    const cHighlight=`rgb(${Math.min(255,Math.floor(cr+(255-cr)*0.45))},${Math.min(255,Math.floor(cg+(255-cg)*0.45))},${Math.min(255,Math.floor(cb+(255-cb)*0.45))})`;
+    const cBright=`rgb(${Math.min(255,Math.floor(cr+(255-cr)*0.25))},${Math.min(255,Math.floor(cg+(255-cg)*0.25))},${Math.min(255,Math.floor(cb+(255-cb)*0.25))})`;
+    const cMid=color;
+    const cShadow=`rgb(${Math.floor(cr*0.65)},${Math.floor(cg*0.65)},${Math.floor(cb*0.65)})`;
+    const cGroove=`rgb(${Math.floor(cr*0.35)},${Math.floor(cg*0.35)},${Math.floor(cb*0.35)})`;
+
+    for(let i=0;i<wrapCount;i++){
+      const y=i*wrapH;
+      const xOff=(i*helixShift)%W;  // helical offset
+      const strandTop=y+(wrapH-strandWidth)*0.5;
+      const strandBot=strandTop+strandWidth;
+
+      // Dark groove below strand (gap between wraps)
+      ctx.fillStyle=cGroove;
+      ctx.globalAlpha=transparent?0.10:0.55;
+      ctx.fillRect(0,strandBot,W,wrapH-strandWidth+1);
+
+      // Strand body — vertical gradient simulating round filament cross-section
+      const sGrad=ctx.createLinearGradient(0,strandTop,0,strandBot);
+      if(transparent){
+        sGrad.addColorStop(0,cShadow);
+        sGrad.addColorStop(0.15,cMid);
+        sGrad.addColorStop(0.35,cBright);
+        sGrad.addColorStop(0.50,cHighlight);
+        sGrad.addColorStop(0.65,cBright);
+        sGrad.addColorStop(0.85,cMid);
+        sGrad.addColorStop(1,cShadow);
+      }else{
+        sGrad.addColorStop(0,cShadow);
+        sGrad.addColorStop(0.20,cMid);
+        sGrad.addColorStop(0.42,cBright);
+        sGrad.addColorStop(0.50,cHighlight);
+        sGrad.addColorStop(0.58,cBright);
+        sGrad.addColorStop(0.80,cMid);
+        sGrad.addColorStop(1,cShadow);
+      }
+      ctx.fillStyle=sGrad;
+      ctx.globalAlpha=1;
+      ctx.fillRect(0,strandTop,W,strandWidth);
+
+      // Specular highlight band — thin bright line at the top of each strand
+      ctx.fillStyle='rgba(255,255,255,0.25)';
+      ctx.globalAlpha=transparent?0.15:0.35;
+      const hlH=Math.max(1,strandWidth*0.08);
+      ctx.fillRect(0,strandTop+strandWidth*0.42,W,hlH);
+
+      // Subtle winding angle lines (helical pattern visible on each strand)
+      ctx.strokeStyle=cShadow;
+      ctx.lineWidth=0.5;
+      ctx.globalAlpha=transparent?0.04:0.08;
+      for(let s=0;s<3;s++){
+        const sx=(s/3)*W+xOff;
+        ctx.beginPath();
+        ctx.moveTo(sx,strandTop);
+        ctx.lineTo(sx+strandWidth*0.3,strandBot);
+        ctx.stroke();
+      }
+
+      // Layer depth variation — every 14 wraps, slightly darken (new layer)
+      if(i%14===13){
+        ctx.fillStyle=cShadow;
+        ctx.globalAlpha=transparent?0.03:0.06;
+        ctx.fillRect(0,y,W,wrapH);
+      }
     }
     ctx.globalAlpha=1;
 
-    // additive speckles
+    // === Cross-hatch diagonal lines (winding angle texture) ===
+    ctx.strokeStyle=cShadow;
+    ctx.lineWidth=0.8;
+    ctx.globalAlpha=transparent?0.025:0.04;
+    const hatchCount=16;
+    for(let i=0;i<hatchCount;i++){
+      const xOff=(i/hatchCount)*W;
+      ctx.beginPath();
+      ctx.moveTo(xOff,0);
+      ctx.lineTo(xOff+H*0.12,H);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(xOff,0);
+      ctx.lineTo(xOff-H*0.12,H);
+      ctx.stroke();
+    }
+    ctx.globalAlpha=1;
+
     const keys=Object.keys(additives||{});
     keys.forEach(key=>{
       const pct=additives[key];
@@ -1452,15 +1897,28 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     bodyTex.needsUpdate=true;
   }
 
-  function update(color,additives,matName){
+  function update(color,additives,matName,transparent,opacity){
     if(!bodyMesh)return;
     const c=new THREE.Color(color);
-    updateTexture(color,additives);
+    updateTexture(color,additives,transparent);
     capL.material.color=c;
     capR.material.color=c;
-    strand.material.color=c;
 
-    // update label
+    const op=transparent?(opacity??0.4):1.0;
+    bodyMesh.material.transparent=transparent;
+    bodyMesh.material.opacity=op;
+    bodyMesh.material.roughness=transparent?0.2:0.55;
+    bodyMesh.material.metalness=transparent?0.03:0.12;
+    bodyMesh.material.depthWrite=!transparent;
+    capL.material.transparent=transparent;
+    capL.material.opacity=op;
+    capL.material.roughness=transparent?0.2:0.8;
+    capL.material.depthWrite=!transparent;
+    capR.material.transparent=transparent;
+    capR.material.opacity=op;
+    capR.material.roughness=transparent?0.2:0.8;
+    capR.material.depthWrite=!transparent;
+
     if(labelSprite&&matName){
       const lc=labelSprite.material.map.image;
       const lx=lc.getContext('2d');
@@ -1475,7 +1933,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
   function onResize(){
     if(!renderer)return;
-    const w=container.clientWidth||280,h=280;
+    const w=container.clientWidth||280,h=container.clientHeight||280;
     camera.aspect=w/h;camera.updateProjectionMatrix();
     renderer.setSize(w,h);
   }
