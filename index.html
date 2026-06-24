@@ -229,6 +229,63 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
 .btn-danger:hover{background:rgba(239,68,68,.12);border-color:var(--danger);color:var(--danger)}
 .btn-sm{padding:5px 10px;font-size:11px}
 .lang-toggle{font-weight:600;min-width:38px;text-align:center;border-color:var(--border-strong)}
+.btn-data{border-color:rgba(59,130,246,.4);color:var(--blue)}
+.btn-data:hover{background:rgba(59,130,246,.1);border-color:var(--blue)}
+
+/* ===== Data Asset Modal ===== */
+.data-modal{background:var(--surface);border:1px solid var(--border-strong);border-radius:var(--radius);width:860px;max-width:95vw;max-height:90vh;display:flex;flex-direction:column;box-shadow:var(--shadow-lg)}
+.data-modal-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 0;flex-shrink:0}
+.data-modal-header-left{display:flex;align-items:center;gap:12px}
+.data-modal-badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px;background:rgba(59,130,246,.15);color:var(--blue);border:1px solid rgba(59,130,246,.3);text-transform:uppercase;letter-spacing:.5px}
+.data-modal-body{flex:1;overflow-y:auto;padding:20px 24px 24px}
+.data-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:20px;flex-shrink:0}
+.data-tab{padding:8px 18px;font-size:12px;font-weight:500;color:var(--text-3);cursor:pointer;border-bottom:2px solid transparent;transition:var(--transition);margin-bottom:-1px}
+.data-tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.data-tab:hover:not(.active){color:var(--text-2)}
+.data-section-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text-3);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.data-section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.schema-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px}
+.schema-card{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:14px;position:relative;overflow:hidden}
+.schema-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.schema-card.device::before{background:linear-gradient(90deg,#3b82f6,#6366f1)}
+.schema-card.material::before{background:linear-gradient(90deg,#00d4aa,#10b981)}
+.schema-card.process::before{background:linear-gradient(90deg,#f59e0b,#ef4444)}
+.schema-card.output::before{background:linear-gradient(90deg,#a855f7,#ec4899)}
+.schema-card-title{font-size:12px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.schema-field{display:flex;align-items:baseline;gap:8px;padding:4px 0;border-bottom:1px solid var(--border)}
+.schema-field:last-child{border-bottom:none}
+.schema-field-name{font-size:11px;font-family:'SF Mono','Fira Code',monospace;color:var(--accent);min-width:130px;flex-shrink:0}
+.schema-field-type{font-size:10px;color:var(--blue);min-width:60px;flex-shrink:0}
+.schema-field-desc{font-size:10px;color:var(--text-3);flex:1}
+.sample-record{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.sample-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--surface-3);border-bottom:1px solid var(--border)}
+.sample-id{font-size:11px;font-family:monospace;color:var(--text-3)}
+.sample-status{font-size:10px;font-weight:600;padding:2px 8px;border-radius:8px;background:rgba(34,197,94,.12);color:var(--success);border:1px solid rgba(34,197,94,.25)}
+.sample-body{display:grid;grid-template-columns:repeat(2,1fr);gap:0}
+.sample-group{padding:14px 16px;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
+.sample-group:nth-child(2n){border-right:none}
+.sample-group:nth-last-child(-n+2){border-bottom:none}
+.sample-group-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.sample-group-title.blue{color:var(--blue)}
+.sample-group-title.green{color:var(--accent)}
+.sample-group-title.orange{color:var(--orange)}
+.sample-group-title.purple{color:var(--purple)}
+.sample-row{display:flex;align-items:baseline;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.sample-row:last-child{border-bottom:none}
+.sample-key{font-size:10px;color:var(--text-3);font-family:monospace}
+.sample-val{font-size:11px;font-weight:600;color:var(--text);text-align:right;max-width:180px;word-break:break-all}
+.sample-val.accent{color:var(--accent)}
+.sample-val.orange{color:var(--orange)}
+.sample-val.blue{color:var(--blue)}
+.sample-val.purple{color:var(--purple)}
+.sample-val.green{color:var(--success)}
+.data-insight{background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.2);border-radius:8px;padding:12px 14px;margin-top:16px;font-size:11px;color:var(--text-2);line-height:1.7}
+.data-insight strong{color:var(--blue)}
+.json-preview{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;font-size:10px;font-family:'SF Mono','Fira Code',monospace;color:var(--text-2);overflow-x:auto;line-height:1.7;white-space:pre;margin-top:8px}
+.json-key{color:#7dd3fc}
+.json-str{color:#86efac}
+.json-num{color:#fbbf24}
+.json-bool{color:#c084fc}
 
 .select-styled{background:var(--surface-2);border:1px solid var(--border);color:var(--text);padding:7px 28px 7px 12px;border-radius:6px;font-size:12px;cursor:pointer;outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238b8f96' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
 .select-styled option{background:var(--surface-2)}
@@ -314,6 +371,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
     <div class="topbar-actions">
       <div class="dirty-badge" id="dirtyBadge" data-i18n="unsaved">● 未保存</div>
       <button class="btn btn-sm lang-toggle" onclick="toggleLang()" id="langToggle" title="Switch Language">中文</button>
+      <button class="btn btn-sm btn-data" onclick="openDataModal()" id="dataAssetBtn" data-i18n="dataAsset">📊 数据资产</button>
       <button class="btn btn-sm" onclick="toggleRecipePanel()" id="recipePanelBtn" data-i18n="recipeLibrary">📋 配方库</button>
       <button class="btn btn-sm" onclick="openImportModal()" data-i18n="import">📥 导入</button>
       <button class="btn btn-sm btn-primary" onclick="openSaveModal()" data-i18n="save">💾 保存</button>
@@ -583,6 +641,183 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
 
 <div class="toast" id="toast"><span class="toast-icon">✓</span><span id="toastText"></span></div>
 
+<!-- Data Asset Modal -->
+<div class="modal-overlay" id="dataModal">
+  <div class="data-modal">
+    <div class="data-modal-header">
+      <div class="data-modal-header-left">
+        <h3 id="dataModalTitle" style="font-size:17px;font-weight:700">数据资产信息库</h3>
+        <span class="data-modal-badge" id="dataModalBadge">INVESTOR DEMO</span>
+      </div>
+      <button class="btn btn-sm btn-icon" onclick="closeDataModal()" style="font-size:14px;">✕</button>
+    </div>
+    <div class="data-tabs" style="padding:0 24px;margin-top:16px">
+      <div class="data-tab active" id="tabSchema" onclick="switchDataTab('schema')">数据库结构</div>
+      <div class="data-tab" id="tabSample" onclick="switchDataTab('sample')">脱敏样例</div>
+      <div class="data-tab" id="tabInsight" onclick="switchDataTab('insight')">数据洞察</div>
+    </div>
+    <div class="data-modal-body">
+
+      <!-- Tab: Schema -->
+      <div id="dataPanelSchema">
+        <div class="data-section-label" id="schemaLabel">数据库字段结构</div>
+        <div class="schema-grid">
+          <!-- Device -->
+          <div class="schema-card device">
+            <div class="schema-card-title"><span>🖥</span> <span id="schemaDeviceTitle">设备信息</span></div>
+            <div class="schema-field"><span class="schema-field-name">device_id</span><span class="schema-field-type">UUID</span><span class="schema-field-desc">设备唯一标识（脱敏）</span></div>
+            <div class="schema-field"><span class="schema-field-name">device_model</span><span class="schema-field-type">VARCHAR</span><span class="schema-field-desc">设备型号</span></div>
+            <div class="schema-field"><span class="schema-field-name">firmware_ver</span><span class="schema-field-type">VARCHAR</span><span class="schema-field-desc">固件版本</span></div>
+            <div class="schema-field"><span class="schema-field-name">screw_diameter</span><span class="schema-field-type">FLOAT</span><span class="schema-field-desc">螺杆直径 mm</span></div>
+            <div class="schema-field"><span class="schema-field-name">barrel_length</span><span class="schema-field-type">FLOAT</span><span class="schema-field-desc">料桶有效长度 mm</span></div>
+            <div class="schema-field"><span class="schema-field-name">region</span><span class="schema-field-type">VARCHAR</span><span class="schema-field-desc">地区（用于环境差异分析）</span></div>
+            <div class="schema-field"><span class="schema-field-name">ambient_temp</span><span class="schema-field-type">FLOAT</span><span class="schema-field-desc">环境温度 °C</span></div>
+            <div class="schema-field"><span class="schema-field-name">ambient_humidity</span><span class="schema-field-type">FLOAT</span><span class="schema-field-desc">环境湿度 %RH</span></div>
+          </div>
+          <!-- Material -->
+          <div class="schema-card material">
+            <div class="schema-card-title"><span>🧪</span> <span id="schemaMaterialTitle">材料配方</span></div>
+            <div class="schema-field"><span class="schema-field-name">base_material</span><span class="schema-field-type">VARCHAR</span><span class="schema-field-desc">主材料类型 PLA/PETG/ABS…</span></div>
+            <div class="schema-field"><span class="schema-field-name">blend_material</span><span class="schema-field-type">VARCHAR</span><span class="schema-field-desc">混合材料（可空）</span></div>
+            <div class="schema-field"><span class="schema-field-name">blend_ratio</span><span class="schema-field-type">FLOAT</span><span class="schema-field-desc">主材料占比 %</span></div>
+            <div class="schema-field"><span class="schema-field-name">color_method</span><span class="schema-field-type">ENUM</span><span class="schema-field-desc">none / powder</span></div>
+            <div class="schema-field"><span class="schema-field-name">color_hex</span><span class="schema-field-type">VARCHAR(7)</span><span class="schema-field-desc">目标色值 #RRGGBB</span></div>
+            <div class="schema-field"><span class="schema-field-name">color_dosage</span><span class="schema-field-type">FLOAT</span><span class="schema-field-desc">色粉用量 %</span></div>
+            <div class="schema-field"><span class="schema-field-name">additives</span><span class="schema-field-type">JSONB</span><span class="schema-field-desc">{type: pct} 功能性添加剂</span></div>
+            <div class="schema-field"><span class="schema-field-name">pellet_lot_id</span><span class="schema-field-type">VARCHAR</span><span class="schema-field-desc">颗粒批次号（可溯源）</span></div>
+          </div>
+          <!-- Process -->
+          <div class="schema-card process">
+            <div class="schema-card-title"><span>⚙️</span> <span id="schemaProcessTitle">工艺参数</span></div>
+            <div class="schema-field"><span class="schema-field-name">barrel_temp</span><span class="schema-field-type">FLOAT</span><span class="schema-field-desc">料桶温度设定值 °C</span></div>
+            <div class="schema-field"><span class="schema-field-name">barrel_temp_actual</span><span class="schema-field-type">FLOAT[]</span><span class="schema-field-desc">实际温度曲线（时序）</span></div>
+            <div class="schema-field"><span class="schema-field-name">screw_speed</span><span class="schema-field-type">FLOAT</span><span class="schema-field-desc">螺杆转速 RPM</span></div>
+            <div class="schema-field"><span class="schema-field-name">traction_speed</span><span class="schema-field-type">FLOAT</span><span class="schema-field-desc">牵引速度 mm/s</span></div>
+            <div class="schema-field"><span class="schema-field-name">run_duration</span><span class="schema-field-type">INTEGER</span><span class="schema-field-desc">本次出线时长 秒</span></div>
+            <div class="schema-field"><span class="schema-field-name">throughput</span><span class="schema-field-type">FLOAT</span><span class="schema-field-desc">本次出料量 克</span></div>
+            <div class="schema-field"><span class="schema-field-name">started_at</span><span class="schema-field-type">TIMESTAMP</span><span class="schema-field-desc">任务开始时间</span></div>
+            <div class="schema-field"><span class="schema-field-name">recipe_id</span><span class="schema-field-type">UUID FK</span><span class="schema-field-desc">关联配方记录</span></div>
+          </div>
+          <!-- Output -->
+          <div class="schema-card output">
+            <div class="schema-card-title"><span>📦</span> <span id="schemaOutputTitle">成品表现</span></div>
+            <div class="schema-field"><span class="schema-field-name">diameter_avg</span><span class="schema-field-type">FLOAT</span><span class="schema-field-desc">线径均值 mm</span></div>
+            <div class="schema-field"><span class="schema-field-name">diameter_std</span><span class="schema-field-type">FLOAT</span><span class="schema-field-desc">线径标准差 mm</span></div>
+            <div class="schema-field"><span class="schema-field-name">surface_quality</span><span class="schema-field-type">ENUM</span><span class="schema-field-desc">smooth/rough/bubbled</span></div>
+            <div class="schema-field"><span class="schema-field-name">color_delta_e</span><span class="schema-field-type">FLOAT</span><span class="schema-field-desc">实际色差 ΔE (Lab空间)</span></div>
+            <div class="schema-field"><span class="schema-field-name">tensile_strength</span><span class="schema-field-type">FLOAT</span><span class="schema-field-desc">抗拉强度 MPa（可选）</span></div>
+            <div class="schema-field"><span class="schema-field-name">user_rating</span><span class="schema-field-type">SMALLINT</span><span class="schema-field-desc">用户评分 1-5</span></div>
+            <div class="schema-field"><span class="schema-field-name">qa_pass</span><span class="schema-field-type">BOOLEAN</span><span class="schema-field-desc">是否达标</span></div>
+            <div class="schema-field"><span class="schema-field-name">notes</span><span class="schema-field-type">TEXT</span><span class="schema-field-desc">用户备注</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Sample Record -->
+      <div id="dataPanelSample" style="display:none">
+        <div class="data-section-label" id="sampleLabel">完整记录样例（已脱敏）</div>
+        <div class="sample-record">
+          <div class="sample-header">
+            <span class="sample-id">record_id: a3f2-8c1d-…-9e04 &nbsp;|&nbsp; created_at: 2026-06-21 14:32:07 UTC</span>
+            <span class="sample-status" id="sampleStatusLabel">✓ QA PASS</span>
+          </div>
+          <div class="sample-body">
+            <!-- Device -->
+            <div class="sample-group">
+              <div class="sample-group-title blue">🖥 <span id="sampleDeviceTitle">设备信息</span></div>
+              <div class="sample-row"><span class="sample-key">device_model</span><span class="sample-val blue">FS-Mini v2.1</span></div>
+              <div class="sample-row"><span class="sample-key">firmware_ver</span><span class="sample-val">1.4.2</span></div>
+              <div class="sample-row"><span class="sample-key">screw_diameter</span><span class="sample-val">20.0 mm</span></div>
+              <div class="sample-row"><span class="sample-key">barrel_length</span><span class="sample-val">240 mm</span></div>
+              <div class="sample-row"><span class="sample-key">region</span><span class="sample-val">SEA / MY</span></div>
+              <div class="sample-row"><span class="sample-key">ambient_temp</span><span class="sample-val orange">29.4 °C</span></div>
+              <div class="sample-row"><span class="sample-key">ambient_humidity</span><span class="sample-val orange">68 %RH</span></div>
+            </div>
+            <!-- Material -->
+            <div class="sample-group">
+              <div class="sample-group-title green">🧪 <span id="sampleMaterialTitle">材料配方</span></div>
+              <div class="sample-row"><span class="sample-key">base_material</span><span class="sample-val accent">PLA</span></div>
+              <div class="sample-row"><span class="sample-key">blend_material</span><span class="sample-val" style="color:var(--text-3)">null</span></div>
+              <div class="sample-row"><span class="sample-key">blend_ratio</span><span class="sample-val" style="color:var(--text-3)">—</span></div>
+              <div class="sample-row"><span class="sample-key">color_method</span><span class="sample-val">powder</span></div>
+              <div class="sample-row"><span class="sample-key">color_hex</span><span class="sample-val" style="display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:#1A1A1A;border:1px solid rgba(255,255,255,0.2)"></span>#1A1A1A</span></div>
+              <div class="sample-row"><span class="sample-key">color_dosage</span><span class="sample-val">1.5 %</span></div>
+              <div class="sample-row"><span class="sample-key">additives</span><span class="sample-val purple">{"carbonFiber": 12}</span></div>
+              <div class="sample-row"><span class="sample-key">pellet_lot_id</span><span class="sample-val" style="color:var(--text-3)">LOT-PLA-240601</span></div>
+            </div>
+            <!-- Process -->
+            <div class="sample-group">
+              <div class="sample-group-title orange">⚙️ <span id="sampleProcessTitle">工艺参数</span></div>
+              <div class="sample-row"><span class="sample-key">barrel_temp</span><span class="sample-val orange">215 °C</span></div>
+              <div class="sample-row"><span class="sample-key">barrel_temp_actual</span><span class="sample-val" style="font-size:9px;color:var(--text-2)">[213,214,215,215,214,215]</span></div>
+              <div class="sample-row"><span class="sample-key">screw_speed</span><span class="sample-val orange">10 RPM</span></div>
+              <div class="sample-row"><span class="sample-key">traction_speed</span><span class="sample-val">33 mm/s</span></div>
+              <div class="sample-row"><span class="sample-key">run_duration</span><span class="sample-val">3,600 s</span></div>
+              <div class="sample-row"><span class="sample-key">throughput</span><span class="sample-val">248 g</span></div>
+              <div class="sample-row"><span class="sample-key">started_at</span><span class="sample-val" style="font-size:9px;color:var(--text-2)">2026-06-21 14:32:07</span></div>
+            </div>
+            <!-- Output -->
+            <div class="sample-group">
+              <div class="sample-group-title purple">📦 <span id="sampleOutputTitle">成品表现</span></div>
+              <div class="sample-row"><span class="sample-key">diameter_avg</span><span class="sample-val green">1.748 mm</span></div>
+              <div class="sample-row"><span class="sample-key">diameter_std</span><span class="sample-val green">±0.023 mm</span></div>
+              <div class="sample-row"><span class="sample-key">surface_quality</span><span class="sample-val green">smooth</span></div>
+              <div class="sample-row"><span class="sample-key">color_delta_e</span><span class="sample-val green">ΔE = 1.2</span></div>
+              <div class="sample-row"><span class="sample-key">tensile_strength</span><span class="sample-val">54.3 MPa</span></div>
+              <div class="sample-row"><span class="sample-key">user_rating</span><span class="sample-val" style="color:#fbbf24">★★★★★ (5)</span></div>
+              <div class="sample-row"><span class="sample-key">qa_pass</span><span class="sample-val green">true</span></div>
+              <div class="sample-row"><span class="sample-key">notes</span><span class="sample-val" style="font-size:10px;color:var(--text-2)">高湿环境下温度需+5°C</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Insight -->
+      <div id="dataPanelInsight" style="display:none">
+        <div class="data-section-label">数据资产价值</div>
+        <div class="schema-grid" style="grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px">
+          <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center">
+            <div style="font-size:26px;font-weight:800;color:var(--blue)">32+</div>
+            <div style="font-size:10px;color:var(--text-3);margin-top:4px" id="insightF1">字段 / 每条记录</div>
+          </div>
+          <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center">
+            <div style="font-size:26px;font-weight:800;color:var(--accent)">4</div>
+            <div style="font-size:10px;color:var(--text-3);margin-top:4px" id="insightF2">数据维度</div>
+          </div>
+          <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center">
+            <div style="font-size:26px;font-weight:800;color:var(--orange)">∞</div>
+            <div style="font-size:10px;color:var(--text-3);margin-top:4px" id="insightF3">设备 × 材料 × 工况组合</div>
+          </div>
+          <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center">
+            <div style="font-size:26px;font-weight:800;color:var(--purple)">ML</div>
+            <div style="font-size:10px;color:var(--text-3);margin-top:4px" id="insightF4">可训练推荐模型</div>
+          </div>
+        </div>
+        <div class="data-section-label">数据流向</div>
+        <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:16px;font-size:11px;color:var(--text-2);line-height:2">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <span style="background:rgba(59,130,246,.15);color:var(--blue);padding:4px 10px;border-radius:6px;font-weight:600">用户操作配方</span>
+            <span style="color:var(--text-3)">→</span>
+            <span style="background:rgba(0,212,170,.15);color:var(--accent);padding:4px 10px;border-radius:6px;font-weight:600">设备执行出线</span>
+            <span style="color:var(--text-3)">→</span>
+            <span style="background:rgba(245,158,11,.15);color:var(--orange);padding:4px 10px;border-radius:6px;font-weight:600">传感器采集工艺数据</span>
+            <span style="color:var(--text-3)">→</span>
+            <span style="background:rgba(168,85,247,.15);color:var(--purple);padding:4px 10px;border-radius:6px;font-weight:600">用户填写成品评价</span>
+            <span style="color:var(--text-3)">→</span>
+            <span style="background:rgba(34,197,94,.15);color:var(--success);padding:4px 10px;border-radius:6px;font-weight:600">结构化入库</span>
+          </div>
+        </div>
+        <div class="data-insight" id="insightText">
+          以上一条记录即为 Filashop 数据资产的最小粒度单元。每台设备每次出线任务均会生成一条结构化记录，包含 <strong>4个维度 · 32+字段</strong>。不同设备、不同用户在相同材料下的参数差异，构成了可挖掘的工艺优化数据集。多条记录横向对比，可训练出针对特定材料/环境/设备型号的最优参数推荐模型。
+        </div>
+        <div class="data-section-label" style="margin-top:16px">原始 JSON 预览</div>
+        <div class="json-preview" id="jsonPreview"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <script>
 // ===== i18n System =====
 const LANG = {
@@ -620,8 +855,7 @@ const LANG = {
     functionalAdditives:'功能性添加剂 <span class="section-count" id="additiveCount"></span>',
     summary:'摘要',
     copyRecipe:'复制配方',
-    recipeLibraryTitle:'配方库',
-    recipeCount:(n)=>n+' 个配方',
+    recipeLibraryTitle:'配方库',    recipeCount:(n)=>n+' 个配方',
     selectRecipe:'— 选择配方 —',
     load:'加载',
     delete:'删除',
@@ -682,6 +916,24 @@ const LANG = {
     additivesSection:'添加剂',
     builtin:'出厂',
     additiveCountStr:(n)=>`+${n}添加剂`,
+    // Data Asset
+    dataAsset:'📊 数据资产',
+    dataAssetTitle:'数据资产信息库',
+    dataAssetBadge:'INVESTOR DEMO',
+    tabSchema:'数据库结构',
+    tabSample:'脱敏样例',
+    tabInsight:'数据洞察',
+    schemaDevice:'设备信息',
+    schemaMaterial:'材料配方',
+    schemaProcess:'工艺参数',
+    schemaOutput:'成品表现',
+    sampleTitle:'完整记录样例（已脱敏）',
+    deviceGroup:'设备信息',
+    materialGroup:'材料配方',
+    processGroup:'工艺参数',
+    outputGroup:'成品表现',
+    insightText:'以上一条记录即为 Filashop 数据资产的最小粒度单元。每台设备每次出线任务均会生成一条结构化记录，包含 <strong>4个维度 · 32+字段</strong>。不同设备、不同用户在相同材料下的参数差异，构成了可挖掘的工艺优化数据集。多条记录横向对比，可训练出针对特定材料/环境/设备型号的最优参数推荐模型。',
+    viewJSON:'查看原始 JSON',
   },
   en: {
     subtitle:'Pellet-to-Filament Recipe Studio',
@@ -779,6 +1031,24 @@ const LANG = {
     additivesSection:'Additives',
     builtin:'Built-in',
     additiveCountStr:(n)=>`+${n} additive`,
+    // Data Asset
+    dataAsset:'📊 Data Assets',
+    dataAssetTitle:'Data Asset Repository',
+    dataAssetBadge:'INVESTOR DEMO',
+    tabSchema:'Schema',
+    tabSample:'Sample Record',
+    tabInsight:'Insights',
+    schemaDevice:'Device Info',
+    schemaMaterial:'Material Formula',
+    schemaProcess:'Process Parameters',
+    schemaOutput:'Output Performance',
+    sampleTitle:'Full Anonymized Record',
+    deviceGroup:'Device Info',
+    materialGroup:'Material Formula',
+    processGroup:'Process Parameters',
+    outputGroup:'Output Performance',
+    insightText:'Each record above is the <strong>atomic unit</strong> of Filashop\'s data asset. Every extrusion run generates one structured record across <strong>4 dimensions · 32+ fields</strong>. Cross-device parameter variance on identical materials forms a rich optimization dataset. With sufficient volume, this enables training material/device-specific parameter recommendation models.',
+    viewJSON:'View Raw JSON',
   }
 };
 let currentLang = localStorage.getItem('filashop_lang') || 'zh';
@@ -798,6 +1068,9 @@ function applyLanguage(){
   // Update lang toggle button
   const btn=document.getElementById('langToggle');
   if(btn) btn.textContent = currentLang==='zh'?'EN':'中文';
+  // Update data asset button text
+  const dataBtn=document.getElementById('dataAssetBtn');
+  if(dataBtn) dataBtn.textContent = t('dataAsset');
   // Update [data-i18n] elements
   document.querySelectorAll('[data-i18n]').forEach(el=>{
     const key=el.getAttribute('data-i18n');
@@ -1732,6 +2005,102 @@ function openExport(type){
   document.getElementById('exportModal').classList.add('show');
 }
 function closeExport(){document.getElementById('exportModal').classList.remove('show');}
+
+// ===== Data Asset Modal =====
+const SAMPLE_RECORD = {
+  record_id: "a3f2-8c1d-4b7a-9e04",
+  created_at: "2026-06-21T14:32:07Z",
+  device: {
+    device_id: "DEV-***-7f3a",
+    device_model: "FS-Mini v2.1",
+    firmware_ver: "1.4.2",
+    screw_diameter: 20.0,
+    barrel_length: 240,
+    region: "SEA/MY",
+    ambient_temp: 29.4,
+    ambient_humidity: 68
+  },
+  material: {
+    base_material: "PLA",
+    blend_material: null,
+    blend_ratio: null,
+    color_method: "powder",
+    color_hex: "#1A1A1A",
+    color_dosage: 1.5,
+    additives: { carbonFiber: 12 },
+    pellet_lot_id: "LOT-PLA-240601"
+  },
+  process: {
+    barrel_temp: 215,
+    barrel_temp_actual: [213,214,215,215,214,215],
+    screw_speed: 10,
+    traction_speed: 33,
+    run_duration: 3600,
+    throughput: 248,
+    started_at: "2026-06-21T14:32:07Z",
+    recipe_id: "RCP-***-b2c9"
+  },
+  output: {
+    diameter_avg: 1.748,
+    diameter_std: 0.023,
+    surface_quality: "smooth",
+    color_delta_e: 1.2,
+    tensile_strength: 54.3,
+    user_rating: 5,
+    qa_pass: true,
+    notes: "高湿环境下温度需+5°C"
+  }
+};
+
+let currentDataTab = 'schema';
+
+function openDataModal(){
+  renderDataModal();
+  document.getElementById('dataModal').classList.add('show');
+}
+function closeDataModal(){
+  document.getElementById('dataModal').classList.remove('show');
+}
+function switchDataTab(tab){
+  currentDataTab=tab;
+  ['schema','sample','insight'].forEach(id=>{
+    document.getElementById('dataPanel'+id.charAt(0).toUpperCase()+id.slice(1)).style.display = id===tab?'block':'none';
+    document.getElementById('tab'+id.charAt(0).toUpperCase()+id.slice(1)).classList.toggle('active',id===tab);
+  });
+}
+function renderDataModal(){
+  // Update i18n text in modal
+  document.getElementById('dataModalTitle').textContent = t('dataAssetTitle');
+  document.getElementById('dataModalBadge').textContent = t('dataAssetBadge');
+  document.getElementById('tabSchema').textContent = t('tabSchema');
+  document.getElementById('tabSample').textContent = t('tabSample');
+  document.getElementById('tabInsight').textContent = t('tabInsight');
+  // Schema titles
+  document.getElementById('schemaDeviceTitle').textContent = t('schemaDevice');
+  document.getElementById('schemaMaterialTitle').textContent = t('schemaMaterial');
+  document.getElementById('schemaProcessTitle').textContent = t('schemaProcess');
+  document.getElementById('schemaOutputTitle').textContent = t('schemaOutput');
+  // Sample titles
+  document.getElementById('sampleDeviceTitle').textContent = t('deviceGroup');
+  document.getElementById('sampleMaterialTitle').textContent = t('materialGroup');
+  document.getElementById('sampleProcessTitle').textContent = t('processGroup');
+  document.getElementById('sampleOutputTitle').textContent = t('outputGroup');
+  // Insight text
+  document.getElementById('insightText').innerHTML = t('insightText');
+  document.getElementById('insightF1').textContent = currentLang==='zh'?'字段 / 每条记录':'Fields / Record';
+  document.getElementById('insightF2').textContent = currentLang==='zh'?'数据维度':'Dimensions';
+  document.getElementById('insightF3').textContent = currentLang==='zh'?'设备 × 材料 × 工况组合':'Device × Material × Env';
+  document.getElementById('insightF4').textContent = currentLang==='zh'?'可训练推荐模型':'Trainable ML Model';
+  // JSON preview with syntax highlighting
+  const json = JSON.stringify(SAMPLE_RECORD, null, 2);
+  document.getElementById('jsonPreview').innerHTML = json
+    .replace(/("[\w_]+")\s*:/g, '<span class="json-key">$1</span>:')
+    .replace(/:\s*"([^"]+)"/g, ': <span class="json-str">"$1"</span>')
+    .replace(/:\s*(\d+\.?\d*)/g, ': <span class="json-num">$1</span>')
+    .replace(/:\s*(true|false|null)/g, ': <span class="json-bool">$1</span>');
+  // Re-apply tab state
+  switchDataTab(currentDataTab);
+}
 function copyExport(){navigator.clipboard.writeText(exportContent).then(()=>showToast(t('copied'),'success')).catch(()=>showToast(t('copyFailed'),'error'));}
 function copySummary(){navigator.clipboard.writeText(buildText()).then(()=>showToast(t('recipeCopied'),'success')).catch(()=>showToast(t('copyFailed'),'error'));}
 function downloadExport(){
