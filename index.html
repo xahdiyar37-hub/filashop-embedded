@@ -391,6 +391,31 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
 .dia-btn-complete{margin-left:auto;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;border:1px solid var(--blue);background:rgba(59,130,246,.1);color:var(--blue);cursor:pointer;transition:var(--transition)}
 .dia-btn-complete:hover{background:rgba(59,130,246,.2)}
 
+/* Data Source Bar */
+.dia-source-bar{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:16px}
+.dia-source-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dia-source-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--text-3)}
+.dia-source-select{background:var(--surface);border:1px solid var(--border-strong);border-radius:6px;padding:5px 10px;font-size:12px;color:var(--text);cursor:pointer;outline:none}
+.dia-source-select:focus{border-color:var(--accent)}
+.dia-source-status{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-3)}
+.dia-source-status .dot{width:8px;height:8px;border-radius:50%;background:var(--text-3)}
+.dia-source-status .dot.connected{background:var(--accent);box-shadow:0 0 6px var(--accent-glow)}
+.dia-source-status .dot.connecting{background:var(--warn);animation:dia-pulse 1s ease-in-out infinite}
+.dia-source-status .dot.error{background:var(--danger)}
+.dia-source-btn{padding:5px 14px;border-radius:6px;font-size:11px;font-weight:600;border:1px solid var(--border-strong);background:transparent;color:var(--text);cursor:pointer;transition:var(--transition)}
+.dia-source-btn:hover{border-color:var(--accent);color:var(--accent)}
+.dia-source-btn.active{border-color:var(--danger);background:rgba(239,68,68,.1);color:var(--danger)}
+.dia-source-config{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);gap:10px;flex-wrap:wrap}
+.dia-source-config.show{display:flex}
+.dia-source-field{display:flex;align-items:center;gap:6px}
+.dia-source-field label{font-size:10px;color:var(--text-3);white-space:nowrap}
+.dia-source-field input{background:var(--surface);border:1px solid var(--border-strong);border-radius:6px;padding:4px 8px;font-size:11px;color:var(--text);width:100%;outline:none;font-family:monospace}
+.dia-source-field input:focus{border-color:var(--accent)}
+.dia-source-field input.short{width:70px}
+.dia-source-field input.medium{width:140px}
+.dia-source-field input.long{width:220px}
+.dia-source-hint{font-size:10px;color:var(--text-3);line-height:1.5;margin-top:6px;padding:6px 10px;background:var(--surface);border-radius:6px;border-left:2px solid var(--blue)}
+
 /* Scoring Panel */
 .dia-score-panel{display:none;flex-direction:column;gap:20px}
 .dia-score-panel.show{display:flex}
@@ -900,6 +925,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
         <div class="dia-canvas-wrap">
           <canvas id="diaCanvas"></canvas>
         </div>
+        <div class="dia-source-bar">
+          <div class="dia-source-row">
+            <span class="dia-source-label" id="diaSrcLbl">数据源</span>
+            <select class="dia-source-select" id="diaSrcSelect" onchange="onDiaSrcChange()">
+              <option value="simulated" id="diaSrcSim">模拟数据</option>
+              <option value="websocket" id="diaSrcWS">WebSocket</option>
+              <option value="serial" id="diaSrcSerial">串口 (Serial)</option>
+              <option value="http" id="diaSrcHTTP">HTTP 轮询</option>
+            </select>
+            <div class="dia-source-status">
+              <span class="dot" id="diaSrcDot"></span>
+              <span id="diaSrcStatus">未连接</span>
+            </div>
+            <button class="dia-source-btn" id="diaSrcConnBtn" onclick="toggleDiaSourceConn()">连接</button>
+          </div>
+          <div class="dia-source-config" id="diaSrcConfig"></div>
+        </div>
         <div class="dia-stats-row">
           <div class="dia-stat-card" id="diaStatCurrent">
             <div class="dia-stat-label" id="diaLblCurrent">当前线径</div>
@@ -1106,6 +1148,25 @@ const LANG = {
     diaCommentB:'良好品质 — 线径在可接受范围内，适合一般打印',
     diaCommentC:'一般品质 — 线径波动较大，可能影响打印质量',
     diaCommentD:'不合格 — 线径波动过大，不建议使用',
+    // Data Source
+    diaSrcLabel:'数据源',
+    diaSrcSim:'模拟数据',
+    diaSrcWS:'WebSocket',
+    diaSrcSerial:'串口 (Serial)',
+    diaSrcHTTP:'HTTP 轮询',
+    diaSrcConn:'连接',
+    diaSrcDisc:'断开',
+    diaSrcDisconnected:'未连接',
+    diaSrcConnecting:'连接中…',
+    diaSrcConnected:'已连接',
+    diaSrcError:'连接错误',
+    diaSrcWsUrl:'WebSocket 地址',
+    diaSrcWsHint:'设备需以 WebSocket 推送 JSON 数据，格式: {"diameter": 1.752, "ts": 1719200000000}',
+    diaSrcSerialBaud:'波特率',
+    diaSrcSerialHint:'使用 Web Serial API 直连 USB 串口激光测径仪。浏览器需支持 navigator.serial（Chrome/Edge 89+）',
+    diaSrcHttpUrl:'API 地址',
+    diaSrcHttpInterval:'轮询(ms)',
+    diaSrcHttpHint:'HTTP GET 返回 JSON: {"diameter": 1.752}。适合通过局域网网关转发设备数据',
   },
   en: {
     subtitle:'Pellet-to-Filament Recipe Studio',
@@ -1252,6 +1313,25 @@ const LANG = {
     diaCommentB:'Fair — Within acceptable range for general printing',
     diaCommentC:'Marginal — High variance, may affect print quality',
     diaCommentD:'Failed — Excessive variance, not recommended',
+    // Data Source
+    diaSrcLabel:'Data Source',
+    diaSrcSim:'Simulated',
+    diaSrcWS:'WebSocket',
+    diaSrcSerial:'Serial (USB)',
+    diaSrcHTTP:'HTTP Polling',
+    diaSrcConn:'Connect',
+    diaSrcDisc:'Disconnect',
+    diaSrcDisconnected:'Disconnected',
+    diaSrcConnecting:'Connecting…',
+    diaSrcConnected:'Connected',
+    diaSrcError:'Connection Error',
+    diaSrcWsUrl:'WebSocket URL',
+    diaSrcWsHint:'Device must push JSON via WebSocket. Format: {"diameter": 1.752, "ts": 1719200000000}',
+    diaSrcSerialBaud:'Baud Rate',
+    diaSrcSerialHint:'Connects to USB laser micrometer via Web Serial API. Requires Chrome/Edge 89+ (navigator.serial)',
+    diaSrcHttpUrl:'API URL',
+    diaSrcHttpInterval:'Poll (ms)',
+    diaSrcHttpHint:'HTTP GET returns JSON: {"diameter": 1.752}. Use a LAN gateway to relay device data',
   }
 };
 let currentLang = localStorage.getItem('filashop_lang') || 'zh';
@@ -2279,6 +2359,243 @@ let diaTimerInterval=null;
 let diaDrift=0;          // slow drift component
 let diaDriftDir=1;
 
+// ===== Data Source Abstraction Layer =====
+// Pluggable data source for diameter readings.
+// To connect real hardware, select the appropriate source mode in the UI,
+// or implement a custom source following this interface:
+//
+//   interface DiaSource {
+//     connect(config): Promise<void>   — establish connection
+//     disconnect(): void               — close connection & cleanup
+//     isConnected(): boolean           — true if actively receiving data
+//     getStatus(): string              — 'disconnected'|'connecting'|'connected'|'error'
+//   }
+//
+// When a sample arrives, call diaSource.onSample(value_mm).
+// The value must be a float in millimeters (e.g. 1.752).
+
+let diaSource=null;       // active DiaSource instance
+let diaSourceMode='simulated';  // 'simulated' | 'websocket' | 'serial' | 'http'
+let diaSourceStatus='disconnected';
+let diaSampleCallback=null;
+
+function setDiaSourceStatus(s){
+  diaSourceStatus=s;
+  const dot=document.getElementById('diaSrcDot');
+  const txt=document.getElementById('diaSrcStatus');
+  const btn=document.getElementById('diaSrcConnBtn');
+  if(!dot)return;
+  dot.className='dot '+s;
+  txt.textContent=t('diaSrc'+s.charAt(0).toUpperCase()+s.slice(1));
+  btn.textContent=s==='connected'?t('diaSrcDisc'):t('diaSrcConn');
+  btn.className=s==='connected'?'dia-source-btn active':'dia-source-btn';
+}
+
+// --- Simulated Source (default, no hardware needed) ---
+class SimDiaSource{
+  constructor(){this.running=false;}
+  async connect(){this.running=true;setDiaSourceStatus('connected');}
+  disconnect(){this.running=false;}
+  isConnected(){return this.running;}
+  getStatus(){return this.running?'connected':'disconnected';}
+  // Returns next simulated sample (called by diaLoop)
+  next(){
+    diaDrift+=(Math.random()-0.5)*0.003;
+    if(Math.abs(diaDrift)>0.03)diaDrift*=-0.95;
+    const u=Math.random(),v=Math.random();
+    const noise=Math.sqrt(-2*Math.log(u||0.0001))*Math.cos(2*Math.PI*v)*0.02;
+    const spike=Math.random()<0.02?(Math.random()-0.5)*0.08:0;
+    return Math.max(1.50,Math.min(2.00,1.75+diaDrift+noise+spike));
+  }
+}
+
+// --- WebSocket Source ---
+// Expects server to push JSON: {"diameter": 1.752, "ts": 1719200000000}
+// Works with any WebSocket server (Node.js, Python, ESP32, etc.)
+class WSDiaSource{
+  constructor(url){
+    this.url=url||'ws://localhost:8080/diameter';
+    this.ws=null;this._status='disconnected';
+  }
+  async connect(){
+    this._status='connecting';setDiaSourceStatus('connecting');
+    return new Promise((resolve,reject)=>{
+      try{
+        this.ws=new WebSocket(this.url);
+        this.ws.onopen=()=>{this._status='connected';setDiaSourceStatus('connected');resolve();};
+        this.ws.onmessage=(e)=>{
+          try{
+            const d=JSON.parse(e.data);
+            if(typeof d.diameter==='number'&&diaSampleCallback){
+              diaSampleCallback(d.diameter);
+            }
+          }catch(err){/* ignore malformed */}
+        };
+        this.ws.onerror=()=>{this._status='error';setDiaSourceStatus('error');reject(new Error('WS error'));};
+        this.ws.onclose=()=>{this._status='disconnected';setDiaSourceStatus('disconnected');};
+      }catch(err){this._status='error';setDiaSourceStatus('error');reject(err);}
+    });
+  }
+  disconnect(){
+    if(this.ws){try{this.ws.close();}catch(e){}this.ws=null;}
+    this._status='disconnected';setDiaSourceStatus('disconnected');
+  }
+  isConnected(){return this.ws&&this.ws.readyState===1;}
+  getStatus(){return this._status;}
+}
+
+// --- Web Serial Source (USB laser micrometer) ---
+// Uses navigator.serial API (Chrome/Edge 89+)
+// Expects device to send ASCII lines: "1.752\r\n"
+class SerialDiaSource{
+  constructor(baud){
+    this.baud=baud||9600;
+    this.port=null;this.reader=null;this._status='disconnected';
+  }
+  async connect(){
+    if(!navigator.serial){setDiaSourceStatus('error');throw new Error('Web Serial not supported');}
+    this._status='connecting';setDiaSourceStatus('connecting');
+    try{
+      this.port=await navigator.serial.requestPort();
+      await this.port.open({baudRate:parseInt(this.baud)});
+      this._status='connected';setDiaSourceStatus('connected');
+      this._readLoop();
+    }catch(err){this._status='error';setDiaSourceStatus('error');throw err;}
+  }
+  async _readLoop(){
+    if(!this.port)return;
+    const decoder=new TextDecoderStream();
+    this.port.readable.pipeTo(decoder.writable).catch(()=>{});
+    this.reader=decoder.readable.getReader();
+    let buf='';
+    try{
+      while(this.port&&this.port.readable){
+        const{value,done}=await this.reader.read();
+        if(done)break;
+        buf+=value;
+        const lines=buf.split('\n');
+        buf=lines.pop();
+        for(const line of lines){
+          const v=parseFloat(line.trim());
+          if(!isNaN(v)&&diaSampleCallback)diaSampleCallback(v);
+        }
+      }
+    }catch(err){/* port closed */}
+  }
+  disconnect(){
+    if(this.reader){try{this.reader.cancel();}catch(e){}this.reader=null;}
+    if(this.port){try{this.port.close();}catch(e){}this.port=null;}
+    this._status='disconnected';setDiaSourceStatus('disconnected');
+  }
+  isConnected(){return this.port&&this._status==='connected';}
+  getStatus(){return this._status;}
+}
+
+// --- HTTP Polling Source ---
+// Polls a REST endpoint that returns {"diameter": 1.752}
+class HTTPDiaSource{
+  constructor(url,interval){
+    this.url=url||'http://localhost:3000/api/diameter';
+    this.interval=parseInt(interval)||200;
+    this.timer=null;this._status='disconnected';
+  }
+  async connect(){
+    this._status='connecting';setDiaSourceStatus('connecting');
+    try{
+      // Test connection
+      const r=await fetch(this.url,{method:'GET'});
+      if(!r.ok)throw new Error('HTTP '+r.status);
+      this._status='connected';setDiaSourceStatus('connected');
+      this.timer=setInterval(async()=>{
+        try{
+          const resp=await fetch(this.url);
+          if(resp.ok){
+            const d=await resp.json();
+            if(typeof d.diameter==='number'&&diaSampleCallback)
+              diaSampleCallback(d.diameter);
+          }
+        }catch(e){/* transient fetch error, keep polling */}
+      },this.interval);
+    }catch(err){this._status='error';setDiaSourceStatus('error');throw err;}
+  }
+  disconnect(){
+    if(this.timer){clearInterval(this.timer);this.timer=null;}
+    this._status='disconnected';setDiaSourceStatus('disconnected');
+  }
+  isConnected(){return this.timer!==null;}
+  getStatus(){return this._status;}
+}
+
+// --- Source factory ---
+function createDiaSource(mode,config){
+  config=config||{};
+  switch(mode){
+    case'websocket':return new WSDiaSource(config.url);
+    case'serial':return new SerialDiaSource(config.baud);
+    case'http':return new HTTPDiaSource(config.url,config.interval);
+    default:return new SimDiaSource();
+  }
+}
+
+// --- UI handlers ---
+function onDiaSrcChange(){
+  diaSourceMode=document.getElementById('diaSrcSelect').value;
+  renderDiaSrcConfig();
+  // Disconnect current source if switching
+  if(diaSource&&diaSource.isConnected())diaSource.disconnect();
+  diaSource=null;
+  setDiaSourceStatus('disconnected');
+}
+
+function renderDiaSrcConfig(){
+  const cfg=document.getElementById('diaSrcConfig');
+  const m=diaSourceMode;
+  let html='';
+  if(m==='websocket'){
+    html=`<div class="dia-source-field"><label id="diaSrcLblWs">${t('diaSrcWsUrl')}</label>
+      <input class="long" id="diaCfgWsUrl" value="ws://localhost:8080/diameter" placeholder="ws://192.168.1.100:8080/diameter"></div>
+      <div class="dia-source-hint" id="diaSrcWsHint">${t('diaSrcWsHint')}</div>`;
+  }else if(m==='serial'){
+    html=`<div class="dia-source-field"><label id="diaSrcLblBaud">${t('diaSrcSerialBaud')}</label>
+      <input class="short" id="diaCfgBaud" value="9600" placeholder="9600"></div>
+      <div class="dia-source-hint" id="diaSrcSerialHint">${t('diaSrcSerialHint')}</div>`;
+  }else if(m==='http'){
+    html=`<div class="dia-source-field"><label id="diaSrcLblHttpUrl">${t('diaSrcHttpUrl')}</label>
+      <input class="long" id="diaCfgHttpUrl" value="http://localhost:3000/api/diameter" placeholder="http://192.168.1.100/api/diameter"></div>
+      <div class="dia-source-field"><label id="diaSrcLblHttpInt">${t('diaSrcHttpInterval')}</label>
+      <input class="short" id="diaCfgHttpInt" value="200" placeholder="200"></div>
+      <div class="dia-source-hint" id="diaSrcHttpHint">${t('diaSrcHttpHint')}</div>`;
+  }
+  cfg.innerHTML=html;
+  cfg.className=m==='simulated'?'dia-source-config':'dia-source-config show';
+}
+
+async function toggleDiaSourceConn(){
+  if(diaSource&&diaSource.isConnected()){
+    diaSource.disconnect();
+    return;
+  }
+  // Gather config
+  const config={};
+  if(diaSourceMode==='websocket'){
+    config.url=document.getElementById('diaCfgWsUrl')?.value||'ws://localhost:8080/diameter';
+  }else if(diaSourceMode==='serial'){
+    config.baud=document.getElementById('diaCfgBaud')?.value||'9600';
+  }else if(diaSourceMode==='http'){
+    config.url=document.getElementById('diaCfgHttpUrl')?.value||'http://localhost:3000/api/diameter';
+    config.interval=document.getElementById('diaCfgHttpInt')?.value||'200';
+  }
+  diaSource=createDiaSource(diaSourceMode,config);
+  // Register sample callback
+  diaSampleCallback=(v)=>{
+    if(diaMonitoring){
+      diaData.push(v);
+      if(diaData.length>600)diaData=diaData.slice(-600);
+    }
+  };
+  try{await diaSource.connect();}catch(err){/* status already set */}
+}
+
 function openDiaModal(){
   renderDiaModal();
   document.getElementById('diaModal').classList.add('show');
@@ -2309,6 +2626,16 @@ function renderDiaModal(){
   document.getElementById('diaMLblPass').textContent=t('diaPassRateLabel');
   document.getElementById('diaHistTitle').textContent=t('diaHistogram');
   document.getElementById('diaNewRollBtn').textContent=t('diaNewRoll');
+  // Data source labels
+  document.getElementById('diaSrcLbl').textContent=t('diaSrcLabel');
+  document.getElementById('diaSrcSim').textContent=t('diaSrcSim');
+  document.getElementById('diaSrcWS').textContent=t('diaSrcWS');
+  document.getElementById('diaSrcSerial').textContent=t('diaSrcSerial');
+  document.getElementById('diaSrcHTTP').textContent=t('diaSrcHTTP');
+  document.getElementById('diaSrcConnBtn').textContent=diaSourceStatus==='connected'?t('diaSrcDisc'):t('diaSrcConn');
+  const statusKey='diaSrc'+diaSourceStatus.charAt(0).toUpperCase()+diaSourceStatus.slice(1);
+  document.getElementById('diaSrcStatus').textContent=t(statusKey);
+  renderDiaSrcConfig();
 }
 
 function toggleDiaMonitor(){
@@ -2324,6 +2651,11 @@ function startDiaMonitor(){
   document.getElementById('diaStatusDot').classList.add('live');
   document.getElementById('diaStatusTxt').textContent=t('diaMonitoring');
   diaTimerInterval=setInterval(updateDiaTimer,1000);
+  // Ensure data source exists
+  if(!diaSource){
+    diaSource=createDiaSource(diaSourceMode);
+    if(diaSourceMode==='simulated')diaSource.connect();
+  }
   diaLoop();
 }
 function stopDiaMonitor(){
@@ -2338,27 +2670,20 @@ function stopDiaMonitor(){
   document.getElementById('diaStatusTxt').textContent=t('diaIdle');
 }
 
-// Data simulation: Gaussian noise + drift + occasional spike
-function generateDiaSample(){
-  // Slow drift: sinusoidal + random walk
-  diaDrift += (Math.random()-0.5)*0.003;
-  if(Math.abs(diaDrift)>0.03) diaDrift*=-0.95;
-  // Gaussian noise (Box-Muller)
-  const u=Math.random(),v=Math.random();
-  const noise=Math.sqrt(-2*Math.log(u||0.0001))*Math.cos(2*Math.PI*v)*0.02;
-  // Occasional spike (2% chance)
-  const spike=Math.random()<0.02?(Math.random()-0.5)*0.08:0;
-  return Math.max(1.50,Math.min(2.00,1.75+diaDrift+noise+spike));
-}
+// Data simulation: removed — now handled by DiaSource classes
+// SimDiaSource.next() generates simulated data for 'simulated' mode
+// Real sources (WebSocket/Serial/HTTP) push data via diaSampleCallback
 
 function diaLoop(){
   if(!diaMonitoring)return;
-  // Generate 2-3 samples per frame for smoother scroll
-  for(let i=0;i<3;i++){
-    diaData.push(generateDiaSample());
+  // For simulated source: generate samples each frame
+  if(diaSource&&diaSourceMode==='simulated'&&diaSource.isConnected()){
+    for(let i=0;i<3;i++){
+      diaData.push(diaSource.next());
+    }
+    if(diaData.length>600)diaData=diaData.slice(-600);
   }
-  // Keep max ~600 data points
-  if(diaData.length>600) diaData=diaData.slice(-600);
+  // For real sources: data arrives async via diaSampleCallback, just render
   drawDiaWaveform();
   updateDiaStats();
   diaAnimId=requestAnimationFrame(diaLoop);
