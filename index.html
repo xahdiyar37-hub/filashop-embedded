@@ -357,6 +357,68 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
   .sidebar-right{border-bottom:none;border-top:1px solid var(--border)}
   .recipe-panel{left:0;right:0}
 }
+
+/* ===== Diameter Monitor Modal ===== */
+.dia-modal{background:var(--surface);border:1px solid var(--border-strong);border-radius:var(--radius);width:860px;max-width:95vw;max-height:90vh;display:flex;flex-direction:column;box-shadow:var(--shadow-lg)}
+.dia-modal-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 0;flex-shrink:0}
+.dia-modal-header-left{display:flex;align-items:center;gap:12px}
+.dia-modal-badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px;background:rgba(0,212,170,.15);color:var(--accent);border:1px solid rgba(0,212,170,.3);text-transform:uppercase;letter-spacing:.5px}
+.dia-modal-body{flex:1;overflow-y:auto;padding:20px 24px 24px}
+.dia-canvas-wrap{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:16px;position:relative}
+.dia-canvas-wrap canvas{display:block;width:100%;height:240px;border-radius:6px}
+.dia-stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.dia-stat-card{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;position:relative;overflow:hidden}
+.dia-stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent);opacity:.6}
+.dia-stat-card.warn::before{background:var(--warn)}
+.dia-stat-card.danger::before{background:var(--danger)}
+.dia-stat-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--text-3);margin-bottom:6px}
+.dia-stat-value{font-size:26px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.5px;line-height:1}
+.dia-stat-value.good{color:var(--accent)}
+.dia-stat-value.warn{color:var(--warn)}
+.dia-stat-value.danger{color:var(--danger)}
+.dia-stat-unit{font-size:11px;color:var(--text-3);font-weight:500;margin-left:2px}
+.dia-control-bar{display:flex;align-items:center;gap:16px;padding:14px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px}
+.dia-btn-start{padding:8px 18px;border-radius:8px;font-size:12px;font-weight:600;border:1px solid var(--accent);background:var(--accent);color:#0c0d0f;cursor:pointer;transition:var(--transition);display:flex;align-items:center;gap:6px}
+.dia-btn-start:hover{box-shadow:0 0 14px var(--accent-glow)}
+.dia-btn-start.stopped{background:transparent;color:var(--accent)}
+.dia-btn-start.running{border-color:var(--danger);background:var(--danger);color:#fff}
+.dia-btn-start.running:hover{box-shadow:0 0 14px rgba(239,68,68,.3)}
+.dia-timer{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--text);min-width:60px}
+.dia-meta{font-size:11px;color:var(--text-3);display:flex;align-items:center;gap:4px}
+.dia-status-dot{width:8px;height:8px;border-radius:50%;background:var(--text-3);transition:var(--transition)}
+.dia-status-dot.live{background:var(--accent);box-shadow:0 0 8px var(--accent-glow);animation:dia-pulse 1.5s ease-in-out infinite}
+@keyframes dia-pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.dia-btn-complete{margin-left:auto;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;border:1px solid var(--blue);background:rgba(59,130,246,.1);color:var(--blue);cursor:pointer;transition:var(--transition)}
+.dia-btn-complete:hover{background:rgba(59,130,246,.2)}
+
+/* Scoring Panel */
+.dia-score-panel{display:none;flex-direction:column;gap:20px}
+.dia-score-panel.show{display:flex}
+.dia-grade-row{display:flex;align-items:center;gap:24px;padding:20px 24px;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;position:relative;overflow:hidden}
+.dia-grade-letter{font-size:72px;font-weight:900;line-height:1;letter-spacing:-3px;text-shadow:0 0 24px currentColor}
+.dia-grade-letter.s{color:#fbbf24}
+.dia-grade-letter.a{color:var(--accent)}
+.dia-grade-letter.b{color:var(--blue)}
+.dia-grade-letter.c{color:var(--warn)}
+.dia-grade-letter.d{color:var(--danger)}
+.dia-grade-info{flex:1}
+.dia-grade-stars{font-size:22px;letter-spacing:2px;margin-bottom:4px}
+.dia-grade-stars .star-filled{color:#fbbf24}
+.dia-grade-stars .star-empty{color:var(--text-3)}
+.dia-grade-comment{font-size:13px;color:var(--text-2);line-height:1.6}
+.dia-metrics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.dia-metric-card{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
+.dia-metric-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--text-3);margin-bottom:6px}
+.dia-metric-value{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums}
+.dia-metric-value.accent{color:var(--accent)}
+.dia-metric-value.blue{color:var(--blue)}
+.dia-metric-value.orange{color:var(--orange)}
+.dia-metric-value.purple{color:var(--purple)}
+.dia-metric-value.warn{color:var(--warn)}
+.dia-hist-wrap{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px}
+.dia-hist-title{font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.dia-hist-wrap canvas{display:block;width:100%;height:140px;border-radius:6px}
+.dia-score-actions{display:flex;justify-content:flex-end;gap:8px}
 </style>
 </head>
 <body>
@@ -372,6 +434,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
       <div class="dirty-badge" id="dirtyBadge" data-i18n="unsaved">● 未保存</div>
       <button class="btn btn-sm lang-toggle" onclick="toggleLang()" id="langToggle" title="Switch Language">中文</button>
       <button class="btn btn-sm btn-data" onclick="openDataModal()" id="dataAssetBtn" data-i18n="dataAsset">📊 数据资产</button>
+      <button class="btn btn-sm btn-monitor" onclick="openDiameterModal()" id="dmMonitorBtn" data-i18n="dmMonitor">📏 线径监测</button>
+      <button class="btn btn-sm" onclick="openDiaModal()" id="diaMonitorBtn" data-i18n="diaMonitor" style="border-color:rgba(0,212,170,.4);color:var(--accent)">📏 线径监测</button>
       <button class="btn btn-sm" onclick="toggleRecipePanel()" id="recipePanelBtn" data-i18n="recipeLibrary">📋 配方库</button>
       <button class="btn btn-sm" onclick="openImportModal()" data-i18n="import">📥 导入</button>
       <button class="btn btn-sm btn-primary" onclick="openSaveModal()" data-i18n="save">💾 保存</button>
@@ -818,6 +882,162 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
   </div>
 </div>
 
+<!-- Diameter Monitor Modal -->
+<div class="modal-overlay" id="diameterModal">
+  <div class="dm-modal">
+    <div class="dm-modal-header">
+      <div class="dm-modal-header-left">
+        <h3 id="dmModalTitle" style="font-size:17px;font-weight:700">线径实时监测</h3>
+        <span class="dm-modal-badge" id="dmModalBadge">LIVE SENSOR</span>
+      </div>
+      <button class="btn btn-sm btn-icon" onclick="closeDiameterModal()" style="font-size:14px;">✕</button>
+    </div>
+    <div class="dm-modal-body">
+      <!-- Monitor View -->
+      <div id="dmMonitorView">
+        <div class="dm-canvas-wrap"><canvas id="dmCanvas"></canvas></div>
+        <div class="dm-stats">
+          <div class="dm-stat-card">
+            <div class="dm-stat-label" id="dmStatCurrentLabel">当前线径</div>
+            <div class="dm-stat-value" id="dmStatCurrent">--</div>
+            <div class="dm-stat-unit">mm</div>
+          </div>
+          <div class="dm-stat-card">
+            <div class="dm-stat-label" id="dmStatAvgLabel">平均线径</div>
+            <div class="dm-stat-value" id="dmStatAvg">--</div>
+            <div class="dm-stat-unit">mm</div>
+          </div>
+          <div class="dm-stat-card">
+            <div class="dm-stat-label" id="dmStatStdLabel">标准差 σ</div>
+            <div class="dm-stat-value" id="dmStatStd">--</div>
+            <div class="dm-stat-unit">mm</div>
+          </div>
+          <div class="dm-stat-card">
+            <div class="dm-stat-label" id="dmStatPassLabel">合格率</div>
+            <div class="dm-stat-value" id="dmStatPass">--</div>
+          </div>
+        </div>
+        <div class="dm-controls">
+          <button class="btn btn-sm dm-btn-start" id="dmToggleBtn" onclick="dmToggle()">▶ 开始监测</button>
+          <div class="dm-control-info">
+            <span class="dm-control-label" id="dmDurationLabel">监测时长</span>
+            <span class="dm-control-value" id="dmTimer">00:00</span>
+          </div>
+          <div class="dm-control-info">
+            <span class="dm-control-label" id="dmSamplesLabel">采样点数</span>
+            <span class="dm-control-value" id="dmSampleCount">0</span>
+          </div>
+          <div class="dm-spacer"></div>
+          <button class="btn btn-sm btn-primary" id="dmCompleteBtn" onclick="dmCompleteRoll()">完成本卷</button>
+        </div>
+      </div>
+      <!-- Score View -->
+      <div id="dmScoreView" style="display:none">
+        <div class="dm-score-header">
+          <div class="dm-grade-wrap">
+            <div class="dm-grade-letter" id="dmGradeLetter">A</div>
+            <div class="dm-stars" id="dmStars"></div>
+          </div>
+          <div class="dm-score-title" id="dmScoreTitle">成卷批次评分</div>
+        </div>
+        <div class="dm-metric-grid">
+          <div class="dm-metric-card"><div class="dm-metric-label" id="dmMetricAvgLabel">平均线径</div><div class="dm-metric-value" id="dmMetricAvg">--</div></div>
+          <div class="dm-metric-card"><div class="dm-metric-label" id="dmMetricStdLabel">标准差 σ</div><div class="dm-metric-value" id="dmMetricStd">--</div></div>
+          <div class="dm-metric-card"><div class="dm-metric-label" id="dmMetricCVLabel">CV 变异系数</div><div class="dm-metric-value" id="dmMetricCV">--</div></div>
+          <div class="dm-metric-card"><div class="dm-metric-label" id="dmMetricMinLabel">最小值</div><div class="dm-metric-value" id="dmMetricMin">--</div></div>
+          <div class="dm-metric-card"><div class="dm-metric-label" id="dmMetricMaxLabel">最大值</div><div class="dm-metric-value" id="dmMetricMax">--</div></div>
+          <div class="dm-metric-card"><div class="dm-metric-label" id="dmMetricPassLabel">合格率</div><div class="dm-metric-value" id="dmMetricPass">--</div></div>
+        </div>
+        <div class="dm-histogram-section">
+          <div class="dm-section-label" id="dmHistogramLabel">线径分布直方图</div>
+          <div class="dm-histogram-wrap"><canvas id="dmHistogram"></canvas></div>
+        </div>
+        <div class="dm-comment" id="dmComment"></div>
+        <div class="dm-score-actions">
+          <button class="btn btn-sm btn-primary" id="dmNewRollBtn" onclick="dmNewRoll()">开始新卷</button>
+          <button class="btn btn-sm" id="dmCloseBtn" onclick="closeDiameterModal()">关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Diameter Monitor Modal -->
+<div class="modal-overlay" id="diaModal">
+  <div class="dia-modal">
+    <div class="dia-modal-header">
+      <div class="dia-modal-header-left">
+        <h3 id="diaModalTitle" style="font-size:17px;font-weight:700">线径实时监测</h3>
+        <span class="dia-modal-badge" id="diaModalBadge">LIVE</span>
+      </div>
+      <button class="btn btn-sm btn-icon" onclick="closeDiaModal()" style="font-size:14px;">✕</button>
+    </div>
+    <div class="dia-modal-body">
+
+      <!-- Monitor View -->
+      <div id="diaMonitorView">
+        <div class="dia-canvas-wrap">
+          <canvas id="diaCanvas"></canvas>
+        </div>
+        <div class="dia-stats-row">
+          <div class="dia-stat-card" id="diaStatCurrent">
+            <div class="dia-stat-label" id="diaLblCurrent">当前线径</div>
+            <div class="dia-stat-value" id="diaValCurrent">—</div>
+          </div>
+          <div class="dia-stat-card">
+            <div class="dia-stat-label" id="diaLblAvg">平均线径</div>
+            <div class="dia-stat-value" id="diaValAvg">—</div>
+          </div>
+          <div class="dia-stat-card">
+            <div class="dia-stat-label" id="diaLblStd">标准差 σ</div>
+            <div class="dia-stat-value" id="diaValStd">—</div>
+          </div>
+          <div class="dia-stat-card">
+            <div class="dia-stat-label" id="diaLblPass">合格率</div>
+            <div class="dia-stat-value" id="diaValPass">—</div>
+          </div>
+        </div>
+        <div class="dia-control-bar">
+          <button class="dia-btn-start stopped" id="diaStartBtn" onclick="toggleDiaMonitor()">▶ <span id="diaStartTxt">开始监测</span></button>
+          <div class="dia-status-dot" id="diaStatusDot"></div>
+          <span class="dia-meta" id="diaStatusTxt">待机</span>
+          <span class="dia-meta" style="margin-left:12px"><span id="diaLblDuration">时长</span>: <span class="dia-timer" id="diaTimer">00:00</span></span>
+          <span class="dia-meta" style="margin-left:12px"><span id="diaLblSamples">采样点</span>: <span id="diaSampleCount">0</span></span>
+          <button class="dia-btn-complete" id="diaCompleteBtn" onclick="completeDiaRoll()"><span id="diaCompleteTxt">完成本卷</span></button>
+        </div>
+      </div>
+
+      <!-- Scoring View -->
+      <div class="dia-score-panel" id="diaScorePanel">
+        <div class="dia-grade-row">
+          <div class="dia-grade-letter" id="diaGradeLetter">—</div>
+          <div class="dia-grade-info">
+            <div class="dia-grade-stars" id="diaGradeStars"></div>
+            <div class="dia-grade-comment" id="diaGradeComment"></div>
+          </div>
+        </div>
+        <div class="dia-metrics-grid">
+          <div class="dia-metric-card"><div class="dia-metric-label" id="diaMLblAvg">平均线径</div><div class="dia-metric-value accent" id="diaMAvg">—</div></div>
+          <div class="dia-metric-card"><div class="dia-metric-label" id="diaMLblStd">标准差 σ</div><div class="dia-metric-value blue" id="diaMStd">—</div></div>
+          <div class="dia-metric-card"><div class="dia-metric-label" id="diaMLblCV">CV变异系数</div><div class="dia-metric-value purple" id="diaMCV">—</div></div>
+          <div class="dia-metric-card"><div class="dia-metric-label" id="diaMLblMin">最小值</div><div class="dia-metric-value" id="diaMMin">—</div></div>
+          <div class="dia-metric-card"><div class="dia-metric-label" id="diaMLblMax">最大值</div><div class="dia-metric-value" id="diaMMax">—</div></div>
+          <div class="dia-metric-card"><div class="dia-metric-label" id="diaMLblPass">合格率</div><div class="dia-metric-value" id="diaMPass">—</div></div>
+        </div>
+        <div class="dia-hist-wrap">
+          <div class="dia-hist-title" id="diaHistTitle">线径分布直方图</div>
+          <canvas id="diaHistCanvas"></canvas>
+        </div>
+        <div class="dia-score-actions">
+          <button class="btn btn-sm" onclick="closeDiaModal()" id="diaCloseBtn2"><span data-i18n="close">关闭</span></button>
+          <button class="btn btn-sm btn-primary" onclick="newDiaRoll()" id="diaNewRollBtn">开始新卷</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <script>
 // ===== i18n System =====
 const LANG = {
@@ -934,6 +1154,37 @@ const LANG = {
     outputGroup:'成品表现',
     insightText:'以上一条记录即为 Filashop 数据资产的最小粒度单元。每台设备每次出线任务均会生成一条结构化记录，包含 <strong>4个维度 · 32+字段</strong>。不同设备、不同用户在相同材料下的参数差异，构成了可挖掘的工艺优化数据集。多条记录横向对比，可训练出针对特定材料/环境/设备型号的最优参数推荐模型。',
     viewJSON:'查看原始 JSON',
+    // Diameter Monitor
+    diaMonitor:'📏 线径监测',
+    diaMonitorTitle:'线径实时监测',
+    diaTarget:'1.75mm 目标',
+    diaCurrent:'当前线径',
+    diaAverage:'平均线径',
+    diaStdDev:'标准差 σ',
+    diaPassRate:'合格率',
+    diaStart:'开始监测',
+    diaStop:'停止监测',
+    diaComplete:'完成本卷',
+    diaDuration:'时长',
+    diaSamples:'采样点',
+    diaMonitoring:'监测中',
+    diaIdle:'待机',
+    diaMm:'mm',
+    // Scoring
+    diaGradeTitle:'成卷批次评分',
+    diaAvgDiameter:'平均线径',
+    diaStdDevLabel:'标准差 σ',
+    diaCV:'CV变异系数',
+    diaMin:'最小值',
+    diaMax:'最大值',
+    diaPassRateLabel:'合格率',
+    diaHistogram:'线径分布直方图',
+    diaNewRoll:'开始新卷',
+    diaCommentS:'卓越品质 — 线径极其稳定，达到工业级精密精度',
+    diaCommentA:'优良品质 — 线径波动很小，满足高精度打印需求',
+    diaCommentB:'良好品质 — 线径在可接受范围内，适合一般打印',
+    diaCommentC:'一般品质 — 线径波动较大，可能影响打印质量',
+    diaCommentD:'不合格 — 线径波动过大，不建议使用',
   },
   en: {
     subtitle:'Pellet-to-Filament Recipe Studio',
@@ -1049,6 +1300,37 @@ const LANG = {
     outputGroup:'Output Performance',
     insightText:'Each record above is the <strong>atomic unit</strong> of Filashop\'s data asset. Every extrusion run generates one structured record across <strong>4 dimensions · 32+ fields</strong>. Cross-device parameter variance on identical materials forms a rich optimization dataset. With sufficient volume, this enables training material/device-specific parameter recommendation models.',
     viewJSON:'View Raw JSON',
+    // Diameter Monitor
+    diaMonitor:'📏 Dia Monitor',
+    diaMonitorTitle:'Real-time Diameter Monitor',
+    diaTarget:'1.75mm TARGET',
+    diaCurrent:'Current',
+    diaAverage:'Average',
+    diaStdDev:'Std Dev σ',
+    diaPassRate:'Pass Rate',
+    diaStart:'Start',
+    diaStop:'Stop',
+    diaComplete:'Complete Roll',
+    diaDuration:'Duration',
+    diaSamples:'Samples',
+    diaMonitoring:'Monitoring',
+    diaIdle:'Idle',
+    diaMm:'mm',
+    // Scoring
+    diaGradeTitle:'Roll Batch Grade',
+    diaAvgDiameter:'Avg Diameter',
+    diaStdDevLabel:'Std Dev σ',
+    diaCV:'CV Coefficient',
+    diaMin:'Minimum',
+    diaMax:'Maximum',
+    diaPassRateLabel:'Pass Rate',
+    diaHistogram:'Diameter Distribution',
+    diaNewRoll:'New Roll',
+    diaCommentS:'Excellent — Extremely stable diameter, industrial precision',
+    diaCommentA:'Good — Low variance, suitable for high-precision printing',
+    diaCommentB:'Fair — Within acceptable range for general printing',
+    diaCommentC:'Marginal — High variance, may affect print quality',
+    diaCommentD:'Failed — Excessive variance, not recommended',
   }
 };
 let currentLang = localStorage.getItem('filashop_lang') || 'zh';
@@ -1071,6 +1353,11 @@ function applyLanguage(){
   // Update data asset button text
   const dataBtn=document.getElementById('dataAssetBtn');
   if(dataBtn) dataBtn.textContent = t('dataAsset');
+  // Update diameter monitor button text
+  const diaBtn=document.getElementById('diaMonitorBtn');
+  if(diaBtn) diaBtn.textContent = t('diaMonitor');
+  // Update dia modal text if open
+  if(document.getElementById('diaModal')&&document.getElementById('diaModal').classList.contains('show')) renderDiaModal();
   // Update [data-i18n] elements
   document.querySelectorAll('[data-i18n]').forEach(el=>{
     const key=el.getAttribute('data-i18n');
@@ -1096,6 +1383,7 @@ function applyLanguage(){
   loadRecipeSelect(); renderRecipeGrid(); updateAllParams(); updateSummary();
   updateFormulaBar(); updatePreviewOverlay();
   if(typeof updatePelletPreview==='function') updatePelletPreview();
+  if(typeof dmUpdateLang==='function') dmUpdateLang();
 }
 function matName(key){
   const m=MATERIALS[key]; if(!m) return key;
@@ -2061,6 +2349,367 @@ function openDataModal(){
 function closeDataModal(){
   document.getElementById('dataModal').classList.remove('show');
 }
+
+// ===== Diameter Monitor =====
+let diaData=[];          // array of diameter readings
+let diaMonitoring=false;
+let diaAnimId=null;      // requestAnimationFrame ID
+let diaStartTime=0;
+let diaTimerInterval=null;
+let diaDrift=0;          // slow drift component
+let diaDriftDir=1;
+
+function openDiaModal(){
+  renderDiaModal();
+  document.getElementById('diaModal').classList.add('show');
+  // Ensure canvas is sized after modal is visible
+  setTimeout(()=>{ resizeDiaCanvas(); drawDiaWaveform(); },50);
+}
+function closeDiaModal(){
+  stopDiaMonitor();
+  document.getElementById('diaModal').classList.remove('show');
+}
+function renderDiaModal(){
+  document.getElementById('diaModalTitle').textContent=t('diaMonitorTitle');
+  document.getElementById('diaStartTxt').textContent=t(diaMonitoring?'diaStop':'diaStart');
+  document.getElementById('diaStatusTxt').textContent=t(diaMonitoring?'diaMonitoring':'diaIdle');
+  document.getElementById('diaLblCurrent').textContent=t('diaCurrent');
+  document.getElementById('diaLblAvg').textContent=t('diaAverage');
+  document.getElementById('diaLblStd').textContent=t('diaStdDev');
+  document.getElementById('diaLblPass').textContent=t('diaPassRate');
+  document.getElementById('diaLblDuration').textContent=t('diaDuration');
+  document.getElementById('diaLblSamples').textContent=t('diaSamples');
+  document.getElementById('diaCompleteTxt').textContent=t('diaComplete');
+  // Scoring labels
+  document.getElementById('diaMLblAvg').textContent=t('diaAvgDiameter');
+  document.getElementById('diaMLblStd').textContent=t('diaStdDevLabel');
+  document.getElementById('diaMLblCV').textContent=t('diaCV');
+  document.getElementById('diaMLblMin').textContent=t('diaMin');
+  document.getElementById('diaMLblMax').textContent=t('diaMax');
+  document.getElementById('diaMLblPass').textContent=t('diaPassRateLabel');
+  document.getElementById('diaHistTitle').textContent=t('diaHistogram');
+  document.getElementById('diaNewRollBtn').textContent=t('diaNewRoll');
+}
+
+function toggleDiaMonitor(){
+  if(diaMonitoring) stopDiaMonitor();
+  else startDiaMonitor();
+}
+function startDiaMonitor(){
+  diaMonitoring=true;
+  diaStartTime=Date.now();
+  const btn=document.getElementById('diaStartBtn');
+  btn.classList.remove('stopped');btn.classList.add('running');
+  btn.innerHTML='⏹ <span id="diaStartTxt">'+t('diaStop')+'</span>';
+  document.getElementById('diaStatusDot').classList.add('live');
+  document.getElementById('diaStatusTxt').textContent=t('diaMonitoring');
+  diaTimerInterval=setInterval(updateDiaTimer,1000);
+  diaLoop();
+}
+function stopDiaMonitor(){
+  if(!diaMonitoring)return;
+  diaMonitoring=false;
+  if(diaAnimId){cancelAnimationFrame(diaAnimId);diaAnimId=null;}
+  if(diaTimerInterval){clearInterval(diaTimerInterval);diaTimerInterval=null;}
+  const btn=document.getElementById('diaStartBtn');
+  btn.classList.remove('running');btn.classList.add('stopped');
+  btn.innerHTML='▶ <span id="diaStartTxt">'+t('diaStart')+'</span>';
+  document.getElementById('diaStatusDot').classList.remove('live');
+  document.getElementById('diaStatusTxt').textContent=t('diaIdle');
+}
+
+// Data simulation: Gaussian noise + drift + occasional spike
+function generateDiaSample(){
+  // Slow drift: sinusoidal + random walk
+  diaDrift += (Math.random()-0.5)*0.003;
+  if(Math.abs(diaDrift)>0.03) diaDrift*=-0.95;
+  // Gaussian noise (Box-Muller)
+  const u=Math.random(),v=Math.random();
+  const noise=Math.sqrt(-2*Math.log(u||0.0001))*Math.cos(2*Math.PI*v)*0.02;
+  // Occasional spike (2% chance)
+  const spike=Math.random()<0.02?(Math.random()-0.5)*0.08:0;
+  return Math.max(1.50,Math.min(2.00,1.75+diaDrift+noise+spike));
+}
+
+function diaLoop(){
+  if(!diaMonitoring)return;
+  // Generate 2-3 samples per frame for smoother scroll
+  for(let i=0;i<3;i++){
+    diaData.push(generateDiaSample());
+  }
+  // Keep max ~600 data points
+  if(diaData.length>600) diaData=diaData.slice(-600);
+  drawDiaWaveform();
+  updateDiaStats();
+  diaAnimId=requestAnimationFrame(diaLoop);
+}
+
+function updateDiaTimer(){
+  const elapsed=Math.floor((Date.now()-diaStartTime)/1000);
+  const mm=String(Math.floor(elapsed/60)).padStart(2,'0');
+  const ss=String(elapsed%60).padStart(2,'0');
+  document.getElementById('diaTimer').textContent=mm+':'+ss;
+}
+
+function updateDiaStats(){
+  const n=diaData.length;
+  document.getElementById('diaSampleCount').textContent=n;
+  if(n===0)return;
+  const last=diaData[n-1];
+  const sum=diaData.reduce((a,b)=>a+b,0);
+  const avg=sum/n;
+  const variance=diaData.reduce((a,b)=>a+(b-avg)*(b-avg),0)/n;
+  const std=Math.sqrt(variance);
+  const passCount=diaData.filter(d=>Math.abs(d-1.75)<=0.05).length;
+  const passRate=passCount/n*100;
+  // Current value with color
+  const curEl=document.getElementById('diaValCurrent');
+  const curCard=document.getElementById('diaStatCurrent');
+  curEl.innerHTML=last.toFixed(3)+'<span class="dia-stat-unit">'+t('diaMm')+'</span>';
+  const dev=Math.abs(last-1.75);
+  curEl.className='dia-stat-value '+(dev<=0.03?'good':dev<=0.05?'warn':'danger');
+  curCard.className='dia-stat-card '+(dev<=0.03?'':dev<=0.05?'warn':'danger');
+  document.getElementById('diaValAvg').innerHTML=avg.toFixed(3)+'<span class="dia-stat-unit">'+t('diaMm')+'</span>';
+  document.getElementById('diaValStd').innerHTML='±'+std.toFixed(4);
+  document.getElementById('diaValPass').innerHTML=passRate.toFixed(1)+'<span class="dia-stat-unit">%</span>';
+}
+
+function resizeDiaCanvas(){
+  const canvas=document.getElementById('diaCanvas');
+  if(!canvas)return;
+  const dpr=window.devicePixelRatio||1;
+  const rect=canvas.getBoundingClientRect();
+  canvas.width=rect.width*dpr;
+  canvas.height=rect.height*dpr;
+  const ctx=canvas.getContext('2d');
+  ctx.scale(dpr,dpr);
+}
+
+function drawDiaWaveform(){
+  const canvas=document.getElementById('diaCanvas');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  const dpr=window.devicePixelRatio||1;
+  const W=canvas.width/dpr, H=canvas.height/dpr;
+  // Background
+  ctx.clearRect(0,0,W,H);
+  // Layout
+  const padL=44,padR=12,padT=12,padB=24;
+  const plotW=W-padL-padR, plotH=H-padT-padB;
+  const yMin=1.55,yMax=1.95;
+  const yToPx=v=>padT+plotH*(1-(v-yMin)/(yMax-yMin));
+  // Grid lines
+  ctx.strokeStyle='rgba(255,255,255,0.05)';
+  ctx.lineWidth=1;
+  ctx.font='9px -apple-system,sans-serif';
+  ctx.fillStyle='#555a62';
+  ctx.textAlign='right';
+  ctx.textBaseline='middle';
+  for(let v=1.55;v<=1.95;v+=0.05){
+    const y=yToPx(v);
+    ctx.beginPath();ctx.moveTo(padL,y);ctx.lineTo(W-padR,y);ctx.stroke();
+    ctx.fillText(v.toFixed(2),padL-6,y);
+  }
+  // Tolerance bands
+  // ±0.03mm green (1.72-1.78)
+  ctx.fillStyle='rgba(0,212,170,0.08)';
+  ctx.fillRect(padL,yToPx(1.78),plotW,yToPx(1.72)-yToPx(1.78));
+  // ±0.05mm yellow boundary (1.70-1.72 and 1.78-1.80)
+  ctx.fillStyle='rgba(245,158,11,0.06)';
+  ctx.fillRect(padL,yToPx(1.80),plotW,yToPx(1.78)-yToPx(1.80));
+  ctx.fillRect(padL,yToPx(1.72),plotW,yToPx(1.70)-yToPx(1.72));
+  // ±0.10mm red boundary (1.65-1.70 and 1.80-1.85)
+  ctx.fillStyle='rgba(239,68,68,0.05)';
+  ctx.fillRect(padL,yToPx(1.85),plotW,yToPx(1.80)-yToPx(1.85));
+  ctx.fillRect(padL,yToPx(1.70),plotW,yToPx(1.65)-yToPx(1.70));
+  // Band boundary lines
+  ctx.setLineDash([3,3]);
+  ctx.strokeStyle='rgba(0,212,170,0.3)';ctx.lineWidth=1;
+  [1.72,1.78].forEach(v=>{ctx.beginPath();ctx.moveTo(padL,yToPx(v));ctx.lineTo(W-padR,yToPx(v));ctx.stroke();});
+  ctx.strokeStyle='rgba(245,158,11,0.25)';
+  [1.70,1.80].forEach(v=>{ctx.beginPath();ctx.moveTo(padL,yToPx(v));ctx.lineTo(W-padR,yToPx(v));ctx.stroke();});
+  // Target line 1.75
+  ctx.strokeStyle='rgba(0,212,170,0.6)';
+  ctx.setLineDash([6,4]);
+  ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(padL,yToPx(1.75));ctx.lineTo(W-padR,yToPx(1.75));ctx.stroke();
+  ctx.setLineDash([]);
+  // Target label
+  ctx.fillStyle='rgba(0,212,170,0.8)';
+  ctx.font='bold 9px -apple-system,sans-serif';
+  ctx.textAlign='left';ctx.textBaseline='bottom';
+  ctx.fillText('1.75mm '+(currentLang==='zh'?'目标':'TARGET'),padL+4,yToPx(1.75)-2);
+  // Waveform
+  if(diaData.length>1){
+    const maxPoints=Math.min(diaData.length,Math.floor(plotW/1.5));
+    const data=diaData.slice(-maxPoints);
+    const step=plotW/maxPoints;
+    // Filled area
+    const grad=ctx.createLinearGradient(0,padT,0,padT+plotH);
+    grad.addColorStop(0,'rgba(0,212,170,0.25)');
+    grad.addColorStop(1,'rgba(0,212,170,0.0)');
+    ctx.beginPath();
+    ctx.moveTo(W-padR,yToPx(1.75));
+    for(let i=0;i<data.length;i++){
+      const x=W-padR-(data.length-1-i)*step;
+      const y=yToPx(data[i]);
+      if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+    }
+    ctx.lineTo(W-padR-(data.length-1)*step,padT+plotH);
+    ctx.lineTo(W-padR,padT+plotH);
+    ctx.closePath();
+    ctx.fillStyle=grad;ctx.fill();
+    // Line with glow
+    ctx.shadowColor='rgba(0,212,170,0.5)';
+    ctx.shadowBlur=6;
+    ctx.strokeStyle='#00d4aa';
+    ctx.lineWidth=1.5;
+    ctx.beginPath();
+    for(let i=0;i<data.length;i++){
+      const x=W-padR-(data.length-1-i)*step;
+      const y=yToPx(data[i]);
+      if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+    ctx.shadowBlur=0;
+    // Latest point dot
+    const lx=W-padR;
+    const ly=yToPx(data[data.length-1]);
+    ctx.fillStyle='#00d4aa';
+    ctx.beginPath();ctx.arc(lx,ly,3,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle='rgba(0,212,170,0.3)';
+    ctx.beginPath();ctx.arc(lx,ly,6,0,Math.PI*2);ctx.stroke();
+  }
+}
+
+function completeDiaRoll(){
+  if(diaData.length<10){
+    // Not enough data — start monitoring if not running
+    if(!diaMonitoring){startDiaMonitor();}
+    return;
+  }
+  stopDiaMonitor();
+  // Calculate stats
+  const n=diaData.length;
+  const sum=diaData.reduce((a,b)=>a+b,0);
+  const avg=sum/n;
+  const variance=diaData.reduce((a,b)=>a+(b-avg)*(b-avg),0)/n;
+  const std=Math.sqrt(variance);
+  const cv=std/avg*100;
+  const minVal=Math.min(...diaData);
+  const maxVal=Math.max(...diaData);
+  const passCount=diaData.filter(d=>Math.abs(d-1.75)<=0.05).length;
+  const passRate=passCount/n*100;
+  // Grade
+  let grade,stars,comment,gradeClass;
+  if(std<=0.015&&passRate>=99){grade='S';stars=5;comment=t('diaCommentS');gradeClass='s';}
+  else if(std<=0.025&&passRate>=95){grade='A';stars=4.5;comment=t('diaCommentA');gradeClass='a';}
+  else if(std<=0.035&&passRate>=90){grade='B';stars=4;comment=t('diaCommentB');gradeClass='b';}
+  else if(std<=0.050&&passRate>=80){grade='C';stars=3;comment=t('diaCommentC');gradeClass='c';}
+  else{grade='D';stars=2;comment=t('diaCommentD');gradeClass='d';}
+  // Render grade
+  const gl=document.getElementById('diaGradeLetter');
+  gl.textContent=grade;gl.className='dia-grade-letter '+gradeClass;
+  // Stars
+  let starHtml='';
+  const fullStars=Math.floor(stars);
+  const halfStar=stars%1!==0;
+  for(let i=0;i<5;i++){
+    if(i<fullStars)starHtml+='<span class="star-filled">★</span>';
+    else if(i===fullStars&&halfStar)starHtml+='<span class="star-filled">★</span>';
+    else starHtml+='<span class="star-empty">☆</span>';
+  }
+  document.getElementById('diaGradeStars').innerHTML=starHtml;
+  document.getElementById('diaGradeComment').textContent=comment;
+  // Metrics
+  document.getElementById('diaMAvg').innerHTML=avg.toFixed(3)+'<span class="dia-stat-unit">mm</span>';
+  document.getElementById('diaMStd').innerHTML='±'+std.toFixed(4);
+  document.getElementById('diaMCV').innerHTML=cv.toFixed(2)+'%';
+  document.getElementById('diaMMin').innerHTML=minVal.toFixed(3)+'<span class="dia-stat-unit">mm</span>';
+  document.getElementById('diaMMax').innerHTML=maxVal.toFixed(3)+'<span class="dia-stat-unit">mm</span>';
+  const passEl=document.getElementById('diaMPass');
+  passEl.innerHTML=passRate.toFixed(1)+'%';
+  passEl.className='dia-metric-value '+(passRate>=95?'accent':passRate>=85?'blue':passRate>=75?'warn':'danger');
+  // Switch views
+  document.getElementById('diaMonitorView').style.display='none';
+  document.getElementById('diaScorePanel').classList.add('show');
+  // Draw histogram
+  setTimeout(drawDiaHistogram,50);
+}
+
+function drawDiaHistogram(){
+  const canvas=document.getElementById('diaHistCanvas');
+  if(!canvas||diaData.length===0)return;
+  const dpr=window.devicePixelRatio||1;
+  const rect=canvas.getBoundingClientRect();
+  canvas.width=rect.width*dpr;
+  canvas.height=rect.height*dpr;
+  const ctx=canvas.getContext('2d');
+  ctx.scale(dpr,dpr);
+  const W=rect.width,H=rect.height;
+  ctx.clearRect(0,0,W,H);
+  // Bins: 1.60-1.90, each 0.02 wide => 15 bins
+  const binStart=1.60,binSize=0.02,binCount=15;
+  const bins=new Array(binCount).fill(0);
+  diaData.forEach(v=>{
+    let idx=Math.floor((v-binStart)/binSize);
+    if(idx<0)idx=0;if(idx>=binCount)idx=binCount-1;
+    bins[idx]++;
+  });
+  const maxBin=Math.max(...bins,1);
+  const padL=30,padR=8,padT=8,padB=20;
+  const plotW=W-padL-padR,plotH=H-padT-padB;
+  const barW=plotW/binCount;
+  // Grid
+  ctx.strokeStyle='rgba(255,255,255,0.05)';
+  ctx.font='8px -apple-system,sans-serif';
+  ctx.fillStyle='#555a62';
+  ctx.textAlign='center';ctx.textBaseline='top';
+  // Bars
+  bins.forEach((count,i)=>{
+    const binCenter=binStart+(i+0.5)*binSize;
+    const x=padL+i*barW;
+    const barH=count/maxBin*plotH;
+    const y=padT+plotH-barH;
+    // Color based on tolerance
+    let color;
+    if(Math.abs(binCenter-1.75)<=0.03)color='rgba(0,212,170,0.7)';
+    else if(Math.abs(binCenter-1.75)<=0.05)color='rgba(245,158,11,0.6)';
+    else color='rgba(239,68,68,0.5)';
+    const grad=ctx.createLinearGradient(0,y,0,padT+plotH);
+    grad.addColorStop(0,color);
+    grad.addColorStop(1,color.replace(/0\.\d+\)/,'0.2)'));
+    ctx.fillStyle=grad;
+    ctx.fillRect(x+1,y,barW-2,barH);
+    // Label every other bin
+    if(i%2===0){
+      ctx.fillStyle='#555a62';
+      ctx.fillText(binCenter.toFixed(2),x+barW/2,padT+plotH+4);
+    }
+  });
+  // Target line
+  const targetX=padL+((1.75-binStart)/binSize)*barW;
+  ctx.strokeStyle='rgba(0,212,170,0.5)';
+  ctx.setLineDash([4,3]);
+  ctx.beginPath();ctx.moveTo(targetX,padT);ctx.lineTo(targetX,padT+plotH);ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+function newDiaRoll(){
+  diaData=[];
+  diaDrift=0;
+  document.getElementById('diaMonitorView').style.display='block';
+  document.getElementById('diaScorePanel').classList.remove('show');
+  document.getElementById('diaTimer').textContent='00:00';
+  document.getElementById('diaSampleCount').textContent='0';
+  document.getElementById('diaValCurrent').textContent='—';
+  document.getElementById('diaValAvg').textContent='—';
+  document.getElementById('diaValStd').textContent='—';
+  document.getElementById('diaValPass').textContent='—';
+  drawDiaWaveform();
+  setTimeout(()=>startDiaMonitor(),100);
+}
+
 function switchDataTab(tab){
   currentDataTab=tab;
   ['schema','sample','insight'].forEach(id=>{
@@ -2203,7 +2852,8 @@ document.addEventListener('keydown',e=>{
   const modalOpen=document.querySelector('.modal-overlay.show');
   if(modalOpen){
     if(e.key==='Escape'){
-      modalOpen.classList.remove('show');
+      if(modalOpen.id==='diameterModal')closeDiameterModal();
+      else modalOpen.classList.remove('show');
     }
     return;
   }
@@ -2217,6 +2867,425 @@ document.addEventListener('keydown',e=>{
       break;
   }
 });
+
+// ===== Diameter Monitor =====
+let dmMonitoring=false;
+let dmData=[];
+let dmStartTime=0;
+let dmLastSample=0;
+let dmRafId=null;
+let dmCanvas=null;
+let dmCtx=null;
+let dmDrift=0;
+let dmSpikeTimer=0;
+let dmSpikeActive=false;
+let dmSpikeValue=0;
+const DM_TARGET=1.75;
+const DM_TOL_GREEN=0.03;
+const DM_TOL_YELLOW=0.05;
+const DM_TOL_RED=0.10;
+const DM_Y_MIN=1.55;
+const DM_Y_MAX=1.95;
+const DM_MAX_POINTS=300;
+const DM_SAMPLE_INTERVAL=60;
+
+function openDiameterModal(){
+  document.getElementById('diameterModal').classList.add('show');
+  dmCanvas=document.getElementById('dmCanvas');
+  dmCtx=dmCanvas.getContext('2d');
+  requestAnimationFrame(function(){
+    dmResizeCanvas();
+    dmDrawWaveform();
+  });
+  dmShowMonitorView();
+  dmUpdateLang();
+}
+function closeDiameterModal(){
+  dmStop();
+  document.getElementById('diameterModal').classList.remove('show');
+}
+function dmResizeCanvas(){
+  if(!dmCanvas)return;
+  const rect=dmCanvas.parentElement.getBoundingClientRect();
+  if(rect.width===0)return;
+  const dpr=window.devicePixelRatio||1;
+  dmCanvas.width=rect.width*dpr;
+  dmCanvas.height=rect.height*dpr;
+  dmCanvas.style.width=rect.width+'px';
+  dmCanvas.style.height=rect.height+'px';
+  dmCtx.setTransform(1,0,0,1,0,0);
+  dmCtx.scale(dpr,dpr);
+}
+function dmToggle(){
+  if(dmMonitoring)dmStop();else dmStart();
+}
+function dmStart(){
+  if(dmMonitoring)return;
+  dmMonitoring=true;
+  dmStartTime=Date.now();
+  dmLastSample=0;
+  dmData=[];
+  dmDrift=0;
+  dmSpikeTimer=0;
+  dmSpikeActive=false;
+  dmShowMonitorView();
+  dmUpdateButtonStates();
+  dmLoop();
+}
+function dmStop(){
+  if(!dmMonitoring)return;
+  dmMonitoring=false;
+  if(dmRafId){cancelAnimationFrame(dmRafId);dmRafId=null;}
+  dmUpdateButtonStates();
+}
+function dmLoop(){
+  if(!dmMonitoring)return;
+  const now=Date.now();
+  if(now-dmLastSample>=DM_SAMPLE_INTERVAL){
+    const sample=dmGenerateSample();
+    dmData.push(sample);
+    if(dmData.length>DM_MAX_POINTS)dmData.shift();
+    dmLastSample=now;
+    dmUpdateStats();
+    dmUpdateTimer();
+  }
+  dmDrawWaveform();
+  dmRafId=requestAnimationFrame(dmLoop);
+}
+function dmGenerateSample(){
+  // Gaussian noise via Box-Muller transform
+  const u1=Math.random()||1e-10;
+  const u2=Math.random();
+  const gauss=Math.sqrt(-2*Math.log(u1))*Math.cos(2*Math.PI*u2);
+  // Slow drift (mean-reverting random walk)
+  dmDrift+=gauss*0.0008;
+  dmDrift*=0.97;
+  // Occasional spike
+  if(dmSpikeActive){
+    dmSpikeTimer--;
+    if(dmSpikeTimer<=0)dmSpikeActive=false;
+  }else{
+    if(Math.random()<0.004){
+      dmSpikeActive=true;
+      dmSpikeTimer=5+Math.floor(Math.random()*12);
+      dmSpikeValue=(Math.random()-0.5)*0.16;
+    }
+  }
+  const spike=dmSpikeActive?dmSpikeValue:0;
+  let val=DM_TARGET+dmDrift+gauss*0.011+spike;
+  val=Math.max(DM_Y_MIN,Math.min(DM_Y_MAX,val));
+  return val;
+}
+function dmDrawWaveform(){
+  if(!dmCtx)return;
+  const dpr=window.devicePixelRatio||1;
+  const w=dmCanvas.width/dpr;
+  const h=dmCanvas.height/dpr;
+  if(w===0||h===0)return;
+  const padL=30;
+  dmCtx.clearRect(0,0,w,h);
+  // Background gradient
+  const bgGrad=dmCtx.createLinearGradient(0,0,0,h);
+  bgGrad.addColorStop(0,'rgba(21,23,26,1)');
+  bgGrad.addColorStop(1,'rgba(12,13,15,1)');
+  dmCtx.fillStyle=bgGrad;
+  dmCtx.fillRect(0,0,w,h);
+  const yToPx=function(v){return h-((v-DM_Y_MIN)/(DM_Y_MAX-DM_Y_MIN))*h;};
+  // Grid lines + labels
+  dmCtx.strokeStyle='rgba(255,255,255,0.04)';
+  dmCtx.lineWidth=1;
+  dmCtx.fillStyle='rgba(139,143,150,0.35)';
+  dmCtx.font='9px SF Mono,monospace';
+  dmCtx.textAlign='left';
+  for(let v=1.55;v<=1.951;v+=0.05){
+    const y=yToPx(v);
+    dmCtx.beginPath();
+    dmCtx.moveTo(padL,y);
+    dmCtx.lineTo(w,y);
+    dmCtx.stroke();
+    dmCtx.fillText(v.toFixed(2),3,y-3);
+  }
+  // Tolerance bands: red > yellow > green
+  dmCtx.fillStyle='rgba(239,68,68,0.05)';
+  dmCtx.fillRect(padL,yToPx(DM_TARGET+DM_TOL_RED),w-padL,yToPx(DM_TARGET-DM_TOL_RED)-yToPx(DM_TARGET+DM_TOL_RED));
+  dmCtx.fillStyle='rgba(245,158,11,0.07)';
+  dmCtx.fillRect(padL,yToPx(DM_TARGET+DM_TOL_YELLOW),w-padL,yToPx(DM_TARGET-DM_TOL_YELLOW)-yToPx(DM_TARGET+DM_TOL_YELLOW));
+  dmCtx.fillStyle='rgba(0,212,170,0.09)';
+  dmCtx.fillRect(padL,yToPx(DM_TARGET+DM_TOL_GREEN),w-padL,yToPx(DM_TARGET-DM_TOL_GREEN)-yToPx(DM_TARGET+DM_TOL_GREEN));
+  // Target line (dashed)
+  dmCtx.strokeStyle='rgba(0,212,170,0.5)';
+  dmCtx.lineWidth=1;
+  dmCtx.setLineDash([5,4]);
+  dmCtx.beginPath();
+  dmCtx.moveTo(padL,yToPx(DM_TARGET));
+  dmCtx.lineTo(w,yToPx(DM_TARGET));
+  dmCtx.stroke();
+  dmCtx.setLineDash([]);
+  // Waveform data
+  if(dmData.length>1){
+    const stepX=(w-padL)/DM_MAX_POINTS;
+    const startX=w-dmData.length*stepX;
+    // Fill area under curve
+    const fillGrad=dmCtx.createLinearGradient(0,0,0,h);
+    fillGrad.addColorStop(0,'rgba(0,212,170,0.0)');
+    fillGrad.addColorStop(1,'rgba(0,212,170,0.12)');
+    dmCtx.fillStyle=fillGrad;
+    dmCtx.beginPath();
+    dmCtx.moveTo(startX,h);
+    for(let i=0;i<dmData.length;i++){
+      dmCtx.lineTo(startX+i*stepX,yToPx(dmData[i]));
+    }
+    dmCtx.lineTo(startX+(dmData.length-1)*stepX,h);
+    dmCtx.closePath();
+    dmCtx.fill();
+    // Line with glow
+    dmCtx.shadowColor='rgba(0,212,170,0.5)';
+    dmCtx.shadowBlur=6;
+    dmCtx.strokeStyle='#00d4aa';
+    dmCtx.lineWidth=2;
+    dmCtx.beginPath();
+    for(let i=0;i<dmData.length;i++){
+      const x=startX+i*stepX;
+      const y=yToPx(dmData[i]);
+      if(i===0)dmCtx.moveTo(x,y);else dmCtx.lineTo(x,y);
+    }
+    dmCtx.stroke();
+    dmCtx.shadowBlur=0;
+    // Current point dot
+    const lastX=startX+(dmData.length-1)*stepX;
+    const lastY=yToPx(dmData[dmData.length-1]);
+    dmCtx.fillStyle='#00d4aa';
+    dmCtx.shadowColor='rgba(0,212,170,0.8)';
+    dmCtx.shadowBlur=10;
+    dmCtx.beginPath();
+    dmCtx.arc(lastX,lastY,3.5,0,Math.PI*2);
+    dmCtx.fill();
+    dmCtx.shadowBlur=0;
+  }
+}
+function dmUpdateStats(){
+  if(dmData.length===0)return;
+  const current=dmData[dmData.length-1];
+  let sum=0;
+  for(let i=0;i<dmData.length;i++)sum+=dmData[i];
+  const avg=sum/dmData.length;
+  let varSum=0;
+  for(let i=0;i<dmData.length;i++)varSum+=(dmData[i]-avg)*(dmData[i]-avg);
+  const std=Math.sqrt(varSum/dmData.length);
+  let passCount=0;
+  for(let i=0;i<dmData.length;i++){
+    if(Math.abs(dmData[i]-DM_TARGET)<=DM_TOL_YELLOW)passCount++;
+  }
+  const passRate=(passCount/dmData.length)*100;
+  document.getElementById('dmStatCurrent').textContent=current.toFixed(3);
+  document.getElementById('dmStatAvg').textContent=avg.toFixed(3);
+  document.getElementById('dmStatStd').textContent=std.toFixed(4);
+  document.getElementById('dmStatPass').textContent=passRate.toFixed(1)+'%';
+  // Color current value by deviation
+  const dev=Math.abs(current-DM_TARGET);
+  const el=document.getElementById('dmStatCurrent');
+  if(dev<=DM_TOL_GREEN)el.style.color='var(--accent)';
+  else if(dev<=DM_TOL_YELLOW)el.style.color='var(--warn)';
+  else el.style.color='var(--danger)';
+}
+function dmUpdateTimer(){
+  if(!dmStartTime)return;
+  const elapsed=Math.floor((Date.now()-dmStartTime)/1000);
+  document.getElementById('dmTimer').textContent=dmFormatTime(elapsed);
+  document.getElementById('dmSampleCount').textContent=dmData.length;
+}
+function dmFormatTime(s){
+  const m=Math.floor(s/60);
+  const sec=s%60;
+  return String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
+}
+function dmUpdateButtonStates(){
+  const btn=document.getElementById('dmToggleBtn');
+  if(!btn)return;
+  if(dmMonitoring){
+    btn.textContent=t('dmStop');
+    btn.className='btn btn-sm dm-btn-stop';
+  }else{
+    btn.textContent=t('dmStart');
+    btn.className='btn btn-sm dm-btn-start';
+  }
+}
+function dmShowMonitorView(){
+  document.getElementById('dmMonitorView').style.display='block';
+  document.getElementById('dmScoreView').style.display='none';
+}
+function dmShowScoreView(){
+  document.getElementById('dmMonitorView').style.display='none';
+  document.getElementById('dmScoreView').style.display='block';
+}
+function dmCompleteRoll(){
+  dmStop();
+  if(dmData.length<10){
+    showToast(t('dmNotEnoughData'),'error');
+    return;
+  }
+  dmRenderScore();
+  dmShowScoreView();
+}
+function dmCalculateGrade(){
+  let sum=0;
+  for(let i=0;i<dmData.length;i++)sum+=dmData[i];
+  const avg=sum/dmData.length;
+  let varSum=0;
+  for(let i=0;i<dmData.length;i++)varSum+=(dmData[i]-avg)*(dmData[i]-avg);
+  const std=Math.sqrt(varSum/dmData.length);
+  let passCount=0;
+  for(let i=0;i<dmData.length;i++){
+    if(Math.abs(dmData[i]-DM_TARGET)<=DM_TOL_YELLOW)passCount++;
+  }
+  const passRate=(passCount/dmData.length)*100;
+  let grade,stars,commentZh,commentEn;
+  if(std<=0.015&&passRate>=99){
+    grade='S';stars=5;
+    commentZh='卓越品质 — 线径控制极佳，一致性接近工业级激光测径标准';
+    commentEn='Outstanding — Diameter control is exceptional, near industrial laser gauge standard';
+  }else if(std<=0.025&&passRate>=95){
+    grade='A';stars=4;
+    commentZh='优良品质 — 线径稳定，适合高精度3D打印任务';
+    commentEn='Excellent — Stable diameter, suitable for high-precision 3D printing';
+  }else if(std<=0.035&&passRate>=90){
+    grade='B';stars=3;
+    commentZh='合格品质 — 线径在可接受范围内，满足日常打印需求';
+    commentEn='Acceptable — Diameter within acceptable range for daily printing';
+  }else if(std<=0.050&&passRate>=80){
+    grade='C';stars=2;
+    commentZh='边缘合格 — 存在一定波动，建议检查牵引速度与冷却';
+    commentEn='Marginal — Some fluctuation detected, check traction speed and cooling';
+  }else{
+    grade='D';stars=1;
+    commentZh='不合格 — 线径波动过大，建议调整工艺参数后重新制线';
+    commentEn='Reject — Excessive diameter variation, adjust process parameters';
+  }
+  return {grade:grade,stars:stars,std:std,avg:avg,passRate:passRate,commentZh:commentZh,commentEn:commentEn};
+}
+function dmRenderScore(){
+  const r=dmCalculateGrade();
+  // Grade letter
+  const gradeEl=document.getElementById('dmGradeLetter');
+  gradeEl.textContent=r.grade;
+  const gc={'S':'#00d4aa','A':'#22c55e','B':'#f59e0b','C':'#f97316','D':'#ef4444'};
+  gradeEl.style.color=gc[r.grade];
+  gradeEl.style.textShadow='0 0 30px '+gc[r.grade]+'66';
+  // Stars
+  let starsHtml='';
+  for(let i=0;i<5;i++)starsHtml+='<span style="color:'+(i<r.stars?'#fbbf24':'#3a3d42')+';font-size:22px">★</span>';
+  document.getElementById('dmStars').innerHTML=starsHtml;
+  // Metrics
+  let minVal=dmData[0],maxVal=dmData[0];
+  for(let i=1;i<dmData.length;i++){
+    if(dmData[i]<minVal)minVal=dmData[i];
+    if(dmData[i]>maxVal)maxVal=dmData[i];
+  }
+  const cv=(r.std/r.avg)*100;
+  document.getElementById('dmMetricAvg').textContent=r.avg.toFixed(3)+' mm';
+  document.getElementById('dmMetricStd').textContent=r.std.toFixed(4)+' mm';
+  document.getElementById('dmMetricCV').textContent=cv.toFixed(2)+'%';
+  document.getElementById('dmMetricMin').textContent=minVal.toFixed(3)+' mm';
+  document.getElementById('dmMetricMax').textContent=maxVal.toFixed(3)+' mm';
+  document.getElementById('dmMetricPass').textContent=r.passRate.toFixed(1)+'%';
+  // Comment
+  document.getElementById('dmComment').textContent=currentLang==='en'?r.commentEn:r.commentZh;
+  // Histogram
+  dmDrawHistogram();
+}
+function dmDrawHistogram(){
+  const canvas=document.getElementById('dmHistogram');
+  const ctx=canvas.getContext('2d');
+  const dpr=window.devicePixelRatio||1;
+  const rect=canvas.parentElement.getBoundingClientRect();
+  const w=rect.width-16;
+  const h=150;
+  if(w<=0)return;
+  canvas.width=w*dpr;
+  canvas.height=h*dpr;
+  canvas.style.width=w+'px';
+  canvas.style.height=h+'px';
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.scale(dpr,dpr);
+  ctx.clearRect(0,0,w,h);
+  // Bins: 1.60–1.90 mm, 30 bins of 0.01
+  const binStart=1.60,binEnd=1.90,binSize=0.01,binCount=30;
+  const bins=new Array(binCount).fill(0);
+  for(let i=0;i<dmData.length;i++){
+    const idx=Math.floor((dmData[i]-binStart)/binSize);
+    if(idx>=0&&idx<binCount)bins[idx]++;
+  }
+  let maxBin=1;
+  for(let i=0;i<binCount;i++){if(bins[i]>maxBin)maxBin=bins[i];}
+  const barW=w/binCount;
+  const axisH=18;
+  // Bars
+  for(let i=0;i<binCount;i++){
+    const count=bins[i];
+    const barH=(count/maxBin)*(h-axisH-6);
+    const x=i*barW+1;
+    const y=h-axisH-barH;
+    const centerVal=binStart+i*binSize+binSize/2;
+    const dev=Math.abs(centerVal-DM_TARGET);
+    let color;
+    if(dev<=DM_TOL_GREEN)color='rgba(0,212,170,0.7)';
+    else if(dev<=DM_TOL_YELLOW)color='rgba(245,158,11,0.7)';
+    else if(dev<=DM_TOL_RED)color='rgba(239,68,68,0.6)';
+    else color='rgba(239,68,68,0.4)';
+    ctx.fillStyle=color;
+    ctx.fillRect(x,y,barW-2,barH);
+    if(count>0&&barH>10){
+      ctx.fillStyle='rgba(139,143,150,0.7)';
+      ctx.font='8px SF Mono,monospace';
+      ctx.textAlign='center';
+      ctx.fillText(count,x+barW/2,y-2);
+    }
+  }
+  // X-axis labels
+  ctx.fillStyle='rgba(139,143,150,0.5)';
+  ctx.font='9px SF Mono,monospace';
+  ctx.textAlign='center';
+  for(let i=0;i<=6;i++){
+    const val=binStart+(binEnd-binStart)*i/6;
+    const x=(i/6)*w;
+    ctx.fillText(val.toFixed(2),x,h-4);
+  }
+  // Target line
+  const targetX=((DM_TARGET-binStart)/(binEnd-binStart))*w;
+  ctx.strokeStyle='rgba(0,212,170,0.6)';
+  ctx.lineWidth=1;
+  ctx.setLineDash([3,3]);
+  ctx.beginPath();
+  ctx.moveTo(targetX,0);
+  ctx.lineTo(targetX,h-axisH);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.textAlign='left';
+}
+function dmNewRoll(){
+  dmData=[];
+  dmDrift=0;
+  dmSpikeTimer=0;
+  dmSpikeActive=false;
+  dmStartTime=0;
+  document.getElementById('dmStatCurrent').textContent='--';
+  document.getElementById('dmStatAvg').textContent='--';
+  document.getElementById('dmStatStd').textContent='--';
+  document.getElementById('dmStatPass').textContent='--';
+  document.getElementById('dmTimer').textContent='00:00';
+  document.getElementById('dmSampleCount').textContent='0';
+  dmShowMonitorView();
+  requestAnimationFrame(function(){dmResizeCanvas();dmDrawWaveform();});
+  dmStart();
+}
+function dmUpdateLang(){
+  const sets=[['dmModalTitle','dmTitle'],['dmModalBadge','dmBadge'],['dmStatCurrentLabel','dmCurrentDiameter'],['dmStatAvgLabel','dmAvgDiameter'],['dmStatStdLabel','dmStdDev'],['dmStatPassLabel','dmPassRate'],['dmDurationLabel','dmDuration'],['dmSamplesLabel','dmSamples'],['dmCompleteBtn','dmCompleteRoll'],['dmScoreTitle','dmScoreTitle'],['dmMetricAvgLabel','dmMetricAvg'],['dmMetricStdLabel','dmMetricStd'],['dmMetricCVLabel','dmMetricCV'],['dmMetricMinLabel','dmMetricMin'],['dmMetricMaxLabel','dmMetricMax'],['dmMetricPassLabel','dmMetricPassRate'],['dmHistogramLabel','dmHistogram'],['dmNewRollBtn','dmNewRoll'],['dmCloseBtn','close']];
+  for(let i=0;i<sets.length;i++){
+    const el=document.getElementById(sets[i][0]);
+    if(el)el.textContent=t(sets[i][1]);
+  }
+  dmUpdateButtonStates();
+}
 
 init();
 </script>
